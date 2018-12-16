@@ -1,9 +1,7 @@
 import React,{Component} from 'react';
-import { connect } from 'react-redux';
 import '../css/App.css';
 import { Button, Form, FormGroup, Label, Input, } from 'reactstrap';
 
-import { fetchClass,editClass } from '../actions/classActions';
 
 import EditCourseHeader from '../components/EditCourseHeader'
 
@@ -23,15 +21,13 @@ class EditCourse extends Component {
     }
 
     componentDidMount() {
-      const { course_id } = this.props.location.state
-      this.props.fetchClass(course_id)
+
       this.setState({
-        name:this.props.course.sel_course.name,
-        school_id:this.props.course.sel_course.school_id,
-        time:this.props.course.sel_course.time,
-        course_id:course_id
+        name:'',
+        school_id:'',
+        time:'',
+        course_id:'',
       })
-      console.log(this.props)
       }
 
     handleChange = e => {
@@ -40,19 +36,6 @@ class EditCourse extends Component {
       this.setState(change)
     }
 
-    editCourse = ( ) => {
-
-      const editClass = {
-        class_id:this.state.course_id,
-        data:{
-        name:this.state.name,
-        school_id:this.state.school_id,
-        time:this.state.time
-        }
-        }
-      this.props.editClass(editClass)
-      this.setState({class_message:"Class Updated!"})
-    }
 
 render() {
   return (
@@ -80,7 +63,7 @@ render() {
                 <Input type="text" name="time" onChange={this.handleChange.bind(this)} value={this.state.time} />
               </FormGroup>
 
-              <Button color='primary' onClick={this.editCourse}>Submit</Button>
+              <Button color='primary' >Submit</Button>
               </Form>
             </div>
         </div>
@@ -88,15 +71,4 @@ render() {
     }
   }
 
-const mapStateToProps = state => ({
-  course: state.course
-  })
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        editClass : (class_id) => dispatch(editClass(class_id)),
-        fetchClass: (class_id) => dispatch(fetchClass(class_id))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditCourse) ;
+export default EditCourse;

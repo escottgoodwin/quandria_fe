@@ -1,10 +1,11 @@
 import React,{Component }from 'react';
-import { Provider,connect } from 'react-redux';
-import { BrowserRouter, Route, Switch} from 'react-router-dom'
+import { Route, Switch} from 'react-router-dom'
 import './css/App.css';
 
 import TeacherDashboard from './screens/TeacherDashboard'
 import SignIn from './screens/SignIn'
+import SignOut from './screens/SignOut'
+import SignUp from './screens/SignUp'
 import CourseDashboard from './screens/CourseDashboard'
 import AddCourse from './screens/AddCourse'
 import EditCourse from './screens/EditCourse'
@@ -18,31 +19,21 @@ import Challenges from './screens/Challenges'
 import SelectPanels from './screens/SelectPanels'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
-import store from './store'
-
-import { login, logout } from './actions/loginActions';
 
 // Add the reducer to your store on the `routing` key
 
-
 class App extends Component {
 
-  signOut = () => {
-    this.props.logout()
-
-    this.props.history.push("/sign_in");
-    console.log('sign out')
-  }
-
   render() {
+
     return (
-    <Provider store={store}>
-      <BrowserRouter>
       <div className="App">
-        <Nav signout={this.signOut} logged_in={this.props.logged_in}/>
+        <Nav />
         <Switch>
           <Route exact path="/" component={Main}/>
           <Route path="/sign_in" component={SignIn}/>
+          <Route path="/sign_out" component={SignOut}/>
+          <Route path="/sign_up" component={SignUp}/>
           <Route path="/teacher_dashboard" component={TeacherDashboard}/>
           <Route path="/course_dashboard" component={CourseDashboard}/>
           <Route path="/add_course" component={AddCourse}/>
@@ -57,22 +48,8 @@ class App extends Component {
         </Switch>
         <Footer />
       </div>
-
-      </BrowserRouter>
-  </Provider>
       )
     }
 }
 
-const mapStateToProps = state => ({
-  logged_in: state.login,
-})
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        login : () => dispatch(login()),
-        logout : () => dispatch(logout()),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App

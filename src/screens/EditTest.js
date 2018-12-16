@@ -1,12 +1,9 @@
 import React,{Component} from 'react';
-import { connect } from 'react-redux';
 import '../css/App.css';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import EditTestHeader from '../components/EditTestHeader'
 
-import { editTest,fetchTest } from '../actions/testActions';
-import { fetchClass } from '../actions/classActions';
 
 class EditTest extends Component {
 
@@ -26,16 +23,13 @@ class EditTest extends Component {
   }
 
   componentDidMount() {
-    const { test_id,course_id }= this.props.location.state
-    this.props.fetchClass(course_id)
-    this.props.fetchTest(test_id)
 
     this.setState({
-      test_number:this.props.edit_test.test_number,
-      subjects:this.props.edit_test.Subjects,
-      test_date: this.props.edit_test.edit_test_date,
-      class_id:course_id,
-      test_id:test_id
+      test_number:'',
+      subjects:'',
+      test_date: '',
+      class_id:'',
+      test_id:'',
 
     })
   }
@@ -44,23 +38,6 @@ class EditTest extends Component {
     let change = {}
     change[e.target.name] = e.target.value
     this.setState(change)
-  }
-
-  editTest = ( ) => {
-
-    const editTest = {
-      test_id:this.state.test_id,
-      data: {
-        test_number:this.state.test_number,
-        Subjects:this.state.subjects,
-        test_date: new Date(this.state.test_date),
-      }
-    }
-    console.log(editTest)
-
-    this.props.editTest(editTest)
-    this.setState({test_message:"Test Updated!"})
-
   }
 
     render() {
@@ -109,18 +86,7 @@ class EditTest extends Component {
 }
 }
 
-const mapStateToProps = state => ({
-  edit_test: state.test.test,
-  test: state.test,
-  course: state.course.sel_course
-  })
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        fetchClass : (course_id) => dispatch(fetchClass(course_id)),
-        fetchTest : (newTest) => dispatch(fetchTest(newTest)),
-        editTest : (test_id) => dispatch(editTest(test_id))
-    }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTest)
+
+export default EditTest

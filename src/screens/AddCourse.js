@@ -1,9 +1,6 @@
 import React,{Component} from 'react';
-import { connect } from 'react-redux';
 import '../css/App.css';
 import { Button, Form, FormGroup, Label, Input, } from 'reactstrap';
-
-import { addClass } from '../actions/classActions';
 
 class AddCourse extends Component {
 
@@ -11,12 +8,12 @@ class AddCourse extends Component {
        super(props);
 
         this.state = {
-              institution_id:'PrjYvEVZ2OHiPg6ols3z',
+              institution_id:'',
               name:'',
               qpanels:[],
               school_id:'',
               student_ids:[],
-              teacher_id:1,
+              teacher_id:'',
               time:'',
               course_message:''
       }
@@ -26,21 +23,6 @@ class AddCourse extends Component {
       let change = {}
       change[e.target.name] = e.target.value
       this.setState(change)
-    }
-
-    newCourse = ( ) => {
-
-      const newClass = {
-        institution_id:this.state.institution_id,
-        name:this.state.name,
-        qpanels:[],
-        school_id:this.state.school_id,
-        student_ids:[],
-        teacher_id:1,
-        time:this.state.time
-        }
-        this.props.addClass(newClass)
-        this.setState({course_message:'Course Added!'})
     }
 
 render() {
@@ -66,7 +48,7 @@ render() {
                 <Input type="text" name="time" onChange={this.handleChange} value={this.state.time} />
               </FormGroup>
 
-              <Button color='primary' onClick={this.newCourse}>Submit</Button>
+              <Button color='primary' >Submit</Button>
               </Form>
             </div>
         </div>
@@ -74,14 +56,6 @@ render() {
     }
   }
 
-const mapStateToProps = state => ({
-  course: state.course.sel_course
-  })
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addClass : (newClass) => dispatch(addClass(newClass))
-    }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCourse) ;
+export default AddCourse ;

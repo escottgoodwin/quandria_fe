@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
 import '../css/App.css';
 
-import { fetchClass } from '../actions/classActions';
-import { fetchTest } from '../actions/testActions';
-import { fetchAllPanels, addPanelTests } from '../actions/panelActions';
 
 import EditTestHeader from '../components/EditTestHeader'
 import AllPanels from '../components/AllPanels'
@@ -23,13 +19,8 @@ class SelectPanels extends Component {
     }
 
     componentDidMount(){
-      const { course_id } = this.props.location.state
-      const { test_id } = this.props.location.state
-      this.props.fetchAllPanels(test_id)
-      this.props.fetchClass(course_id)
-      this.props.fetchTest(test_id)
-      console.log("state",this.state)
-      console.log("props",this.props)
+
+
     }
 
     handleAllChecked = (event) => {
@@ -65,7 +56,6 @@ class SelectPanels extends Component {
           }
         }
       )
-      console.log(selected_panels)
       selected_panels.map(panel_dispatch => this.props.addPanelTests(panel_dispatch))
     }
 
@@ -95,19 +85,4 @@ class SelectPanels extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  course: state.course.sel_course,
-  panel: state.panel,
-  test: state.test
-  })
-
-const mapDispatchToProps = (dispatch,) => {
-    return {
-        fetchClass : (course_id) => dispatch(fetchClass(course_id)),
-        fetchTest : (test_id) => dispatch(fetchTest(test_id)),
-        fetchAllPanels : (test_id) => dispatch(fetchAllPanels(test_id)),
-        addPanelTests : (panel) => dispatch(addPanelTests(panel)),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SelectPanels)
+export default SelectPanels

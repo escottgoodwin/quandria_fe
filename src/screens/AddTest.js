@@ -1,12 +1,8 @@
 import React,{Component} from 'react';
-import { connect } from 'react-redux';
 import '../css/App.css';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import AddTestHeader from '../components/AddTestHeader'
-
-import { addTest } from '../actions/testActions';
-import { fetchClass } from '../actions/classActions';
 
 class AddTest extends Component {
 
@@ -15,7 +11,7 @@ class AddTest extends Component {
 
      const {course_id } = this.props.location.state
       this.state = {
-            test_number:'Test 1',
+            test_number:'',
             subject:'',
             test_date:'',
             all_questions:false,
@@ -36,24 +32,6 @@ class AddTest extends Component {
     let change = {}
     change[e.target.name] = e.target.value
     this.setState(change)
-  }
-
-  newTest = ( ) => {
-    const {course_id } = this.props.location.state
-    const newTest = {
-        test_number:this.state.test_number,
-        Subjects:this.state.subject,
-        test_date: new Date(this.state.test_date),
-        all_questions:false,
-        question_ids:[],
-        release_date:'',
-        class_id:course_id
-      }
-      this.props.addTest(newTest)
-      this.setState({test_message:'Test Added!'})
-
-    //redirect to course page
-
   }
 
     render() {
@@ -89,7 +67,7 @@ class AddTest extends Component {
           <Input type="date" name="test_date" onChange={this.handleChange} value={this.state.test_date}   />
         </FormGroup>
 
-        <Button color='primary' onClick={this.newTest}>Submit</Button>
+        <Button color='primary' >Submit</Button>
       </Form>
     </div>
   </div>
@@ -97,16 +75,4 @@ class AddTest extends Component {
 }
 }
 
-const mapStateToProps = state => ({
-  test: state.test,
-  course: state.course.sel_course
-  })
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        fetchClass : (course_id) => dispatch(fetchClass(course_id)),
-        addTest : (newTest) => dispatch(addTest(newTest))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddTest)
+export default AddTest

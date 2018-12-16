@@ -1,14 +1,9 @@
 import React,{Component} from 'react';
-import { connect } from 'react-redux';
 import { Row,Col } from 'reactstrap';
 import ReactDropzone from "react-dropzone"
 import '../css/App.css';
 
 import EditTestHeader from "../components/EditTestHeader";
-
-import { fetchTest } from '../actions/testActions';
-import { fetchClass } from '../actions/classActions';
-import { uploadPanels,fetchAllPanels,deletePanel } from '../actions/panelActions';
 
 class AddPanels extends Component {
 
@@ -30,15 +25,7 @@ class AddPanels extends Component {
   }
 
   componentDidMount() {
-    const {course_id } = this.props.location.state
-    const { test_id } = this.props.location.state
-    this.props.fetchClass(course_id)
-    this.props.fetchTest(test_id)
-    this.props.fetchAllPanels(test_id)
-    this.setState({course_id,test_id,panels:this.props.panel.panels})
 
-    console.log('state',this.state)
-    console.log('props',this.props)
     }
 
     onDrop = (files) => {
@@ -133,21 +120,5 @@ class AddPanels extends Component {
     }
   }
 
-  const mapStateToProps = state => ({
-    course: state.course.sel_course,
-    panel: state.panel,
-    test: state.test
-    })
 
-  const mapDispatchToProps = (dispatch) => {
-      return {
-          fetchClass : (course_id) => dispatch(fetchClass(course_id)),
-          uploadPanels : (panel) => dispatch(uploadPanels(panel)),
-          fetchAllPanels : (test_id) => dispatch(fetchAllPanels(test_id)),
-          fetchTest : (test_id) => dispatch(fetchTest(test_id)),
-          deletePanel : (panel_id) => dispatch(deletePanel(panel_id)),
-
-      }
-  }
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddPanels)
+export default AddPanels

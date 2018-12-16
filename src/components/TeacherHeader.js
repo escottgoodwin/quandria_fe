@@ -5,8 +5,7 @@ import { Button } from 'reactstrap';
 
 const TeacherHeader = (props) =>
   <div>
-  <h2>{props.firstName} {props.lastName}'s Dashboard</h2>
-  <h4>Courses</h4>
+  <h3>{props.firstName} {props.lastName}'s Courses</h3>
   <Link  to="/add_course"><Button color="primary" size="sm">Add Course</Button></Link>
   </div>
 

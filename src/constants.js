@@ -1,1 +1,2 @@
-export const USERID = 'cjp4m9m9h00230861x648ns55'
+export const AUTH_TOKEN = 'auth-token'
+export const LINKS_PER_PAGE = 5

@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import rootReducer from './reducers';
+
 
 const initialState = {login: {
   login_message:'',
@@ -14,7 +14,6 @@ const initialState = {login: {
 const middleware = [thunk];
 
 const store = createStore(
-  rootReducer,
   initialState,
   compose(
     applyMiddleware(...middleware),

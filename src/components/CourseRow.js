@@ -1,29 +1,49 @@
 import React from 'react';
 import '../css/App.css';
-import { Card, CardTitle, CardText} from 'reactstrap';
+import { Card, CardText} from 'reactstrap';
 import {Link} from 'react-router-dom'
 
 const CourseRow = (props) =>
 
 <Card key={props.id} className="card" body>
 
+  <CardText>
+  <div className="course_row">
+
+  <div>
+  <h5>
+  {props.institution.name}
+  </h5>
+  </div>
+
+  <div>
+  <h5>
   <Link  to={{
     pathname: "/course_dashboard",
     state:
       { course_id: props.id }
     }} >
 
-  <CardTitle>{props.name} - {props.institution.name} ({props.time})</CardTitle></Link>
-
-  <CardText>
-  <div className="course_row">
-
-  <div>
-  Tests: {props.tests.length}
+  {props.name}</Link>
+  </h5>
   </div>
 
   <div>
+  <h5>
+  {props.time}
+  </h5>
+  </div>
+
+  <div>
+  <h5>
+  Tests: {props.tests.length}
+  </h5>
+  </div>
+
+  <div>
+  <h5>
   Students: {props.students.length}
+  </h5>
   </div>
 
   </div>
