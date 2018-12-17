@@ -2,13 +2,14 @@ import React,{Component} from 'react';
 import '../css/App.css';
 import { Button } from 'reactstrap';
 import {Link} from 'react-router-dom'
+import { AUTH_TOKEN } from '../constants'
 
 
 class DashboardButton extends Component {
 
   render() {
 
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem(AUTH_TOKEN);
 
     return (
 

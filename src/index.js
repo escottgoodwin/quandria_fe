@@ -7,16 +7,21 @@ import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
+import { AUTH_TOKEN } from './constants'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import App from './App'
 
 const httpLink = createHttpLink({
   uri: 'https://quandria-be.herokuapp.com/',
+  onError: ({ networkError, graphQLErrors }) => {
+    console.log('graphQLErrors', graphQLErrors)
+    console.log('networkError', networkError)
+  }
 });
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem(AUTH_TOKEN);
   // return the headers to the context so httpLink can read them
   return {
     headers: {
@@ -32,10 +37,10 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
   <Router>
-    <Route path="/" component={App} />
+    <ApolloProvider client={client}>
+      <Route path="/" component={App} />
+    </ApolloProvider>
   </Router>
-  </ApolloProvider>
 , document.getElementById('root'));
 registerServiceWorker();

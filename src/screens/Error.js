@@ -9,7 +9,7 @@ class Error extends Component {
       <div className="dashboard">
       <div className="signin">
       <h2>Error</h2>
-      <div>Something is wrong.</div>
+      <h4>Something is wrong.</h4>
 
       </div>
       </div>

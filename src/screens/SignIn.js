@@ -3,6 +3,7 @@ import '../css/App.css';
 import { Button, Form, FormGroup, Label, Input,} from 'reactstrap';
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import { AUTH_TOKEN } from '../constants'
 
 const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
@@ -78,7 +79,7 @@ class SignIn extends Component {
   }
 
   _saveUserData = (token, user) => {
-    sessionStorage.setItem('token', token);
+    sessionStorage.setItem(AUTH_TOKEN, token);
     sessionStorage.setItem('userid', user.id);
     sessionStorage.setItem('online', user.online);
   }
