@@ -1,9 +1,11 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Button, Form, FormGroup, Label, Input,} from 'reactstrap';
+//import { Button, Form, FormGroup, Label, Input,} from 'reactstrap';
+import { Form, Input, Button } from 'semantic-ui-react'
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { AUTH_TOKEN } from '../constants'
+
 
 const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
@@ -33,26 +35,24 @@ class SignIn extends Component {
       <div className="signin">
       <h2>Sign In</h2>
       <div>{this.props.login_message}</div>
-      <Form>
-        <FormGroup >
-          <Label for="exampleEmail">Email</Label>
-          <Input
-          type="email"
-          name="email"
-          onChange={e => this.setState({ email: e.target.value })}
-          value={email}
-          placeholder="Your email address"
-           />
-        </FormGroup>
-        <FormGroup>
-          <Label for="examplePassword">Password</Label>
-          <Input
-          type="password"
-          name="password"
-          placeholder="Your password"
-          onChange={e => this.setState({ password: e.target.value })}
-          value={password}  />
-        </FormGroup>
+      <Form >
+
+      <Form.Field
+        control={Input}
+        label='Email'
+        value={email}
+        onChange={e => this.setState({ email: e.target.value })}
+        placeholder='Login email'
+      />
+
+      <Form.Field
+        control={Input}
+        label='Password'
+        value={password}
+        type='password'
+        onChange={e => this.setState({ password: e.target.value })}
+        placeholder='Login password'
+      />
 
         <Mutation
             mutation={LOGIN_MUTATION}

@@ -5,7 +5,7 @@ import TestRow from './TestRow'
 
 const TestList = (props) =>
   <div className="coursecontainer">
-  {props.tests.map(test =>
+  {props[0].map(test =>
     <TestRow key={test.id} {...test} />
     )}
   </div>

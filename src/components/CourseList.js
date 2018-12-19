@@ -6,10 +6,10 @@ import CourseRow from './CourseRow'
 const CourseList = (props) =>
 <div>
 <div className="coursecontainer">
-  Total Courses: {props.teacherCourses.length}
+  <h4>Total Courses: {props[0].length}</h4>
 </div>
   <div className="coursecontainer">
-    {props.teacherCourses.map((course) =>
+    {props[0].map(course =>
       <CourseRow key={course.id} {...course} />
     )}
   </div>

@@ -16,7 +16,7 @@ const TestRow = (props) =>
         { test_id: props.id }
       }} >
 
-  <CardTitle>{props.testNumber} - {props.subject} - {  dateFormat(props.testDate, "dddd, mmmm dS, yyyy") }</CardTitle>
+  <CardTitle>{props.testNumber} - {props.subject} - { dateFormat(props.testDate, "dddd, mmmm dS, yyyy") }</CardTitle>
 
   </Link>
 
@@ -34,7 +34,7 @@ const TestRow = (props) =>
     <div className="course_row">
 
       <div>
-        Total: {props.questions.length}
+        Questions: {props.questions.length}
       </div>
 
       <div>

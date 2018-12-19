@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom'
-import { Button } from 'reactstrap';
+import { Button } from 'semantic-ui-react'
 import {withRouter} from "react-router-dom"
 import '../css/App.css';
 
@@ -22,7 +22,7 @@ class SignOut extends Component {
       <h4 >Sign in again:</h4>
       </div>
       <div style={divStyle}>
-      <h4 ><Link to="/sign_in"><Button color="primary">Sign In</Button></Link></h4>
+      <h4 ><Link to="/sign_in"><Button color='blue'>Sign In</Button></Link></h4>
       </div>
       </div>
       </div>

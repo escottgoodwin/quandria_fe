@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom'
-import { Button } from 'reactstrap';
+import { Button } from 'semantic-ui-react'
 import {withRouter} from "react-router-dom"
 import { Mutation } from "react-apollo";
 import { AUTH_TOKEN } from '../constants'
@@ -36,12 +36,12 @@ class SignInButton extends Component {
           onCompleted={data => this._confirm(data)}
         >
           {mutation => (
-            <Button outline color='primary' onClick={mutation}>Sign Out</Button>
+            <Button basic color='blue' onClick={mutation}>Sign Out</Button>
           )}
         </Mutation>
 
           :
-          <Link to="/sign_in"><Button outline color="primary">Sign In</Button></Link>
+          <Link to="/sign_in"><Button basic color='blue'>Sign In</Button></Link>
         )
 
     }

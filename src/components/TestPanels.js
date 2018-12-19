@@ -14,7 +14,7 @@ const TestPanels = (props) =>
       {
         test_id: props.id }
     }} >
-     <CardHeader>45 Panels</CardHeader>
+     <CardHeader>{props.panels.length} Panels</CardHeader>
     </Link>
 
     <CardText>
@@ -22,7 +22,7 @@ const TestPanels = (props) =>
     <div>Panel 35 8%</div>
 
     <Link  to={{
-      pathname: "/add_panels",
+      pathname: "/panels",
       state:
         {
           test_id: props.id }

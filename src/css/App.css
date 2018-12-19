@@ -112,6 +112,10 @@
   flex-direction: row;
   justify-content: space-between;
 }
+.course_cell{
+  width:25%;
+  text-align: left;
+}
 .coursecontainer{
   padding: 20px;
 }

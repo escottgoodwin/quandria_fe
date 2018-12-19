@@ -10,11 +10,11 @@ const AddTestHeader = (props) =>
   <Link  to={{
     pathname: "/course_dashboard",
     state:
-      { course_id: props.location.state.course_id }
+      { course_id: props.id }
     }} >
 
-  <h4>{props.course.name} - {props.course.school_id}</h4></Link>
-  <h5>Time: {props.course.time}</h5>
+  <h4>{props.name} - {props.courseNumber}</h4></Link>
+  <h5>Time: {props.time}</h5>
   </div>
 
 

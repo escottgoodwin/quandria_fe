@@ -4,8 +4,7 @@ import '../css/App.css';
 import { Form, Input, Button, Select } from 'semantic-ui-react'
 
 import { Mutation, Query } from "react-apollo";
-import Error from './Error'
-import Loading from './Loading'
+
 import gql from "graphql-tag";
 
 const ADD_COURSE_MUTATION = gql`
@@ -19,6 +18,7 @@ const ADD_COURSE_MUTATION = gql`
     addCourse(
       name: $name,
       time: $time,
+      deleted: false,
       courseNumber: $schoolId,
       institutionId: $institutionId,
       department1: $department1
@@ -97,26 +97,26 @@ render() {
       />
 
       <Query query={USER_INSTITUTION_QUERY} variables={{ userid: userid }}>
-            {({ loading, error, data }) => {
-              if (loading) return <Loading />
-              if (error) return <Error/>
+          {({ loading, error, data }) => {
+            if (loading) return <div>Loading...</div>
+            if (error) return <div>Error</div>
 
-              const institutions = data.user.teacherInstitution.map(institution => ({  value:institution.id, text:institution.name}) )
+            const institutions = data.user.teacherInstitution.map(institution => ({  value:institution.id, text:institution.name}) )
 
-              return (
-                <Form.Field
-                  id='institutionId'
-                  control={Select}
-                  options={institutions}
-                  onChange={(event, {value}) => { this.setState({ institutionId: value })}}
-                  label='Institution'
-                  fluid
-                  selection
-                  placeholder='Select Institution'
-                />
-            )
-          }}
-        </Query>
+            return (
+              <Form.Field
+                id='institutionId'
+                control={Select}
+                options={institutions}
+                onChange={(event, {value}) => { this.setState({ institutionId: value })}}
+                label='Institution'
+                fluid
+                selection
+                placeholder='Select Institution'
+              />
+          )
+        }}
+      </Query>
 
               <Mutation
                   mutation={ADD_COURSE_MUTATION}

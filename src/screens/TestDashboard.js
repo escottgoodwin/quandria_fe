@@ -1,11 +1,10 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 import {Row, Col} from 'reactstrap';
-import { Query } from "react-apollo";
+import { Query,Mutation } from "react-apollo";
 import gql from "graphql-tag";
-
+import { Button } from 'semantic-ui-react'
 import TestHeader from '../components/TestHeader'
-import TestPanels from '../components/TestPanels'
 import TestChallenges from '../components/TestChallenges'
 import TestPerformance from '../components/TestPerformance'
 
@@ -15,6 +14,7 @@ import Loading from './Loading'
 const TEST_QUERY = gql`
 query TestQuery($test_id:ID!){
   test(id:$test_id){
+      id
       subject
       testNumber
       testDate
@@ -23,15 +23,33 @@ query TestQuery($test_id:ID!){
         name
         courseNumber
       }
+      panels{
+        id
+    }
     }
   }
+`
+const DELETE_TEST_MUTATION = gql`
+  mutation DeleteTest(
+    $test_id: ID!,
+  ){
+    updateTest(
+      id: $test_id,
+      deleted: true,
+    ){
+    id
+    course{
+      id
+    }
+  }
+}
 `
 
 class TestDashboard extends Component {
 
   render() {
 
-    const { test_id }= this.props.location.state
+    const { test_id } = this.props.location.state
 
     return (
 
@@ -54,14 +72,10 @@ class TestDashboard extends Component {
 
               <div className="coursecontainer">
               <Row>
+
                 <Col >
 
-               <TestPanels {...testToRender} />
-
-                </Col>
-                <Col >
-
-                  <TestChallenges {...testToRender} />
+                <TestChallenges {...testToRender} />
 
                 </Col>
                 <Col >
@@ -70,6 +84,17 @@ class TestDashboard extends Component {
 
                 </Col>
               </Row>
+              <div >
+              <Mutation
+                  mutation={DELETE_TEST_MUTATION}
+                  variables={{ test_id: test_id }}
+                  onCompleted={data => this._confirm(data)}
+                >
+                  {mutation => (
+                    <Button  color='red' onClick={mutation}>Delete Test</Button>
+                  )}
+                </Mutation>
+              </div>
               </div>
             </div>
 
@@ -79,6 +104,12 @@ class TestDashboard extends Component {
         }}
       </Query>
       )
+    }
+
+    _confirm = async data => {
+      this.props.history.push({pathname: "/course_dashboard",
+      state:
+        { course_id: data.updateTest.course.id }})
     }
   }
 

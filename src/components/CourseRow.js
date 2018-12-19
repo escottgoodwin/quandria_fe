@@ -1,22 +1,21 @@
 import React from 'react';
 import '../css/App.css';
-import { Card, CardText} from 'reactstrap';
+import { Segment } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
+
+
 
 const CourseRow = (props) =>
 
-<Card key={props.id} className="card" body>
+//<Card key={props.id} className="card" body>
 
-  <CardText>
+//  <CardText>
+
+
+<Segment >
   <div className="course_row">
 
-  <div>
-  <h5>
-  {props.institution.name}
-  </h5>
-  </div>
-
-  <div>
+  <div className="course_cell">
   <h5>
   <Link  to={{
     pathname: "/course_dashboard",
@@ -28,28 +27,41 @@ const CourseRow = (props) =>
   </h5>
   </div>
 
-  <div>
-  <h5>
+
+
+
+
+  <div className="course_cell">
+
   {props.time}
-  </h5>
+
   </div>
 
-  <div>
-  <h5>
+  <div className="course_cell">
+
   Tests: {props.tests.length}
-  </h5>
+
   </div>
 
-  <div>
-  <h5>
+  <div className="course_cell">
+
   Students: {props.students.length}
-  </h5>
+
+  </div>
+
+  <div className="course_cell">
+
+  {props.institution.name}
+
   </div>
 
   </div>
 
-  </CardText>
+  </Segment >
 
-</Card>
+//  </CardText>
+
+//</Card>
+
 
 export default CourseRow

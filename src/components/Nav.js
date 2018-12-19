@@ -1,9 +1,9 @@
 import React from 'react';
 import '../css/App.css';
 import SignInButton from './SignInButton'
-import DashboardButton from './Dashboard'
+import DashboardButton from './DashboardButton'
+import { Button } from 'semantic-ui-react'
 
-import { Button } from 'reactstrap';
 import {Link} from 'react-router-dom'
 
 const Nav = (props) =>
@@ -13,7 +13,7 @@ const Nav = (props) =>
     <DashboardButton />
     </div>
     <div>
-    <Link  to="/"><div><Button outline color="primary">Quandria</Button></div></Link>
+    <Link  to="/"><div><Button basic color='blue'>Quandria</Button></div></Link>
     </div>
     <div className="sign-button">
     <SignInButton />

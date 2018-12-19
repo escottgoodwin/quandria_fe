@@ -2,7 +2,7 @@ import React from 'react';
 import '../css/App.css';
 
 import { Link } from 'react-router-dom'
-import { Button } from 'reactstrap';
+import { Button } from 'semantic-ui-react'
 
 const CourseHeader = (props) =>
 
@@ -17,13 +17,11 @@ const CourseHeader = (props) =>
        state:
          { course_id: props.id }
        }} >
-        <Button color="primary" size="sm">Edit Course</Button>
+        <Button color="blue" >Edit Course</Button>
        </Link>
     </div>
 
-   <div style={{display:'inline-block',padding:5}}>
-    <Button  color="danger" size="sm">Delete Course</Button>
-   </div>
+   
 
    <div style={{display:'inline-block',padding:5}}>
      <Link  to={{
@@ -31,7 +29,7 @@ const CourseHeader = (props) =>
        state:
          { course_id: props.id }
        }} >
-       <Button color="primary" size="sm">Add Test</Button>
+       <Button color="blue" size="sm">Add Test</Button>
       </Link>
     </div>
 

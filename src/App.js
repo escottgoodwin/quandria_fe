@@ -44,7 +44,7 @@ class App extends Component {
           <Route path="/add_panels" component={AddPanels}/>
           <Route path="/select_panels" component={SelectPanels}/>
           <Route path="/student_performance/" component={StudentPerformance}/>
-          <Route path="/challenges" component={Challenges}/>
+          <Route path="/challenge_dashboard" component={Challenges}/>
         </Switch>
         <Footer />
       </div>

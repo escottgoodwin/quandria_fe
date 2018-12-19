@@ -3,9 +3,9 @@ import '../css/App.css';
 
 import CourseHeader from '../components/CourseHeader'
 import TestList from '../components/TestList'
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
-
+import { Button } from 'semantic-ui-react'
 import Error from './Error'
 import Loading from './Loading'
 
@@ -22,6 +22,7 @@ query CourseQuery($courseid:ID!){
     tests{
       id
       subject
+      deleted
       testNumber
       release
       testDate
@@ -32,6 +33,20 @@ query CourseQuery($courseid:ID!){
         id
       }
     }
+  }
+}
+`
+
+const DELETE_COURSE_MUTATION = gql`
+  mutation DeleteCourse(
+    $course_id: ID!,
+  ){
+    updateCourse(
+      id: $course_id,
+      deleted: true,
+    ){
+    name
+    id
   }
 }
 `
@@ -49,6 +64,9 @@ class CourseDashboard extends Component {
             if (error) return <Error/>
 
             const courseToRender = data.course
+            const tests = new Array(courseToRender.tests.filter(test => !test.deleted))
+            console.log(tests)
+
         return (
 
       <div className="main">
@@ -59,8 +77,19 @@ class CourseDashboard extends Component {
 
             <div className="coursecontainer">
 
-              <TestList {...courseToRender} />
+              <TestList {...tests} />
+              <div >
 
+              <Mutation
+                  mutation={DELETE_COURSE_MUTATION}
+                  variables={{ course_id: course_id }}
+                  onCompleted={data => this._confirm(data)}
+                >
+                  {mutation => (
+                    <Button  color='red' onClick={mutation}>Delete Course</Button>
+                  )}
+                </Mutation>
+              </div>
             </div>
 
           </div>
@@ -70,6 +99,10 @@ class CourseDashboard extends Component {
       }}
     </Query>
     )
+  }
+  _confirm = async data => {
+
+    this.props.history.push(`/teacher_dashboard`)
   }
 }
 

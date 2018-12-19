@@ -19,6 +19,7 @@ const COURSE_QUERY = gql`
         id
         name
         time
+        deleted
         institution{
           name
         }
@@ -49,6 +50,7 @@ class TeacherDashboard extends Component {
                 if (error) return <Error/>
 
                 const userToRender = data.user
+                const teacherCourses = new Array(userToRender.teacherCourses.filter(course => !course.deleted))
 
                 return (
                   <div className="main">
@@ -59,7 +61,7 @@ class TeacherDashboard extends Component {
 
                     <div className="coursecontainer">
 
-                      <CourseList  {...userToRender} />
+                      <CourseList  {...teacherCourses} />
 
                     </div>
 
