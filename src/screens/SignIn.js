@@ -16,6 +16,10 @@ const LOGIN_MUTATION = gql`
         firstName
         lastName
         online
+        institution{
+          name
+          id
+        }
       }
     }
   }
@@ -60,7 +64,7 @@ class SignIn extends Component {
             onCompleted={data => this._confirm(data)}
           >
             {mutation => (
-              <Button color='primary' onClick={mutation}>Submit</Button>
+              <Button color='blue' onClick={mutation}>Submit</Button>
             )}
           </Mutation>
 
@@ -80,8 +84,14 @@ class SignIn extends Component {
 
   _saveUserData = (token, user) => {
     sessionStorage.setItem(AUTH_TOKEN, token);
+    sessionStorage.setItem('user', JSON.stringify(user));
+    console.log(user.id)
     sessionStorage.setItem('userid', user.id);
     sessionStorage.setItem('online', user.online);
+    const user1id = sessionStorage.getItem('userid');
+    const user1 = sessionStorage.getItem('user');
+    console.log(user1)
+    console.log(user1id)
   }
 
 }

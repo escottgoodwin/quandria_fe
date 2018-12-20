@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import App from './App'
 
 const httpLink = createHttpLink({
-  uri: 'https://quandria-be.herokuapp.com/',
+  uri: 'http://localhost:4000',
   onError: ({ networkError, graphQLErrors }) => {
     console.log('graphQLErrors', graphQLErrors)
     console.log('networkError', networkError)

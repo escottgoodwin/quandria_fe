@@ -6,6 +6,7 @@ import TeacherDashboard from './screens/TeacherDashboard'
 import SignIn from './screens/SignIn'
 import SignOut from './screens/SignOut'
 import SignUp from './screens/SignUp'
+import SignedUp from './screens/SignedUp'
 import CourseDashboard from './screens/CourseDashboard'
 import AddCourse from './screens/AddCourse'
 import EditCourse from './screens/EditCourse'
@@ -34,6 +35,7 @@ class App extends Component {
           <Route path="/sign_in" component={SignIn}/>
           <Route path="/sign_out" component={SignOut}/>
           <Route path="/sign_up" component={SignUp}/>
+          <Route path="/signed_up" component={SignedUp}/>
           <Route path="/teacher_dashboard" component={TeacherDashboard}/>
           <Route path="/course_dashboard" component={CourseDashboard}/>
           <Route path="/add_course" component={AddCourse}/>

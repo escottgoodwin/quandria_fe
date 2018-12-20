@@ -22,7 +22,7 @@ class SignUp extends Component {
       email: '',
       password: '',
       firstName: '',
-      lastname: ''
+      lastName: ''
     }
 
     render() {
@@ -94,10 +94,13 @@ class SignUp extends Component {
 }
 
   _confirm = async data => {
-    const { token, user } = data.login
-    this._saveUserData(token, user)
-    this.props.history.push(`/signed_up`)
-  }
+    const { authMsg } = data.signup
+    this.props.history.push({
+      pathname: `/signed_up`,
+      state: { authMsg: authMsg }
+      })
+    }
+  
 
   _saveUserData = (token, user) => {
 

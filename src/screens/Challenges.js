@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Table, Card,  Row, Col,} from 'reactstrap';
 
+import { Table } from 'semantic-ui-react'
 import ChallengeHeader from '../components/ChallengeHeader'
 
 import { Query } from "react-apollo";
@@ -69,42 +69,29 @@ class Challenges extends Component {
 
 
       <div className="coursecontainer">
-      <Row>
-        <Col >
-          <Card className="card" body>
-          <Table hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Question</th>
-            <th>Answer</th>
-            <th>Challenge</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Mark</td>
-            <td>What does resolution measure</td>
-            <td>Image size</td>
-            <td>No, it measures the detail of image</td>
-          </tr>
-          <tr>
-            <td>Mark</td>
-            <td>What was resolution measure</td>
-            <td>Image size</td>
-            <td>No, it measures the detail of image</td>
-          </tr>
-          <tr>
-            <td>Mark</td>
-            <td>What was resolution measure</td>
-            <td>Image size</td>
-            <td>No, it measures the detail of image</td>
-          </tr>
-        </tbody>
-      </Table>
-          </Card>
-        </Col>
-      </Row>
+
+          <Table celled selectable>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>Name</Table.HeaderCell>
+        <Table.HeaderCell>Challenge</Table.HeaderCell>
+        <Table.HeaderCell>Question</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+    <Table.Body>
+  <Table.Row>
+    <Table.Cell>John</Table.Cell>
+    <Table.Cell>No Action</Table.Cell>
+    <Table.Cell>None</Table.Cell>
+  </Table.Row>
+  <Table.Row>
+    <Table.Cell>John</Table.Cell>
+    <Table.Cell>No Action</Table.Cell>
+    <Table.Cell>None</Table.Cell>
+  </Table.Row>
+  </Table.Body>
+</Table>
+
       </div>
     </div>
 

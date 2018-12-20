@@ -1,9 +1,9 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 //import { Form, FormGroup, Label, Input, } from 'reactstrap';
-import { Form, Input, Button, Select } from 'semantic-ui-react'
+import { Form, Input, Button } from 'semantic-ui-react'
 
-import { Mutation, Query } from "react-apollo";
+import { Mutation } from "react-apollo";
 
 import gql from "graphql-tag";
 
@@ -29,17 +29,6 @@ const ADD_COURSE_MUTATION = gql`
 }
 `
 
-const USER_INSTITUTION_QUERY = gql`
-query UserInstition($userid:ID!){
-user(id:$userid){
-  teacherInstitution{
-    id
-    name
-  }
-}
-}
-`
-
 class AddCourse extends Component {
 
   state = {
@@ -52,8 +41,8 @@ class AddCourse extends Component {
       }
 
 render() {
-  const userid = sessionStorage.getItem('userid');
-  const { name, schoolId, time, institutionId, department1 } = this.state
+  const user =  JSON.parse(sessionStorage.getItem('user'));
+  const { name, schoolId, time, department1 } = this.state
   return (
         <div className="dashboard">
           <div className="signin">
@@ -95,36 +84,18 @@ render() {
         onChange={e => this.setState({ department1: e.target.value })}
         placeholder='eg. Biology'
       />
-
-      <Query query={USER_INSTITUTION_QUERY} variables={{ userid: userid }}>
-          {({ loading, error, data }) => {
-            if (loading) return <div>Loading...</div>
-            if (error) return <div>Error</div>
-
-            const institutions = data.user.teacherInstitution.map(institution => ({  value:institution.id, text:institution.name}) )
-
-            return (
-              <Form.Field
-                id='institutionId'
-                control={Select}
-                options={institutions}
-                onChange={(event, {value}) => { this.setState({ institutionId: value })}}
-                label='Institution'
-                fluid
-                selection
-                placeholder='Select Institution'
-              />
-          )
-        }}
-      </Query>
+      <div style={{padding:15}}>
+      <h4><b>Institution:</b> {user.institution.name}</h4>
+      </div>
 
               <Mutation
                   mutation={ADD_COURSE_MUTATION}
                   variables={{ name: name,
                     schoolId:schoolId,
                     time: time,
-                    institutionId: institutionId,
-                    department1: department1 }}
+                    department1: department1,
+                    institutionId: user.institution.id
+                   }}
                   onCompleted={data => this._confirm(data)}
                 >
                   {mutation => (
