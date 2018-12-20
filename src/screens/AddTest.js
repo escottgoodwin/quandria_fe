@@ -119,6 +119,38 @@ class AddTest extends Component {
             courseId: course_id
   }}
           onCompleted={data => this._confirm(data)}
+          refetchQueries={() => {
+             return [{
+                query: gql`
+                query CourseQuery($courseid:ID!){
+                  course(id:$courseid){
+                    id
+                    name
+                    courseNumber
+                    time
+                    institution{
+                      name
+                    }
+                    tests{
+                      id
+                      subject
+                      deleted
+                      testNumber
+                      release
+                      testDate
+                      questions{
+                        id
+                      }
+                      panels{
+                        id
+                      }
+                    }
+                  }
+                }
+              `,
+                variables: { courseid: course_id }
+            }];
+        }}
         >
           {mutation => (
             <Button  color='blue' onClick={mutation}>Submit</Button>

@@ -21,7 +21,7 @@ const CourseHeader = (props) =>
        </Link>
     </div>
 
-   
+
 
    <div style={{display:'inline-block',padding:5}}>
      <Link  to={{
@@ -29,7 +29,7 @@ const CourseHeader = (props) =>
        state:
          { course_id: props.id }
        }} >
-       <Button color="blue" size="sm">Add Test</Button>
+       <Button color="blue" >Add Test</Button>
       </Link>
     </div>
 

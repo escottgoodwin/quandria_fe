@@ -65,7 +65,6 @@ class CourseDashboard extends Component {
 
             const courseToRender = data.course
             const tests = new Array(courseToRender.tests.filter(test => !test.deleted))
-            console.log(tests)
 
         return (
 

@@ -16,6 +16,7 @@ const LOGIN_MUTATION = gql`
         firstName
         lastName
         online
+        role
         institution{
           name
           id
@@ -79,19 +80,29 @@ class SignIn extends Component {
   _confirm = async data => {
     const { token, user } = data.login
     this._saveUserData(token, user)
-    this.props.history.push(`/teacher_dashboard`)
+    if (user.role === "TEACHER") {
+      this.props.history.push(`/teacher_dashboard`)
+    }
+
+    if (user.role === "STUDENT") {
+      this.props.history.push(`/student_dashboard`)
+    }
+
+    if (user.role === "ADMIN") {
+      this.props.history.push(`/admin_dashboard`)
+    }
+
+    if (user.role === "QUANDRIA") {
+      this.props.history.push(`/quandria_dashboard`)
+    }
+
   }
 
   _saveUserData = (token, user) => {
     sessionStorage.setItem(AUTH_TOKEN, token);
     sessionStorage.setItem('user', JSON.stringify(user));
-    console.log(user.id)
     sessionStorage.setItem('userid', user.id);
     sessionStorage.setItem('online', user.online);
-    const user1id = sessionStorage.getItem('userid');
-    const user1 = sessionStorage.getItem('user');
-    console.log(user1)
-    console.log(user1id)
   }
 
 }

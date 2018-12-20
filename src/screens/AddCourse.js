@@ -95,9 +95,41 @@ render() {
                     time: time,
                     department1: department1,
                     institutionId: user.institution.id
-                   }}
+                  }}
                   onCompleted={data => this._confirm(data)}
-                >
+                  refetchQueries={() => {
+                     console.log("refetchQueries", user.id)
+                     return [{
+                        query: gql`
+                        query UserQuery($userid: ID!) {
+                          user(id: $userid){
+                            id
+                            firstName
+                            lastName
+                            teacherCourses{
+                              id
+                              name
+                              time
+                              deleted
+                              institution{
+                                name
+                              }
+                              students{
+                                id
+                              }
+                              tests{
+                                id
+                                panels{
+                                  id
+                                }
+                              }
+                            }
+                          }
+                        }
+                      `,
+                        variables: { userid: user.id }
+                    }];
+                }}  >
                   {mutation => (
                     <Button  color='blue' onClick={mutation}>Submit</Button>
                   )}

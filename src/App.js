@@ -3,6 +3,9 @@ import { Route, Switch} from 'react-router-dom'
 import './css/App.css';
 
 import TeacherDashboard from './screens/TeacherDashboard'
+import StudentDashboard from './screens/StudentDashboard'
+import AdminDashboard from './screens/AdminDashboard'
+import QuandriaDashboard from './screens/QuandriaDashboard'
 import SignIn from './screens/SignIn'
 import SignOut from './screens/SignOut'
 import SignUp from './screens/SignUp'
@@ -37,6 +40,9 @@ class App extends Component {
           <Route path="/sign_up" component={SignUp}/>
           <Route path="/signed_up" component={SignedUp}/>
           <Route path="/teacher_dashboard" component={TeacherDashboard}/>
+          <Route path="/student_dashboard" component={StudentDashboard}/>
+          <Route path="/admin_dashboard" component={AdminDashboard}/>
+          <Route path="/quandria_dashboard" component={QuandriaDashboard}/>
           <Route path="/course_dashboard" component={CourseDashboard}/>
           <Route path="/add_course" component={AddCourse}/>
           <Route path="/edit_course/" component={EditCourse}/>
