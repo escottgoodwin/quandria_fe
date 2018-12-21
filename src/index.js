@@ -11,8 +11,10 @@ import { AUTH_TOKEN } from './constants'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import App from './App'
 
+
+
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000',
+  uri: process.env.REACT_APP_GRAPHQL_SERVER,
   onError: ({ networkError, graphQLErrors }) => {
     console.log('graphQLErrors', graphQLErrors)
     console.log('networkError', networkError)

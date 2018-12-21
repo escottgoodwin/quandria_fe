@@ -1,92 +1,68 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+//import { Form, FormGroup, Label, Input, } from 'reactstrap';
 
+import { Query } from "react-apollo";
+import Error from './Error'
+import Loading from './Loading'
+
+import EditTestInput from '../components/EditTestInput'
 import EditTestHeader from '../components/EditTestHeader'
 
+import gql from "graphql-tag";
+
+
+const TEST_QUERY = gql`
+  query TestQuery($test_id: ID!){
+    test(id:$test_id){
+      subject
+      testDate
+      testNumber
+      id
+      course {
+        id
+        name
+        courseNumber
+      }
+  }
+}
+`
 
 class EditTest extends Component {
 
-  constructor(props) {
-     super(props);
+render() {
 
-     this.handleChange = this.handleChange
+  return (
+    <div className="dashboard">
+      <div className="signin">
+        <h2>Edit Test</h2>
 
-      this.state = {
-            test_number:'',
-            subjects:'',
-            test_date:'',
-            class_id:'',
-            test_id:'',
-            test_message:''
-    }
-  }
+    <Query query={TEST_QUERY} variables={{ test_id: this.props.location.state.test_id }}>
+          {({ loading, error, data }) => {
+            if (loading) return <Loading/>
+            if (error) return <Error/>
 
-  componentDidMount() {
+            const testToRender = data.test
+            console.log(testToRender)
 
-    this.setState({
-      test_number:'',
-      subjects:'',
-      test_date: '',
-      class_id:'',
-      test_id:'',
+        return (
+            <div>
+            <EditTestHeader  {...testToRender} />
 
-    })
-  }
+            <EditTestInput {...testToRender}/>
+                    </div>
 
-  handleChange = e => {
-    let change = {}
-    change[e.target.name] = e.target.value
-    this.setState(change)
-  }
 
-    render() {
-      return (
-  <div className="dashboard">
-    <div className="signin">
-      <h2>Edit Test</h2>
-
-      <EditTestHeader  {...this.props} />
-
-      <div>
-        <h6 style={{color:'green',padding:5,height:10}}>{this.state.test_message}</h6>
+            )
+          }}
+        </Query>
+        </div>
       </div>
-
-
-      <Form >
-
-        <FormGroup>
-
-          <Label for="exampleSelect">Test Number</Label>
-          <Input type="select" name="test_number" id="exampleSelect"  onChange={this.handleChange.bind(this)} value={this.state.test_number} >
-              <option>Test 1</option>
-               <option>Test 2</option>
-               <option>Test 3</option>
-               <option>Test 4</option>
-               <option>Test 5</option>
-          </Input>
-        </FormGroup>
-
-        <FormGroup >
-
-          <Label for="subject">Subject</Label>
-          <Input type="text" name="subjects" onChange={this.handleChange.bind(this)} value={this.state.subjects} />
-        </FormGroup>
-
-        <FormGroup>
-          <Label for="testDate">Date</Label>
-          <Input type="date" name="test_date" onChange={this.handleChange.bind(this)} value={this.state.test_date}   />
-        </FormGroup>
-
-        <Button color='primary' onClick={this.editTest}>Submit</Button>
-      </Form>
-    </div>
-  </div>
-)
-}
+  )
 }
 
+  }
 
 
 
-export default EditTest
+export default EditTest ;

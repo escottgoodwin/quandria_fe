@@ -1,9 +1,8 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 //import { Form, FormGroup, Label, Input, } from 'reactstrap';
-import { Form, Input, Button } from 'semantic-ui-react'
 
-import { Mutation, Query } from "react-apollo";
+import { Query } from "react-apollo";
 import Error from './Error'
 import Loading from './Loading'
 
@@ -43,7 +42,7 @@ render() {
         <div className="dashboard">
           <div className="signin">
             <h2>Edit Course</h2>
-            <h6 style={{color:'green',height:10,padding:5}}></h6>
+          
             <EditCourseInput {...courseToRender}/>
                     </div>
                       </div>

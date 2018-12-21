@@ -136,7 +136,6 @@ render() {
 )
 }
 _confirm = async data => {
-  const { id } = data.updateCourse
   this.props.history.push({
     pathname: `/course_dashboard`,
     state: { course_id: this.props.id  }
