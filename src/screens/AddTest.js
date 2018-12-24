@@ -40,11 +40,11 @@ const COURSE_QUERY = gql`
 class AddTest extends Component {
 
 
-      state = {
-            testNumber:'',
-            subject:'',
-            testDate:'',
-    }
+    state = {
+          testNumber:'',
+          subject:'',
+          testDate:'',
+        }
 
     handleChange = (event, {name, value}) => {
     if (this.state.hasOwnProperty(name)) {
@@ -75,7 +75,7 @@ class AddTest extends Component {
           }}
         </Query>
 
-      <Form >
+      <Form size="big">
 
       <Form.Field
         control={Input}

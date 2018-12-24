@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Button, Form, FormGroup, Label, Input,} from 'reactstrap';
+import { Form, Input, Button } from 'semantic-ui-react'
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -33,47 +33,42 @@ class SignUp extends Component {
       <div className="signin">
       <h2>Sign Up</h2>
       <div>{this.props.login_message}</div>
-      <Form>
 
-      <FormGroup >
-        <Label for="examplefirstName">First Name</Label>
-        <Input
-        type="firstName"
-        name="firstName"
-        onChange={e => this.setState({ firstName: e.target.value })}
+      <Form size="big">
+
+      <Form.Field
+        control={Input}
+        label='First Name'
         value={firstName}
-        placeholder="First Name"
-         />
-      </FormGroup>
-      <FormGroup>
-        <Label for="examplelastName">Last Name</Label>
-        <Input
-        type="lastName"
-        name="lastName"
-        placeholder="Last Name"
-        onChange={e => this.setState({ lastName: e.target.value })}
-        value={lastName}  />
-      </FormGroup>
+        onChange={e => this.setState({ firstName: e.target.value })}
+        placeholder='First Name'
+      />
 
-        <FormGroup >
-          <Label for="exampleEmail">Email</Label>
-          <Input
-          type="email"
-          name="email"
-          onChange={e => this.setState({ email: e.target.value })}
-          value={email}
-          placeholder="Email address"
-           />
-        </FormGroup>
-        <FormGroup>
-          <Label for="examplePassword">Password</Label>
-          <Input
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={e => this.setState({ password: e.target.value })}
-          value={password}  />
-        </FormGroup>
+      <Form.Field
+        control={Input}
+        label='Last Name'
+        value={lastName}
+        type='password'
+        onChange={e => this.setState({ lastName: e.target.value })}
+        placeholder='Last Name'
+      />
+
+      <Form.Field
+        control={Input}
+        label='Email'
+        value={email}
+        onChange={e => this.setState({ email: e.target.value })}
+        placeholder='Login email'
+      />
+
+      <Form.Field
+        control={Input}
+        label='Password'
+        value={password}
+        type='password'
+        onChange={e => this.setState({ password: e.target.value })}
+        placeholder='Login password'
+      />
 
         <Mutation
             mutation={SIGNUP_MUTATION}
@@ -81,7 +76,7 @@ class SignUp extends Component {
             onCompleted={data => this._confirm(data)}
           >
             {mutation => (
-              <Button color='primary' onClick={mutation}>Submit</Button>
+              <Button color='blue' onClick={mutation}>Submit</Button>
             )}
           </Mutation>
 
@@ -100,7 +95,7 @@ class SignUp extends Component {
       state: { authMsg: authMsg }
       })
     }
-  
+
 
   _saveUserData = (token, user) => {
 

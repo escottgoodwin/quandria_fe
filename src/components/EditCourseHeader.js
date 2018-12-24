@@ -6,19 +6,17 @@ import { Link } from 'react-router-dom'
 const EditCourseHeader = (props) =>
 
   <div>
-  <div>
+  <div style={{padding:'10px'}}>
 
   <Link  to={{
     pathname: "/course_dashboard",
     state:
-      { course_id: props.location.state.course_id }
+      { course_id: props.id }
     }} >
 
-  <h4>{props.course.sel_course.name} - {props.course.sel_course.school_id}</h4>
+  <h2>{props.name} - {props.courseNumber}</h2>
 
   </Link>
-
-  <h5>Time: {props.course.sel_course.time}</h5>
 
   </div>
 

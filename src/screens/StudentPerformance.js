@@ -1,19 +1,76 @@
-import React from 'react';
+import React,{Component} from 'react';
 import '../css/App.css';
-import { Table, Card, Button, Row, Col, } from 'reactstrap';
-import {Link} from 'react-router-dom'
+import { Table, Card, Row, Col, } from 'reactstrap';
+import ChallengeHeader from '../components/ChallengeHeader'
 
-const StudentPerformance = () =>
+import { Query } from "react-apollo";
+import Error from './Error'
+import Loading from './Loading'
+import gql from "graphql-tag";
+
+
+const CHALLENGE_QUERY = gql`
+query TestChallenges($test_id:ID!){
+  tests(where:{id:$test_id}){
+    tests{
+      id
+      subject
+      testNumber
+      testDate
+      course{
+        id
+        name
+        courseNumber
+      }
+      questions{
+        id
+        question
+        addedBy{
+          firstName
+          lastName
+        }
+        challenges{
+          id
+          challenge
+          addedBy{
+            firstName
+            lastName
+          }
+        }
+      }
+    }
+  }
+}
+`
+class StudentPerformance extends Component {
+
+  render() {
+    const { test_id } = this.props.location.state
+
+      return (
+
+
+      <Query query={CHALLENGE_QUERY} variables={{ test_id: test_id }}>
+            {({ loading, error, data }) => {
+              if (loading) return <Loading />
+              if (error) return <Error />
+
+              const testToRender = data.tests.tests[0]
+
+              const challenges = new Array(testToRender.questions.filter(question => question.challenges.length>0))
+              console.log(challenges)
+          return (
 <div className="main">
 
 
     <div className="container">
 
-      <h3>Student Performance</h3>
-      <Link to="/course_dashboard"><h3>Microbiology - Bio345</h3></Link>
-      <Link to="/test_dashboard"><h4>Test 1 Date: 10/1/2018</h4></Link>
+      <ChallengeHeader {...testToRender}/>
 
-      <Link to="/add_panels"><Button color="primary" size="sm">Select Panels</Button></Link>
+      <div className="coursecontainer">
+
+
+      <h3>Student Performance</h3>
 
       <div className="coursecontainer">
       <Row>
@@ -83,6 +140,16 @@ const StudentPerformance = () =>
 
 
 </div>
+</div>
+)
+}
+
+
+}
+</Query>
+)
+}
+}
 
 
 

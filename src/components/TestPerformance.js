@@ -1,23 +1,32 @@
 import React from 'react';
 import '../css/App.css';
 
-import { Card, CardText, CardHeader } from 'reactstrap';
+import { Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 const TestPerformance = (props) =>
 
-  <Card className="smallcard" body>
-  <Link to="/student_performance"><CardHeader>Student Rankings</CardHeader></Link>
+<div>
+<Segment  secondary attached='top'>
+<Link  to={{
+pathname: "/student_performance",
+state:
+{ course_id: props.course.id,
+  test_id: props.id }
+}} >
+Student Performance
+</Link>
 
-    <CardText>
-    <div><b>Best:</b></div>
-    <div>Joe 85%</div>
-    <div>Amy 80%</div>
+</Segment>
+<Segment attached>
+<div><b>Best:</b></div>
+<div>Joe 85%</div>
+<div>Amy 80%</div>
 
-    <div><b>Worst</b></div>
-    <div>Joe 45%</div>
-    <div>Amy 40%</div>
-    </CardText>
-  </Card>
+<div><b>Worst</b></div>
+<div>Joe 45%</div>
+<div>Amy 40%</div>
+</Segment>
+</div>
 
 export default TestPerformance

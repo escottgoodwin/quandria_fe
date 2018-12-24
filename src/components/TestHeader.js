@@ -1,24 +1,30 @@
 import React,{Component} from 'react';
 import dateFormat from 'dateformat'
+import {withRouter} from "react-router-dom"
+import moment from 'moment'
 import '../css/App.css';
-
 
 import { Link } from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
-
+import AddPanelButton from '../components/AddPanelButton'
 import { Mutation } from "react-apollo";
 
 import gql from "graphql-tag";
 
 const PUBLISH_TEST_MUTATION = gql`
   mutation PublishTest(
-    $test_id: ID!
+    $test_id: ID!,
+    $publishDate: DateTime
   ){
     updateTest(
       id: $test_id,
-      published:true
+      published:true,
+      publishDate: $publishDate
     ){
     id
+    course {
+      id
+    }
   }
 }
 `
@@ -26,20 +32,50 @@ const PUBLISH_TEST_MUTATION = gql`
 const RELEASE_QUESTIONS_MUTATION = gql`
   mutation ReleaseQuestions(
     $test_id: ID!
+    $releaseDate: DateTime
   ){
     updateTest(
       id: $test_id,
-      release:true
+      release:true,
+      releaseDate: $releaseDate
     ){
     id
+    course {
+      id
+    }
   }
 }
 `
+
+const TEST_QUERY = gql`
+query TestQuery($test_id:ID!){
+  test(id:$test_id){
+      id
+      subject
+      testNumber
+      testDate
+      release
+      releaseDate
+      published
+      publishDate
+    	course{
+        id
+        name
+        courseNumber
+      }
+      panels{
+        id
+    }
+    }
+  }
+`
+
 
 class TestHeader  extends Component {
 
   render() {
 
+    const now = new Date()
 
     return (
 
@@ -50,12 +86,12 @@ class TestHeader  extends Component {
       { course_id: this.props.course.id }
     }} >
   <h2>{this.props.course.name} - {this.props.course.courseNumber}</h2></Link>
-
+<hr/>
   <div >
   <h3>{this.props.testNumber} - {this.props.subject} - { dateFormat(this.props.testDate, "dddd, mmmm dS, yyyy") }</h3>
   </div>
 
-  <div style={{display:'inline-block',padding:5}}>
+  <div style={{display:'inline-block',padding:15}}>
 <Link to={{
   pathname: "/edit_test",
   state:
@@ -65,42 +101,58 @@ class TestHeader  extends Component {
   }} >
 
 <Button color="blue" >Edit</Button>
+</Link>
+
+<AddPanelButton {...this.props}/>
+
 <Link  to={{
-  pathname: "/add_panels",
+  pathname: "/test_panels",
   state:
     {
       test_id: this.props.id }
   }} >
-  <Button color="blue" >Panels</Button>
-  </Link>
+  <Button color="blue" >{this.props.panels.length} Panels</Button>
 </Link>
+
 {this.props.release ?
-  <Button disabled onClick={this.props.release_questions} color="blue" >All Questions Released</Button>
+  <Button disabled color="blue" >Released: {moment(this.props.releaseDate).format("MM-DD-YYYY")}</Button>
 :
 <Mutation
     mutation={RELEASE_QUESTIONS_MUTATION}
-    variables={{ test_id: this.props.test_id }}
+    variables={{ test_id: this.props.id, releaseDate: now }}
     onCompleted={data => this._confirm(data)}
+    refetchQueries={() => {
+       return [{
+          query: TEST_QUERY,
+          variables: { test_id: this.props.id }
+      }]}}
   >
     {mutation => (
-      <Button color="blue" >Release All Questions</Button>
+      <Button color="blue" onClick={mutation} >Release All Questions</Button>
     )}
   </Mutation>
 }
 
+{this.props.published ?
+  <Button disabled color="blue" >Published: {moment(this.props.publishDate).format("MM-DD-YYYY")}</Button>
+
+:
+
 <Mutation
     mutation={PUBLISH_TEST_MUTATION}
-    variables={{ test_id: this.props.test_id }}
+    variables={{ test_id: this.props.id, publishDate: now }}
     onCompleted={data => this._confirm(data)}
+    refetchQueries={() => {
+       return [{
+          query: TEST_QUERY,
+          variables: { test_id: this.props.id }
+      }]}}
   >
     {mutation => (
-      <Button color="blue" >Publish Test</Button>
+      <Button color="blue" onClick={mutation} >Publish Test</Button>
     )}
   </Mutation>
-</div>
-
-<div style={{padding:5}}>
-<h5>Total Panels: {this.props.panels.length}</h5>
+}
 </div>
 
 </div>
@@ -110,13 +162,13 @@ class TestHeader  extends Component {
 
 
 _confirm = async data => {
-  const { id } = data.addCourse
+  const { id } = data.updateTest
   this.props.history.push({
-    pathname: `/course_dashboard`,
-    state: { course_id: id  }
+    pathname: `/test_dashboard`,
+    state: { test_id: id }
     })
 }
 
 }
 
-export default TestHeader
+export default withRouter(TestHeader)

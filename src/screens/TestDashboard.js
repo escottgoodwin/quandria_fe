@@ -18,6 +18,10 @@ query TestQuery($test_id:ID!){
       subject
       testNumber
       testDate
+      release
+      releaseDate
+      published
+      publishDate
     	course{
         id
         name
@@ -71,6 +75,7 @@ class TestDashboard extends Component {
               <TestHeader  {...testToRender} />
 
               <div className="coursecontainer">
+              <div >
               <Row>
 
                 <Col >
@@ -84,7 +89,9 @@ class TestDashboard extends Component {
 
                 </Col>
               </Row>
-              <div >
+              </div>
+              <div style={{padding:"15px"}} >
+
               <Mutation
                   mutation={DELETE_TEST_MUTATION}
                   variables={{ test_id: test_id }}
@@ -95,6 +102,7 @@ class TestDashboard extends Component {
                   )}
                 </Mutation>
               </div>
+
               </div>
             </div>
 

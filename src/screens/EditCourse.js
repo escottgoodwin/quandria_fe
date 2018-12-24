@@ -7,6 +7,7 @@ import Error from './Error'
 import Loading from './Loading'
 
 import EditCourseInput from '../components/EditCourseInput'
+import EditCourseHeader from '../components/EditCourseHeader'
 
 import gql from "graphql-tag";
 
@@ -39,10 +40,14 @@ render() {
 
         return (
 
+
+
         <div className="dashboard">
           <div className="signin">
+          <EditCourseHeader {...courseToRender} />
+
             <h2>Edit Course</h2>
-          
+
             <EditCourseInput {...courseToRender}/>
                     </div>
                       </div>

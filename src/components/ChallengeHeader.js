@@ -6,15 +6,15 @@ import { Link } from 'react-router-dom'
 const ChallengeHeader = (props) =>
 
   <div>
-  <h3>Challenges</h3>
   <Link  to={{
     pathname: "/course_dashboard",
     state:
       { course_id: props.course.id }
     }} >
 
-  <h4>{props.course.name} - {props.course.courseNumber}</h4></Link>
+  <h2>{props.course.name} - {props.course.courseNumber}</h2></Link>
 
+  <hr/>
 
   <Link  to={{
     pathname: "/test_dashboard",
@@ -22,7 +22,7 @@ const ChallengeHeader = (props) =>
       { test_id: props.id }
     }} >
 
-  <h4>{props.testNumber} - {props.subject} - { dateFormat(props.testDate, "dddd, mmmm dS, yyyy") }</h4></Link>
+  <h3>{props.testNumber} - {props.subject} - { dateFormat(props.testDate, "dddd, mmmm dS, yyyy") }</h3></Link>
   </div>
 
 

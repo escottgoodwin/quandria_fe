@@ -49,7 +49,7 @@ render() {
             <h2>Add Course</h2>
             <h6 style={{color:'green',height:10,padding:5}}>{this.state.course_message}</h6>
 
-      <Form >
+      <Form size="big">
 
       <Form.Field
         id='name'

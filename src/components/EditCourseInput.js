@@ -80,7 +80,7 @@ render() {
             placeholder='eg. Biology'
           />
           </Form>
-
+          <div style={{padding:'50px'}}>
             <Mutation
                 mutation={EDIT_COURSE_MUTATION}
                 variables={{ name: name,
@@ -129,7 +129,7 @@ render() {
                   <Button  color='blue' onClick={mutation}>Submit</Button>
                 )}
               </Mutation>
-
+              </div>
           </div>
 
 

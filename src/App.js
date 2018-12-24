@@ -14,6 +14,7 @@ import CourseDashboard from './screens/CourseDashboard'
 import AddCourse from './screens/AddCourse'
 import EditCourse from './screens/EditCourse'
 import TestDashboard from './screens/TestDashboard'
+import TestPanels from './screens/TestPanels'
 import AddTest from './screens/AddTest'
 import EditTest from './screens/EditTest'
 import AddPanels from './screens/AddPanels'
@@ -50,6 +51,7 @@ class App extends Component {
           <Route path="/add_test/" component={AddTest}/>
           <Route path="/edit_test/" component={EditTest}/>
           <Route path="/add_panels" component={AddPanels}/>
+          <Route path="/test_panels" component={TestPanels}/>
           <Route path="/select_panels" component={SelectPanels}/>
           <Route path="/student_performance/" component={StudentPerformance}/>
           <Route path="/challenge_dashboard" component={Challenges}/>

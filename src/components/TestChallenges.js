@@ -3,7 +3,7 @@ import '../css/App.css';
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ChallengeList from './ChallengeList'
-import { Card, CardHeader } from 'reactstrap';
+import { Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 const CHALLENGE_QUERY = gql`
@@ -49,18 +49,25 @@ query TestChallenges($test_id:ID!){
                 const testToRender = data.tests.tests[0]
 
                 const challenges = new Array(testToRender.questions.filter(question => question.challenges.length>0))
-                console.log(challenges)
+
             return (
 
-              <Card className="smallcard" body>
-              <Link  to={{
-                pathname: "/challenge_dashboard",
-                state:
-                  { course_id: testToRender.course.id,
-                    test_id: testToRender.id }
-                }} ><CardHeader>Challenges</CardHeader></Link>
-                <ChallengeList {...challenges}/>
-              </Card>
+              <div>
+      <Segment  secondary attached='top'>
+          <Link  to={{
+            pathname: "/challenge_dashboard",
+            state:
+              { course_id: testToRender.course.id,
+                test_id: testToRender.id }
+            }} >
+            Challenges
+              </Link>
+
+              </Segment>
+        <Segment attached>
+          <ChallengeList {...challenges}/>
+        </Segment>
+    </div>
 
             )
           }}

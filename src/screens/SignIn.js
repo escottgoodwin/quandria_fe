@@ -4,8 +4,6 @@ import '../css/App.css';
 import { Form, Input, Button } from 'semantic-ui-react'
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import { AUTH_TOKEN } from '../constants'
-
 
 const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
@@ -40,7 +38,7 @@ class SignIn extends Component {
       <div className="signin">
       <h2>Sign In</h2>
       <div>{this.props.login_message}</div>
-      <Form >
+      <Form size="big">
 
       <Form.Field
         control={Input}
@@ -99,7 +97,7 @@ class SignIn extends Component {
   }
 
   _saveUserData = (token, user) => {
-    sessionStorage.setItem(AUTH_TOKEN, token);
+    sessionStorage.setItem('auth_token', token);
     sessionStorage.setItem('user', JSON.stringify(user));
     sessionStorage.setItem('userid', user.id);
     sessionStorage.setItem('online', user.online);

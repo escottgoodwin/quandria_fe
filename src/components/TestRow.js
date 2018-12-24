@@ -1,14 +1,16 @@
 import React from 'react';
 import '../css/App.css';
-import { Card, Button, CardTitle, CardText} from 'reactstrap';
+
+import { Button, Card,   } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 var dateFormat = require('dateformat');
 
 const TestRow = (props) =>
 
-<Card className="card" body>
-
+<Card fluid>
+  <Card.Content>
   <div className="course_row">
+  <div>
 
     <Link  to={{
       pathname: "/test_dashboard",
@@ -16,20 +18,23 @@ const TestRow = (props) =>
         { test_id: props.id }
       }} >
 
-  <CardTitle>{props.testNumber} - {props.subject} - { dateFormat(props.testDate, "dddd, mmmm dS, yyyy") }</CardTitle>
+  <h5>{props.testNumber} - {props.subject} - { dateFormat(props.testDate, "dddd, mmmm dS, yyyy") }</h5>
 
   </Link>
+  </div>
+  <div>
+  {props.release &&
+    <Button basic disabled color="green" size="small">Test Published</Button>
+  }
 
     {props.release &&
-      <Button outline disabled color="success" size="sm">Questions Released</Button>
+      <Button basic disabled color="teal" size="small">Questions Released</Button>
     }
-
+</div>
 
   </div>
 
   <hr />
-
-  <CardText>
 
     <div className="course_row">
 
@@ -50,9 +55,7 @@ const TestRow = (props) =>
       </div>
 
     </div>
-
-    </CardText>
-
+    </Card.Content>
   </Card>
 
 export default TestRow

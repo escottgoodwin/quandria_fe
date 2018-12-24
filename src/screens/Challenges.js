@@ -67,8 +67,9 @@ class Challenges extends Component {
 
       <ChallengeHeader {...testToRender}/>
 
-
       <div className="coursecontainer">
+
+      <h3>Challenges</h3>
 
           <Table celled selectable>
     <Table.Header>
