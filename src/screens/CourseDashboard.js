@@ -9,6 +9,7 @@ import { Button } from 'semantic-ui-react'
 import Error from './Error'
 import Loading from './Loading'
 
+
 const COURSE_QUERY = gql`
 query CourseQuery($courseid:ID!){
   course(id:$courseid){
@@ -28,6 +29,12 @@ query CourseQuery($courseid:ID!){
       testDate
       questions{
         id
+        questionAnswers{
+        answer{
+          choice
+          correct
+        }
+      }
       }
       panels{
         id
@@ -64,7 +71,7 @@ class CourseDashboard extends Component {
             if (error) return <Error/>
 
             const courseToRender = data.course
-            const tests = new Array(courseToRender.tests.filter(test => !test.deleted))
+            const tests1 = courseToRender.tests.filter(test => !test.deleted)
 
         return (
 
@@ -72,7 +79,7 @@ class CourseDashboard extends Component {
         <div className="container">
 
               <CourseHeader {...courseToRender} />
-              <TestList {...tests} />
+              <TestList tests={tests1}  />
               <div >
 
               <Mutation

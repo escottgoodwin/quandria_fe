@@ -1,3 +1,5 @@
+import gql from "graphql-tag";
+
 const ADD_COURSE_MUTATION = gql`
   mutation AddCourse(
     $name: String!,
@@ -101,7 +103,7 @@ const TEST_COURSE_QUERY = gql`
   `
 
 
-const COURSE_QUERY = gql`
+export const COURSE_QUERY = gql`
   query UserQuery($userid: ID!) {
     user(id: $userid){
       id
@@ -142,7 +144,7 @@ const DELETE_COURSE_MUTATION = gql`
 }
 `
 
-const TEST_QUERY = gql`
+const TEST_QUERY1 = gql`
   query TestQuery($test_id: ID!){
     test(id:$test_id){
       subject
@@ -225,14 +227,6 @@ query TestChallenges($test_id:ID!){
 }
 `
 
-module.exports = {
-  ADD_COURSE_MUTATION,
-  PERFORMANCE_CHALLENGE_QUERY,
-  CHALLENGE_QUERY,
-  ADD_TEST_MUTATION,
-  TEST_COURSE_QUERY,
-  COURSE_QUERY,
-  LOGIN_MUTATION,
-  TEST_QUERY,
-  PANEL_QUERY
-}
+
+
+export default COURSE_QUERY

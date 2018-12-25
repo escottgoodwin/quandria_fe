@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Image, Card, Button, Dimmer, Header, Icon } from 'semantic-ui-react'
+import { Image, Button, Dimmer, Header } from 'semantic-ui-react'
 
 class UploadPanel extends Component {
   state = {}
@@ -17,7 +17,7 @@ class UploadPanel extends Component {
         </Header>
 
         <Button color="red" onClick={()=>this.props.deletePanel(this.props.id)}>Delete</Button>
-      
+
       </div>
     )
 
