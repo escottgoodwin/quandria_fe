@@ -105,6 +105,8 @@ class TestHeader  extends Component {
 
 <AddPanelButton {...this.props}/>
 
+{this.props.panels.length>0 ?
+
 <Link  to={{
   pathname: "/test_panels",
   state:
@@ -113,6 +115,9 @@ class TestHeader  extends Component {
   }} >
   <Button color="blue" >{this.props.panels.length} Panels</Button>
 </Link>
+:
+<Button disabled color="blue" >{this.props.panels.length} Panels</Button>
+}
 
 {this.props.release ?
   <Button disabled color="blue" >Released: {moment(this.props.releaseDate).format("MM-DD-YYYY")}</Button>

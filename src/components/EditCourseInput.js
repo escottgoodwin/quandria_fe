@@ -39,6 +39,7 @@ class EditCourseInput extends Component {
 render() {
   const user =  JSON.parse(sessionStorage.getItem('user'));
   const { name, courseNumber, time, department1 } = this.state
+  
   return (
 
     <div>

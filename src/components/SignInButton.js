@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
 import {withRouter} from "react-router-dom"
 import { Mutation } from "react-apollo";
-import { AUTH_TOKEN } from '../constants'
 import gql from "graphql-tag";
 
 const LOGOUT_MUTATION = gql`
@@ -23,12 +22,12 @@ class SignInButton extends Component {
 
   render() {
 
-    const online = sessionStorage.getItem('online');
     const userid = sessionStorage.getItem('userid');
+    const token = sessionStorage.getItem('auth_token');
 
     return (
 
-    JSON.parse(online) ?
+    token ?
 
       <Mutation
           mutation={LOGOUT_MUTATION}
@@ -49,7 +48,7 @@ class SignInButton extends Component {
     _confirm = (data) => {
       const { user, authMsg } = data.logout
       sessionStorage.removeItem('userid');
-      sessionStorage.removeItem(AUTH_TOKEN);
+      sessionStorage.removeItem('auth_token');
       sessionStorage.setItem('online', user.online);
       this.props.history.push({
         pathname: `/sign_out`,

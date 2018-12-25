@@ -20,8 +20,7 @@ import EditTest from './screens/EditTest'
 import AddPanels from './screens/AddPanels'
 import Main from './screens/Main'
 import StudentPerformance from './screens/StudentPerformance'
-import Challenges from './screens/Challenges'
-import SelectPanels from './screens/SelectPanels'
+import ChallengeDashboard from './screens/ChallengeDashboard'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
 
@@ -52,9 +51,8 @@ class App extends Component {
           <Route path="/edit_test/" component={EditTest}/>
           <Route path="/add_panels" component={AddPanels}/>
           <Route path="/test_panels" component={TestPanels}/>
-          <Route path="/select_panels" component={SelectPanels}/>
           <Route path="/student_performance/" component={StudentPerformance}/>
-          <Route path="/challenge_dashboard" component={Challenges}/>
+          <Route path="/challenge_dashboard" component={ChallengeDashboard}/>
         </Switch>
         <Footer />
       </div>

@@ -33,6 +33,7 @@ class EditTest extends Component {
 render() {
 
   return (
+    <div className="main">
     <div className="dashboard">
       <div className="signin">
         <h2>Edit Test</h2>
@@ -58,6 +59,7 @@ render() {
         </Query>
         </div>
       </div>
+        </div>
   )
 }
 

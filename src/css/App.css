@@ -36,18 +36,29 @@
   font-size: large;
 }
 
+html, body {
+    height: 100%;
+}
+
 .dashboard {
   background-color: #e4f1fe;
-  padding: 4em;
+  padding: 2em;
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin-top: 75px;
-  height:700px;
+  height:100%;
+  flex:1;
 }
+
 .main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   background-color: #e4f1fe;
   margin-top: 75px;
+  padding: 20px;
+
 }
 
 .header {
@@ -73,9 +84,10 @@
 }
 
 .footer{
+  bottom: 0;
+  width: 100%;
   background-color: #343a40;
   height:75px;
-  padding:20px;
   color:white
 }
 .dropdown{
@@ -94,9 +106,12 @@
 }
 
 .container{
+  margin-top: 75px;
+  flex:1;
   background-color: #e4f1fe;
-  padding: 10px;
-  height:700px;
+  margin: 20px;
+  height:100%;
+  width:100%;
   color: #21385b;
 }
 
@@ -118,6 +133,8 @@
 }
 .coursecontainer{
   padding: 20px;
+  height: 100%;
+  background-color: #e4f1fe;
 }
 
 .card{

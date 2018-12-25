@@ -4,10 +4,10 @@ import '../css/App.css';
 import ChallengeRow from './ChallengeRow'
 
 const ChallengeList = (props) =>
-  <div className="coursecontainer">
-  {props[0].map(question =>
-    <ChallengeRow key={question.id} {...question} />
-    )}
-  </div>
 
+  <div >
+  {
+  Object.values(props).slice(0,4).map(challenge => <ChallengeRow key={challenge.id} {...challenge} /> )
+  }
+  </div>
 export default ChallengeList

@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 
-import { Table } from 'semantic-ui-react'
 import ChallengeHeader from '../components/ChallengeHeader'
+import ChallengePList from '../components/ChallengePList'
 
 import { Query } from "react-apollo";
 import Error from './Error'
@@ -11,8 +11,7 @@ import gql from "graphql-tag";
 
 const CHALLENGE_QUERY = gql`
 query TestChallenges($test_id:ID!){
-  tests(where:{id:$test_id}){
-    tests{
+  test(id:$test_id){
       id
       subject
       testNumber
@@ -23,42 +22,42 @@ query TestChallenges($test_id:ID!){
         courseNumber
       }
       questions{
-        id
-        question
-        addedBy{
-          firstName
-          lastName
-        }
         challenges{
-          id
           challenge
+          id
+          question{
+            question
+            addedBy{
+              firstName
+              lastName
+            }
+          }
           addedBy{
             firstName
             lastName
           }
         }
       }
+
     }
-  }
 }
 `
-class Challenges extends Component {
+class ChallengeDashboard extends Component {
 
   render() {
     const { test_id } = this.props.location.state
 
       return (
 
-
       <Query query={CHALLENGE_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
               if (loading) return <Loading />
               if (error) return <Error />
 
-              const testToRender = data.tests.tests[0]
+              const testToRender = data.test
 
-              const challenges = new Array(testToRender.questions.filter(question => question.challenges.length>0))
-              console.log(challenges)
+              const challenges = testToRender.questions.map(question => question.challenges.map(challenge => challenge)).flat()
+
           return (
 <div className="main">
 
@@ -70,28 +69,11 @@ class Challenges extends Component {
       <div className="coursecontainer">
 
       <h3>Challenges</h3>
+        <div style={{width:"400px"}}>
 
-          <Table celled selectable>
-    <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell>Name</Table.HeaderCell>
-        <Table.HeaderCell>Challenge</Table.HeaderCell>
-        <Table.HeaderCell>Question</Table.HeaderCell>
-      </Table.Row>
-    </Table.Header>
-    <Table.Body>
-  <Table.Row>
-    <Table.Cell>John</Table.Cell>
-    <Table.Cell>No Action</Table.Cell>
-    <Table.Cell>None</Table.Cell>
-  </Table.Row>
-  <Table.Row>
-    <Table.Cell>John</Table.Cell>
-    <Table.Cell>No Action</Table.Cell>
-    <Table.Cell>None</Table.Cell>
-  </Table.Row>
-  </Table.Body>
-</Table>
+            <ChallengePList {...challenges}/>
+
+          </div>
 
       </div>
     </div>
@@ -109,4 +91,4 @@ class Challenges extends Component {
 }
 
 
-export default Challenges ;
+export default ChallengeDashboard

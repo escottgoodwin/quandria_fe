@@ -1,17 +1,13 @@
 import React,{Component} from 'react';
 
 import '../css/App.css';
-import {Link} from 'react-router-dom'
 import ChallengeHeader from '../components/ChallengeHeader'
 import DropZoneUpload from '../components/DropZoneUpload'
-import PanelCount from '../components/PanelCount'
 
 import { Query } from "react-apollo";
 import Error from './Error'
 import Loading from './Loading'
 import gql from "graphql-tag";
-import axios from 'axios'
-
 
 const CHALLENGE_QUERY = gql`
 query TestChallenges($test_id:ID!){
@@ -50,17 +46,16 @@ class AddPanels extends Component {
                 const testToRender = data.test
 
             return (
-
-        <div className="main">
-
-            <div className="container">
+              <div className="main">
+        <div className="coursecontainer">
 
               <ChallengeHeader {...testToRender }/>
 
               <DropZoneUpload token={auth_token} {...testToRender}/>
 
             </div>
-        </div>
+            </div>
+
       )
       }
 

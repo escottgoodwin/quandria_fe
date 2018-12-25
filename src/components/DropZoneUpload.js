@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
-import { execute, makePromise } from 'apollo-link';
-import gql from 'graphql-tag';
+
 import '../css/App.css';
 import classNames from 'classnames'
 import Dropzone from 'react-dropzone'
@@ -8,7 +7,6 @@ import {Link} from 'react-router-dom'
 import { Card, Progress, Segment, Icon  } from 'semantic-ui-react'
 import UploadPanel from '../components/UploadPanel'
 import PanelCount from '../components/PanelCount'
-
 import axios from 'axios'
 
 class DropZoneUpload extends Component {
@@ -87,7 +85,6 @@ class DropZoneUpload extends Component {
       let uploadFiles = 0
       let fileTotalSize = 0
       acceptedFiles.map(file => fileTotalSize += file.size)
-      let fileUrls = []
 
       acceptedFiles.map(file => {
 
@@ -138,6 +135,7 @@ class DropZoneUpload extends Component {
                 `,
                 variables: {testId:testId,link:fileURL}
               }
+
           }).then(result => {
             let grapqhql_resp = result.request.response
             let panels = JSON.parse(grapqhql_resp)
@@ -148,7 +146,7 @@ class DropZoneUpload extends Component {
           });
 
         })
-
+        return file_total
       });
 
     }

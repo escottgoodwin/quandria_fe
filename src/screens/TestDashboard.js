@@ -22,6 +22,23 @@ query TestQuery($test_id:ID!){
       releaseDate
       published
       publishDate
+      questions{
+        challenges{
+          challenge
+          id
+          question{
+            question
+            addedBy{
+              firstName
+              lastName
+            }
+          }
+          addedBy{
+            firstName
+            lastName
+          }
+        }
+      }
     	course{
         id
         name
@@ -66,15 +83,11 @@ class TestDashboard extends Component {
 
           return (
 
-
-        <div className="main">
-
-
+            <div className="main">
             <div className="container">
-
               <TestHeader  {...testToRender} />
 
-              <div className="coursecontainer">
+
               <div >
               <Row>
 
@@ -85,7 +98,7 @@ class TestDashboard extends Component {
                 </Col>
                 <Col >
 
-                  <TestPerformance {...testToRender} />
+                <TestPerformance {...testToRender} />
 
                 </Col>
               </Row>
@@ -104,10 +117,8 @@ class TestDashboard extends Component {
               </div>
 
               </div>
-            </div>
+              </div>
 
-
-        </div>
           )
         }}
       </Query>

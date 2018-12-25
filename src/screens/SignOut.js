@@ -13,6 +13,7 @@ class SignOut extends Component {
     render() {
 
       return (
+        <div className="main">
       <div className="dashboard">
       <div className="signin">
       <div style={divStyle}>
@@ -26,6 +27,7 @@ class SignOut extends Component {
       </div>
       </div>
       </div>
+        </div>
 
   )
 }

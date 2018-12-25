@@ -14,7 +14,7 @@ state:
 { course_id: props.course.id,
   test_id: props.id }
 }} >
-Student Performance
+Questions
 </Link>
 
 </Segment>

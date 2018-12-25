@@ -51,7 +51,15 @@ const TestRow = (props) =>
       </div>
 
       <div>
-        Panels: { props.panels.length }
+      Panels: <Link  to={{
+        pathname: "/test_panels",
+        state:
+          {
+            test_id: props.id }
+        }} >
+         { props.panels.length }
+      </Link>
+
       </div>
 
     </div>

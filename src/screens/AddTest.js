@@ -58,6 +58,7 @@ class AddTest extends Component {
       const testDate1 = moment(testDate).format()
       const testnumbers = [{value:"Test 1",text:"Test 1"}, {value:"Test 2",text:"Test 2"}, {value:"Test 3",text:"Test 3"}, {value:"Test 4",text:"Test 4"}, {value:"Test 5",text:"Test 5"}, {value:"Test 6",text:"Test 6"}]
       return (
+        <div className="main">
   <div className="dashboard">
     <div className="signin">
       <h2>Add Test</h2>
@@ -159,6 +160,7 @@ class AddTest extends Component {
 
       </Form>
     </div>
+  </div>
   </div>
 )
 }

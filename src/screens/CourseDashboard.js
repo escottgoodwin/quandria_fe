@@ -69,13 +69,9 @@ class CourseDashboard extends Component {
         return (
 
       <div className="main">
+        <div className="container">
 
-          <div className="container">
-
-            <CourseHeader {...courseToRender} />
-
-            <div className="coursecontainer">
-
+              <CourseHeader {...courseToRender} />
               <TestList {...tests} />
               <div >
 
@@ -90,10 +86,12 @@ class CourseDashboard extends Component {
                 </Mutation>
               </div>
             </div>
+            </div>
 
-          </div>
 
-      </div>
+
+
+
         )
       }}
     </Query>

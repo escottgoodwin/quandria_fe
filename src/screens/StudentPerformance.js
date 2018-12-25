@@ -57,8 +57,6 @@ class StudentPerformance extends Component {
 
               const testToRender = data.tests.tests[0]
 
-              const challenges = new Array(testToRender.questions.filter(question => question.challenges.length>0))
-              console.log(challenges)
           return (
 <div className="main">
 

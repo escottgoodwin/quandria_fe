@@ -29,6 +29,7 @@ class SignUp extends Component {
       const { email, password,firstName,lastName } = this.state
 
       return (
+        <div className="main">
       <div className="dashboard">
       <div className="signin">
       <h2>Sign Up</h2>
@@ -84,6 +85,7 @@ class SignUp extends Component {
         </Form>
       </div>
       </div>
+        </div>
 
   )
 }

@@ -8,18 +8,18 @@ const ChallengeRow = (props) =>
 <div >
   <div >
     <b>Challenge:</b>
-    {props.challenges[0].challenge} by {props.challenges[0].addedBy.firstName} {props.challenges[0].addedBy.lastName}
+    {props.challenge} by {props.addedBy.firstName} {props.addedBy.lastName}
 
     </div >
 
 
 
-      <div>
-      <b>Question:</b>
-        {props.question} by {props.addedBy.firstName} {props.addedBy.lastName}
-      </div>
-      <hr />
-      </div>
+  <div >
+  <b>Question:</b>
+    {props.question.question} by {props.question.addedBy.firstName} {props.question.addedBy.lastName}
+  </div>
+  <hr />
+  </div>
 
 
 

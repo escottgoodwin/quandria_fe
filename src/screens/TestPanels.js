@@ -52,10 +52,9 @@ class StudentPerformance extends Component {
               const testToRender = data.test
 
           return (
-<div className="main">
-
-
-    <div className="container">
+            <div className="main">
+      <div className="container">
+      <div className="coursecontainer">
 
       <ChallengeHeader {...testToRender}/>
 
@@ -72,10 +71,12 @@ class StudentPerformance extends Component {
 
       </div>
     </div>
+    </div>
+    </div>
 
 
 </div>
-</div>
+
 )
 }
 

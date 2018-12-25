@@ -34,6 +34,7 @@ class SignIn extends Component {
       const { email, password } = this.state
 
       return (
+      <div className="main">
       <div className="dashboard">
       <div className="signin">
       <h2>Sign In</h2>
@@ -71,7 +72,7 @@ class SignIn extends Component {
         </Form>
       </div>
       </div>
-
+      </div>
   )
 }
 
