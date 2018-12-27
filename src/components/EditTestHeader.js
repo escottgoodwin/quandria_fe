@@ -14,7 +14,7 @@ const EditTestHeader = (props) =>
     }} >
 
 
-  <h4>{props.course.name} - {props.course.courseNumber}</h4>
+  <h2>{props.course.name} - {props.course.courseNumber}</h2>
 
   </Link>
 
@@ -25,7 +25,7 @@ const EditTestHeader = (props) =>
       course_id: props.course.id }
     }} >
 
-  <h4>{props.testNumber} - {props.subject}</h4>
+  <h3>{props.testNumber} - {props.subject}</h3>
 
   </Link>
 

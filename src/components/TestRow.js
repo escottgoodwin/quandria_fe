@@ -23,13 +23,13 @@ const TestRow = (props) =>
   </Link>
   </div>
   <div>
-  {props.release &&
+  {props.published &&
     <Button basic disabled color="green" size="small">Test Published</Button>
   }
 
-    {props.release &&
-      <Button basic disabled color="teal" size="small">Questions Released</Button>
-    }
+  {(props.release && props.published) &&
+    <Button basic disabled color="teal" size="small">Questions Released</Button>
+  }
 </div>
 
   </div>
@@ -63,6 +63,18 @@ const TestRow = (props) =>
                     0
          }%
         </h6>
+      </div>
+
+      <div>
+      <h6>Challenges: <Link  to={{
+        pathname: "/challenge_dashboard",
+        state:
+          {
+            test_id: props.id }
+        }} >
+         { props.questions.filter(q => q.challenges.length).length  }
+      </Link>
+      </h6>
       </div>
 
       <div>

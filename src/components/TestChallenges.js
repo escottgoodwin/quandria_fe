@@ -12,8 +12,8 @@ class TestChallenges extends Component {
 
       return (
 
-      <div>
-      <Segment  secondary attached='top'>
+      <div >
+      <Segment  fluid secondary attached='top'>
       {challenges.length>0 ?
           <Link  to={{
             pathname: "/challenge_dashboard",
@@ -27,7 +27,7 @@ class TestChallenges extends Component {
               <div>Challenges</div>
             }
               </Segment>
-        <Segment textAlign='left' attached>
+        <Segment style={{ minHeight: 400 }} textAlign='left' attached>
           <ChallengeList {...challenges}/>
         </Segment>
     </div>

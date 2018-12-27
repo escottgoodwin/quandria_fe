@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 const TestPerformance = (props) =>
 
-<div>
+<div >
 <Segment  secondary attached='top'>
 <Link  to={{
 pathname: "/student_performance",
@@ -18,7 +18,7 @@ Questions
 </Link>
 
 </Segment>
-<Segment attached>
+<Segment style={{ minHeight: 400 }} attached>
 <div><b>Best:</b></div>
 <div>Joe 85%</div>
 <div>Amy 80%</div>

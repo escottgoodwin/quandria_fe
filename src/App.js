@@ -17,6 +17,8 @@ import TestDashboard from './screens/TestDashboard'
 import TestPanels from './screens/TestPanels'
 import AddTest from './screens/AddTest'
 import EditTest from './screens/EditTest'
+import PublishTest from './screens/PublishTest'
+import EditPublishTest from './screens/EditPublishTest'
 import AddPanels from './screens/AddPanels'
 import Main from './screens/Main'
 import StudentPerformance from './screens/StudentPerformance'
@@ -53,6 +55,9 @@ class App extends Component {
           <Route path="/test_panels" component={TestPanels}/>
           <Route path="/student_performance/" component={StudentPerformance}/>
           <Route path="/challenge_dashboard" component={ChallengeDashboard}/>
+          <Route path="/publish_test" component={PublishTest}/>
+          <Route path="/edit_publish_test" component={EditPublishTest}/>
+
         </Switch>
         <Footer />
       </div>

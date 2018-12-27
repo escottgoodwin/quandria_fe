@@ -8,6 +8,7 @@ import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { ThemeProvider } from '@livechat/ui-kit'
 import App from './App'
 
 const httpLink = createHttpLink({
@@ -38,7 +39,9 @@ const client = new ApolloClient({
 ReactDOM.render(
   <Router>
     <ApolloProvider client={client}>
+    <ThemeProvider>
       <Route path="/" component={App} />
+      </ThemeProvider>
     </ApolloProvider>
   </Router>
 , document.getElementById('root'));

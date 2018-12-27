@@ -29,6 +29,9 @@ query CourseQuery($courseid:ID!){
       testDate
       questions{
         id
+        challenges{
+          challenge
+        }
         questionAnswers{
         answer{
           choice

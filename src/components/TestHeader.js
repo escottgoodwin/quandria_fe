@@ -80,12 +80,12 @@ class TestHeader  extends Component {
     return (
 
   <div>
-  <Link  to={{
+
+  <h2><Link  to={{
     pathname: "/course_dashboard",
     state:
       { course_id: this.props.course.id }
-    }} >
-  <h2>{this.props.course.name} - {this.props.course.courseNumber}</h2></Link>
+    }} >{this.props.course.name} - {this.props.course.courseNumber}</Link></h2>
 <hr/>
   <div >
   <h3>{this.props.testNumber} - {this.props.subject} - { dateFormat(this.props.testDate, "dddd, mmmm dS, yyyy") }</h3>
@@ -119,7 +119,31 @@ class TestHeader  extends Component {
 <Button disabled color="blue" >{this.props.panels.length} Panels</Button>
 }
 
-{this.props.release ?
+{this.props.published ?
+  <Link  to={{
+    pathname: "/edit_publish_test",
+    state:
+      {
+        test_id: this.props.id }
+    }} >
+  <Button color="blue" >Edit Published Test</Button>
+  </Link>
+:
+
+  <Link  to={{
+    pathname: "/publish_test",
+    state:
+      {
+        test_id: this.props.id }
+    }} >
+      <Button color="blue" >Publish Test</Button>
+  </Link>
+
+}
+
+{this.props.published ?
+
+this.props.release ?
   <Button disabled color="blue" >Released: {moment(this.props.releaseDate).format("MM-DD-YYYY")}</Button>
 :
 <Mutation
@@ -136,27 +160,16 @@ class TestHeader  extends Component {
       <Button color="blue" onClick={mutation} >Release All Questions</Button>
     )}
   </Mutation>
+:
+  <Button  color="blue" >Release All Questions</Button>
 }
 
-{this.props.published ?
-  <Button disabled color="blue" >Published: {moment(this.props.publishDate).format("MM-DD-YYYY")}</Button>
 
-:
+</div>
 
-<Mutation
-    mutation={PUBLISH_TEST_MUTATION}
-    variables={{ test_id: this.props.id, publishDate: now }}
-    onCompleted={data => this._confirm(data)}
-    refetchQueries={() => {
-       return [{
-          query: TEST_QUERY,
-          variables: { test_id: this.props.id }
-      }]}}
-  >
-    {mutation => (
-      <Button color="blue" onClick={mutation} >Publish Test</Button>
-    )}
-  </Mutation>
+<div style={{padding:20}}>
+{this.props.published &&
+<h5><b>Test Published:</b> {moment(this.props.publishDate).format("MM-DD-YYYY")} <b>End Date:</b> 1/18/2019 <b>Between Hours:</b> 10 AM - 8 PM</h5>
 }
 </div>
 
@@ -164,7 +177,6 @@ class TestHeader  extends Component {
 
 )
 }
-
 
 _confirm = async data => {
   const { id } = data.updateTest

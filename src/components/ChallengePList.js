@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/App.css';
-import { Table } from 'semantic-ui-react'
+import { Table, Tab } from 'semantic-ui-react'
 import ChallengePRow from './ChallengePRow'
 
 const ChallengePList = (props) =>

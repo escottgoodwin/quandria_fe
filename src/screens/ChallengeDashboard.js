@@ -1,9 +1,9 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-
+import { Tab } from 'semantic-ui-react'
 import ChallengeHeader from '../components/ChallengeHeader'
-import ChallengePList from '../components/ChallengePList'
 
+import ChallengeSection from '../components/ChallengeSection'
 import { Query } from "react-apollo";
 import Error from './Error'
 import Loading from './Loading'
@@ -16,6 +16,7 @@ query TestChallenges($test_id:ID!){
       subject
       testNumber
       testDate
+
       course{
         id
         name
@@ -24,18 +25,36 @@ query TestChallenges($test_id:ID!){
       questions{
         challenges{
           challenge
+          addedBy{
+            id
+            firstName
+            lastName
+          }
           id
           question{
             question
+            choices{
+              correct
+              choice
+            }
+						questionAnswers{
+              addedBy{
+                id
+                firstName
+              }
+              answer{
+                choice
+              }
+            }
+            panel{
+              link
+            }
             addedBy{
               firstName
               lastName
             }
           }
-          addedBy{
-            firstName
-            lastName
-          }
+
         }
       }
 
@@ -58,37 +77,36 @@ class ChallengeDashboard extends Component {
 
               const challenges = testToRender.questions.map(question => question.challenges.map(challenge => challenge)).flat()
 
+              const challengepanels = challenges.map(x => ({menuItem: x.challenge + ' - ' + x.addedBy.firstName + ' ' + x.addedBy.lastName, render: () => <ChallengeSection key={x.id} {...x}/>  }))
+
+              console.log(testToRender.questions[0].challenges[0].addedBy.id)
           return (
-<div className="main">
+            <div className="main">
 
 
-    <div className="container">
+                <div className="container">
 
-      <ChallengeHeader {...testToRender}/>
+                  <ChallengeHeader {...testToRender}/>
 
-      <div className="coursecontainer">
+                  <div className="coursecontainer">
 
-      <h3>Challenges</h3>
-        <div style={{width:"400px"}}>
+                  <h3>Challenges</h3>
+                  <hr/>
+                  <Tab menu={{ color:'teal',fluid: true, vertical: true }} menuPosition='left' panes={challengepanels} />
 
-            <ChallengePList {...challenges}/>
-
-          </div>
-
-      </div>
-    </div>
+                  </div>
+                </div>
 
 
-</div>
-)
+            </div>
+          )
+        }
+
+
+      }
+      </Query>
+    )
+  }
 }
-
-
-}
-</Query>
-)
-}
-}
-
 
 export default ChallengeDashboard

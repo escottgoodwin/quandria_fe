@@ -1,9 +1,8 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import {Row, Col} from 'reactstrap';
 import { Query,Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import { Button } from 'semantic-ui-react'
+import { Button, Grid } from 'semantic-ui-react'
 import TestHeader from '../components/TestHeader'
 import TestChallenges from '../components/TestChallenges'
 import TestPerformance from '../components/TestPerformance'
@@ -88,21 +87,24 @@ class TestDashboard extends Component {
               <TestHeader  {...testToRender} />
 
 
-              <div >
-              <Row>
 
-                <Col >
+              <Grid columns={2} stackable className="fill-content">
+                <Grid.Row stretched>
+                <Grid.Column  >
 
                 <TestChallenges {...testToRender} />
 
-                </Col>
-                <Col >
+                </Grid.Column>
+
+                <Grid.Column  >
 
                 <TestPerformance {...testToRender} />
 
-                </Col>
-              </Row>
-              </div>
+                </Grid.Column>
+              </Grid.Row>
+              </Grid>
+
+
               <div style={{padding:"15px"}} >
 
               <Mutation
@@ -114,10 +116,11 @@ class TestDashboard extends Component {
                     <Button  color='red' onClick={mutation}>Delete Test</Button>
                   )}
                 </Mutation>
+                </div>
               </div>
+</div>
 
-              </div>
-              </div>
+
 
           )
         }}

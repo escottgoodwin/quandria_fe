@@ -36,7 +36,7 @@ render() {
     <div className="main">
     <div className="dashboard">
       <div className="signin">
-        <h2>Edit Test</h2>
+
 
     <Query query={TEST_QUERY} variables={{ test_id: this.props.location.state.test_id }}>
           {({ loading, error, data }) => {
@@ -48,10 +48,12 @@ render() {
 
         return (
             <div>
+            <div style={{padding:"20px"}}>
             <EditTestHeader  {...testToRender} />
-
+            <h2>Edit Test</h2>
+            </div>
             <EditTestInput {...testToRender}/>
-                    </div>
+            </div>
 
 
             )
