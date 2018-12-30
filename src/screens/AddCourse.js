@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 //import { Form, FormGroup, Label, Input, } from 'reactstrap';
-import { Form, Input, Button } from 'semantic-ui-react'
+import { Form, Input, Button, Select } from 'semantic-ui-react'
 
 import { Mutation } from "react-apollo";
 
@@ -37,12 +37,24 @@ class AddCourse extends Component {
         name:'',
         schoolId:'',
         time:'',
-        course_message:''
+        course_message:'',
+        institutions:''
       }
+
+  handleChange = (event, {name, value}) => {
+      if (this.state.hasOwnProperty(name)) {
+        this.setState({ [name]: value });
+      }
+  }
 
 render() {
   const user =  JSON.parse(sessionStorage.getItem('user'));
-  const { name, schoolId, time, department1 } = this.state
+  const { name, schoolId, time, department1, institutionId } = this.state
+  const institutions = user.teacherInstitutions.map(institution => ({value: institution.id, text: institution.name}))
+  const institutions1 = [{value: '1', text: 'usc'},{value: '2', text: 'ucsd'}]
+
+  console.log(institutionId)
+
   return (
         <div className="dashboard">
           <div className="signin">
@@ -84,9 +96,19 @@ render() {
         onChange={e => this.setState({ department1: e.target.value })}
         placeholder='eg. Biology'
       />
-      <div style={{padding:15}}>
-      <h4><b>Institution:</b> {user.institution.name}</h4>
-      </div>
+
+      <Form.Field
+        id='institutionId'
+        control={Select}
+        options={institutions}
+        onChange={(event, {value}) => { this.setState({ institutionId: value })}}
+        label='Institution'
+        fluid
+        selection
+        placeholder='Select Institution'
+      />
+
+      </ Form>
 
               <Mutation
                   mutation={ADD_COURSE_MUTATION}
@@ -94,7 +116,7 @@ render() {
                     schoolId:schoolId,
                     time: time,
                     department1: department1,
-                    institutionId: user.institution.id
+                    institutionId: institutionId
                   }}
                   onCompleted={data => this._confirm(data)}
                   refetchQueries={() => {
@@ -131,11 +153,13 @@ render() {
                     }];
                 }}  >
                   {mutation => (
-                    <Button  color='blue' onClick={mutation}>Submit</Button>
+                    <div style={{padding:'15px'}}>
+                    <Button color='blue' onClick={mutation}>Submit</Button>
+                    </div>
                   )}
                 </Mutation>
 
-              </Form>
+
             </div>
         </div>
       )

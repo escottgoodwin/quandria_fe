@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/App.css';
-import { Tab, Image, Icon, Grid, Comment, Form, Divider, Input } from 'semantic-ui-react'
+import { Tab, Image, Icon, Grid, Comment, Form, Divider, Input, Segment, List } from 'semantic-ui-react'
 const ChallengeSection = (props) =>
 
 <Tab.Pane key={props.id}>
@@ -46,7 +46,8 @@ props.question.questionAnswers.filter(a => a.addedBy.id === props.addedBy.id)[0]
 </Grid.Column>
 
 <Grid.Column>
-<div style={{ maxWidth: '100%', minHeight: 375, padding: '15px', textAlign:"left"}}>
+<div >
+<List style={{ overflow: 'auto', width: 370, height: 375,  textAlign:"left", paddingLeft:'50px'}}>
 <Comment.Group>
 
     <Comment >
@@ -60,7 +61,6 @@ props.question.questionAnswers.filter(a => a.addedBy.id === props.addedBy.id)[0]
 
       </Comment.Content>
     </Comment>
-
 
     <Comment>
         <Comment.Content>
@@ -125,14 +125,40 @@ props.question.questionAnswers.filter(a => a.addedBy.id === props.addedBy.id)[0]
       </Comment.Content>
     </Comment>
 
+    <Comment>
+        <Comment.Content>
+        <Comment.Author as='a'>Joe Henderson</Comment.Author>
+        <Comment.Metadata>
+          <div>5 days ago</div>
+        </Comment.Metadata>
+        <Comment.Text>Dude, this is awesome. Thanks so much</Comment.Text>
 
-    <Form reply>
-      <Input  action={{ color: 'teal', content: 'Submit' }}
-    actionPosition='right'
-    placeholder='Comment...'
-    />
-    </Form>
+      </Comment.Content>
+    </Comment>
+
+    <Comment>
+        <Comment.Content>
+        <Comment.Author as='a'>Joe Henderson</Comment.Author>
+        <Comment.Metadata>
+          <div>5 days ago</div>
+        </Comment.Metadata>
+        <Comment.Text>Dude, this is awesome. Thanks so much</Comment.Text>
+
+      </Comment.Content>
+    </Comment>
+
+
+
   </Comment.Group>
+</List>
+
+
+<Form reply>
+  <Input  action={{ color: 'teal', content: 'Submit' }}
+actionPosition='right'
+placeholder='Comment...'
+/>
+</Form>
 </div>
 </Grid.Column>
 </Grid.Row>

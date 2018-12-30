@@ -15,6 +15,14 @@ const LOGIN_MUTATION = gql`
         lastName
         online
         role
+        teacherInstitutions {
+          id
+          name 
+        }
+        studentInstitutions {
+          id
+          name
+        }
         institution{
           name
           id
