@@ -33,6 +33,16 @@ const CourseHeader = (props) =>
       </Link>
     </div>
 
+    <div style={{display:'inline-block',padding:5}}>
+      <Link  to={{
+        pathname: "/course_invitation",
+        state:
+          { course_id: props.id }
+        }} >
+        <Button color="blue" >Send Student Invites</Button>
+       </Link>
+     </div>
+
   </div>
 
 

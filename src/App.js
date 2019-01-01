@@ -11,6 +11,7 @@ import SignOut from './screens/SignOut'
 import SignUp from './screens/SignUp'
 import SignedUp from './screens/SignedUp'
 import CourseDashboard from './screens/CourseDashboard'
+import CourseInvitation from './screens/CourseInvitation'
 import AddCourse from './screens/AddCourse'
 import EditCourse from './screens/EditCourse'
 import TestDashboard from './screens/TestDashboard'
@@ -48,6 +49,8 @@ class App extends Component {
           <Route path="/course_dashboard" component={CourseDashboard}/>
           <Route path="/add_course" component={AddCourse}/>
           <Route path="/edit_course/" component={EditCourse}/>
+          <Route path="/course_invitation/" component={CourseInvitation}/>
+
           <Route path="/test_dashboard/" component={TestDashboard}/>
           <Route path="/add_test/" component={AddTest}/>
           <Route path="/edit_test/" component={EditTest}/>
