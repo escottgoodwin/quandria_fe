@@ -1,32 +1,89 @@
-import React from 'react';
+import _ from 'lodash'
 import '../css/App.css';
+import React, { Component } from 'react'
+import { Segment, Table } from 'semantic-ui-react'
 
-import { Segment } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+class TestPerformance extends Component {
+  state = {
+    column: null,
+    data: this.props.stats,
+    direction: null,
+  }
 
-const TestPerformance = (props) =>
+  handleSort = clickedColumn => () => {
+    const { column, data, direction } = this.state
 
-<div >
-<Segment  secondary attached='top'>
-<Link  to={{
-pathname: "/student_performance",
-state:
-{ course_id: props.course.id,
-  test_id: props.id }
-}} >
-Questions
-</Link>
+    if (column !== clickedColumn) {
+      this.setState({
+        column: clickedColumn,
+        data: _.sortBy(data, [clickedColumn]),
+        direction: 'ascending',
+      })
 
-</Segment>
-<Segment style={{ minHeight: 400 }} attached>
-<div><b>Best:</b></div>
-<div>Joe 85%</div>
-<div>Amy 80%</div>
+      return
+    }
 
-<div><b>Worst</b></div>
-<div>Joe 45%</div>
-<div>Amy 40%</div>
-</Segment>
-</div>
+    this.setState({
+      data: data.reverse(),
+      direction: direction === 'ascending' ? 'descending' : 'ascending',
+    })
+  }
+
+  render() {
+    const { column, data, direction } = this.state
+
+    return (
+
+    <Segment style={{ minHeight: 400 }} attached>
+
+    <Table sortable celled fixed>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell
+                  sorted={column === 'name' ? direction : null}
+                  onClick={this.handleSort('name')}
+                >
+                  Name
+                </Table.HeaderCell>
+
+                <Table.HeaderCell
+                  sorted={column === 'total' ? direction : null}
+                  onClick={this.handleSort('total')}
+                >
+                  Answered
+                </Table.HeaderCell>
+
+                <Table.HeaderCell
+                  sorted={column === 'totalCorrect' ? direction : null}
+                  onClick={this.handleSort('totalCorrect')}
+                >
+                Correct
+              </Table.HeaderCell>
+
+                <Table.HeaderCell
+                  sorted={column === 'percentCorrect' ? direction : null}
+                  onClick={this.handleSort('percentCorrect')}
+                >
+                  Percent Correct
+                </Table.HeaderCell>
+
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              {_.map(data, ({ name, total, totalCorrect, percentCorrect }) => (
+                <Table.Row key={name}>
+                  <Table.Cell>{name}</Table.Cell>
+                  <Table.Cell>{total}</Table.Cell>
+                  <Table.Cell>{totalCorrect}</Table.Cell>
+                  <Table.Cell>{percentCorrect}</Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+    </Segment>
+    )
+  }
+}
 
 export default TestPerformance

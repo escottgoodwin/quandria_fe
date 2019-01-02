@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/App.css';
-import { Tab, Image, Icon, Grid, Comment, Form, Divider, Input, Segment, List } from 'semantic-ui-react'
+import { Tab, Image, Icon, Grid, Comment, Form, Divider, Input, List } from 'semantic-ui-react'
 const ChallengeSection = (props) =>
 
 <Tab.Pane key={props.id}>

@@ -51,9 +51,6 @@ render() {
   const user =  JSON.parse(sessionStorage.getItem('user'));
   const { name, schoolId, time, department1, institutionId } = this.state
   const institutions = user.teacherInstitutions.map(institution => ({value: institution.id, text: institution.name}))
-  const institutions1 = [{value: '1', text: 'usc'},{value: '2', text: 'ucsd'}]
-
-  console.log(institutionId)
 
   return (
         <div className="dashboard">

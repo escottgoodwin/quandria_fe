@@ -62,8 +62,6 @@ class EditPublishTest extends Component {
       const { test_id } = this.props.location.state
       const { startHour, endHour, testEndDate } = this.state
 
-      const testEndDate1 = moment(testEndDate).format()
-
       const statStopNumbers = [
       {value:"Test 1",text:"6 AM"},
       {value:"Test 2",text:"7 AM"},

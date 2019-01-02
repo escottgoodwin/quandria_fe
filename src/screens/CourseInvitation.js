@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import '../css/App.css';
 
 import CourseHeader from '../components/CourseHeader'
-import TestList from '../components/TestList'
 import { Query, Mutation, } from "react-apollo";
 import gql from "graphql-tag";
 import { Button, Form, TextArea } from 'semantic-ui-react'

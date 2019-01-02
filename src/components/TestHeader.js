@@ -8,26 +8,7 @@ import { Link } from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
 import AddPanelButton from '../components/AddPanelButton'
 import { Mutation } from "react-apollo";
-
 import gql from "graphql-tag";
-
-const PUBLISH_TEST_MUTATION = gql`
-  mutation PublishTest(
-    $test_id: ID!,
-    $publishDate: DateTime
-  ){
-    updateTest(
-      id: $test_id,
-      published:true,
-      publishDate: $publishDate
-    ){
-    id
-    course {
-      id
-    }
-  }
-}
-`
 
 const RELEASE_QUESTIONS_MUTATION = gql`
   mutation ReleaseQuestions(

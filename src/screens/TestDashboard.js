@@ -2,13 +2,16 @@ import React,{Component} from 'react';
 import '../css/App.css';
 import { Query,Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import { Button, Grid } from 'semantic-ui-react'
+import { Button, Grid, Segment } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import TestHeader from '../components/TestHeader'
 import TestChallenges from '../components/TestChallenges'
 import TestPerformance from '../components/TestPerformance'
 
 import Error from './Error'
 import Loading from './Loading'
+import PlaceholderQ from '../components/Placeholder'
+
 
 const TEST_QUERY = gql`
 query TestQuery($test_id:ID!){
@@ -48,6 +51,18 @@ query TestQuery($test_id:ID!){
     }
     }
   }
+`
+
+const TEST_STATS_QUERY = gql`
+query TestStats($testId:String,$courseId:String){
+  userTestStats(testId:$testId,
+  courseId:$courseId){
+    name
+    totalCorrect
+    percentCorrect
+    total
+  }
+}
 `
 const DELETE_TEST_MUTATION = gql`
   mutation DeleteTest(
@@ -97,8 +112,35 @@ class TestDashboard extends Component {
                 </Grid.Column>
 
                 <Grid.Column  >
+                <div>
+                <Segment  secondary attached='top'>
+                <Link  to={{
+                pathname: "/student_performance",
+                state:
+                { course_id: testToRender.course.id,
+                  test_id: testToRender.id }
+                }} >
+                Questions
+                </Link>
 
-                <TestPerformance {...testToRender} />
+                </Segment>
+
+                <Query query={TEST_STATS_QUERY} variables={{ testId: test_id, courseId: testToRender.course.id }}>
+                      {({ loading, error, data }) => {
+                        if (loading) return <PlaceholderQ />
+                        if (error) return <div>Error</div >
+
+                        const stats = data.userTestStats
+
+                    return (
+                    
+                    <TestPerformance testToRender={testToRender} stats={stats}  />
+                    )
+                  }}
+                </Query>
+
+                </div>
+
 
                 </Grid.Column>
               </Grid.Row>
