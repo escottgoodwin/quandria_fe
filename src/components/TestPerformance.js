@@ -36,7 +36,7 @@ class TestPerformance extends Component {
 
     <Segment style={{ minHeight: 400 }} attached>
 
-    <Table sortable celled fixed>
+    <Table sortable celled fixed >
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell

@@ -4,37 +4,53 @@ import '../css/App.css';
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
-import TeacherHeader from '../components/TeacherHeader'
-import CourseList from '../components/CourseList'
+import InvitationList from '../components/InvitationList'
+import StudentCourseList from '../components/StudentCourseList'
+
+
 import Error from './Error'
 import Loading from './Loading'
 
 const COURSE_QUERY = gql`
-  query UserQuery($userid: ID!) {
-    user(id: $userid){
+query UserQuery($userid: ID!) {
+  user(id: $userid){
+    id
+    firstName
+    lastName
+    invitesSentTo{
       id
-      firstName
-      lastName
-      studentCourses{
+      course{
         id
+        courseNumber
         name
         time
-        deleted
+        teachers{
+          firstName
+          lastName
+        }
         institution{
           name
         }
-        students{
-          id
-        }
-        tests{
-          id
-          panels{
-            id
-          }
-        }
+      }
+    }
+    studentCourses{
+      id
+      name
+      time
+      deleted
+      institution{
+        name
+      }
+      teachers{
+        firstName
+        lastName
+      }
+      tests{
+        id
       }
     }
   }
+}
 `
 
 class StudentDashboard extends Component {
@@ -57,11 +73,22 @@ class StudentDashboard extends Component {
 
                     <div className="container">
                     <div><h4>Student</h4></div>
-                    <TeacherHeader {...userToRender} />
+
+                    <div>
+                    <h3>{userToRender.firstName} {userToRender.lastName}'s Courses</h3>
+                    <div style={{padding:"15px"}}>
+
+                    </div>
 
                     <div className="coursecontainer">
 
-                      <CourseList  {...studentCourses} />
+                      <StudentCourseList  {...studentCourses} />
+
+                    </div>
+
+                    <div><h4>Course Inivitations</h4></div>
+
+                    <InvitationList userid={userToRender.id} {...userToRender}/>
 
                     </div>
 
