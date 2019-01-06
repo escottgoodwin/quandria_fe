@@ -30,6 +30,15 @@ query TestChallenges($test_id:ID!){
             firstName
             lastName
           }
+          challengeMessages{
+            id
+            challengeMessage
+            addedDate
+            addedBy{
+              firstName
+              lastName
+            }
+          }
           id
           question{
             question
@@ -77,12 +86,10 @@ class ChallengeDashboard extends Component {
 
               const challenges = testToRender.questions.map(question => question.challenges.map(challenge => challenge)).flat()
 
-              const challengepanels = challenges.map(x => ({menuItem: x.challenge + ' - ' + x.addedBy.firstName + ' ' + x.addedBy.lastName, render: () => <ChallengeSection key={x.id} {...x}/>  }))
+              const challengepanels = challenges.map(x => ({menuItem: x.challenge + ' - ' + x.addedBy.firstName + ' ' + x.addedBy.lastName, render: () => <ChallengeSection key={x.id}  test_id={testToRender.id} challenges={x}/>  }))
 
-              console.log(testToRender.questions[0].challenges[0].addedBy.id)
           return (
             <div className="main">
-
 
                 <div className="container">
 

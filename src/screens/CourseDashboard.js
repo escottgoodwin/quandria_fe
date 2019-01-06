@@ -7,7 +7,9 @@ import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { Button } from 'semantic-ui-react'
 import Error from './Error'
-import Loading from './Loading'
+
+import MainPlaceholder from './MainPlaceholder'
+
 
 
 const COURSE_QUERY = gql`
@@ -70,7 +72,7 @@ class CourseDashboard extends Component {
     return (
     <Query query={COURSE_QUERY} variables={{ courseid: course_id }}>
           {({ loading, error, data }) => {
-            if (loading) return <Loading />
+            if (loading) return <MainPlaceholder />
             if (error) return <Error/>
 
             const courseToRender = data.course

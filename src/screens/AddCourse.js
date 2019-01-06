@@ -117,7 +117,6 @@ render() {
                   }}
                   onCompleted={data => this._confirm(data)}
                   refetchQueries={() => {
-                     console.log("refetchQueries", user.id)
                      return [{
                         query: gql`
                         query UserQuery($userid: ID!) {

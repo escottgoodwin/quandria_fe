@@ -7,9 +7,10 @@ import { Link } from 'react-router-dom'
 import TestHeader from '../components/TestHeader'
 import TestChallenges from '../components/TestChallenges'
 import TestPerformance from '../components/TestPerformance'
+import MainPlaceholder from './MainPlaceholder'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Error from './Error'
-import Loading from './Loading'
 import PlaceholderQ from '../components/Placeholder'
 
 
@@ -90,28 +91,29 @@ class TestDashboard extends Component {
 
       <Query query={TEST_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
-              if (loading) return <Loading />
+              if (loading) return <MainPlaceholder />
               if (error) return <Error/>
 
               const testToRender = data.test
 
           return (
-
+            <ReactCSSTransitionGroup
+          transitionName="fade"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={300}>
             <div className="main">
             <div className="container">
               <TestHeader  {...testToRender} />
-
-
 
               <Grid columns={2} stackable className="fill-content">
                 <Grid.Row stretched>
                 <Grid.Column  >
 
-                <TestChallenges {...testToRender} />
+                    <TestChallenges {...testToRender} />
 
                 </Grid.Column>
 
-                <Grid.Column  >
+                <Grid.Column >
                 <div>
                 <Segment  secondary attached='top'>
                 <Link  to={{
@@ -133,7 +135,7 @@ class TestDashboard extends Component {
                         const stats = data.userTestStats
 
                     return (
-                    
+
                     <TestPerformance testToRender={testToRender} stats={stats}  />
                     )
                   }}
@@ -161,7 +163,7 @@ class TestDashboard extends Component {
                 </div>
               </div>
 </div>
-
+</ReactCSSTransitionGroup>
 
 
           )

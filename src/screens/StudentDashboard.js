@@ -72,7 +72,6 @@ class StudentDashboard extends Component {
                   <div className="main">
 
                     <div className="container">
-                    <div><h4>Student</h4></div>
 
                     <div>
                     <h3>{userToRender.firstName} {userToRender.lastName}'s Courses</h3>
@@ -85,10 +84,13 @@ class StudentDashboard extends Component {
                       <StudentCourseList  {...studentCourses} />
 
                     </div>
-
+                    {userToRender.invitesSentTo.length>0 &&
+                      <div>
                     <div><h4>Course Inivitations</h4></div>
 
                     <InvitationList userid={userToRender.id} {...userToRender}/>
+                    </div>
+                    }
 
                     </div>
 

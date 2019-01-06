@@ -13,7 +13,7 @@ class TestChallenges extends Component {
       return (
 
       <div >
-      <Segment  fluid secondary attached='top'>
+      <Segment  fluid="true"  secondary attached='top'>
       {challenges.length>0 ?
           <Link  to={{
             pathname: "/challenge_dashboard",

@@ -6,8 +6,10 @@ import gql from "graphql-tag";
 
 import TeacherHeader from '../components/TeacherHeader'
 import CourseList from '../components/CourseList'
+import MainPlaceholder from './MainPlaceholder'
+
 import Error from './Error'
-import Loading from './Loading'
+
 
 const COURSE_QUERY = gql`
   query UserQuery($userid: ID!) {
@@ -46,7 +48,7 @@ class TeacherDashboard extends Component {
 
         <Query query={COURSE_QUERY} variables={{ userid: userid }}>
               {({ loading, error, data }) => {
-                if (loading) return <Loading />
+                if (loading) return <MainPlaceholder />
                 if (error) return <Error/>
 
                 const userToRender = data.user
