@@ -1,19 +1,30 @@
-import React from 'react';
+import React,{Component} from 'react';
 import '../css/App.css';
-import { Comment, List } from 'semantic-ui-react'
+import { Comment } from 'semantic-ui-react'
 
 import ChallengeMessageRow from './ChallengeMessageRow'
 
-const ChallengeMessageList = (props) =>
+
+class ChallengeMessageList extends Component {
+
+  componentDidMount() {
+    this.props.subscribeToNewChallengeMessage();
+  }
 
 
+render() {
+
+return (
   <Comment.Group size='small' style={{ overflow: 'auto', height: 375, textAlign:"left", paddingLeft:'20px'}}>
-  {
-    props.challengeMessages.map(challengeMessage =>
-    <ChallengeMessageRow key={challengeMessage.id} {...challengeMessage} />
-  )}
+    {this.props.challengeMessages.map(challengeMessage =>
+    <ChallengeMessageRow key={challengeMessage.id} {...challengeMessage} />)}
 
-    </Comment.Group>
+  </Comment.Group>
+
+)
+}
+}
+
 
 
 

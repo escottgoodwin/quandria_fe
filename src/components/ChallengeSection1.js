@@ -3,7 +3,7 @@ import '../css/App.css';
 import { Tab, Image, Icon, Grid, Form, Divider, Input, Button } from 'semantic-ui-react'
 import ChallengeMessageList from './ChallengeMessageList'
 import { withRouter } from "react-router-dom";
-import { Mutation } from "react-apollo";
+import { Mutation, Query } from "react-apollo";
 import gql from "graphql-tag";
 
 const ADD_CHALLENGE_MESSAGE_MUTATION = gql`
@@ -25,18 +25,50 @@ mutation AddChallengeMessage($challengeId: ID!, $challengeMessage: String!) {
 }
 `
 
+const CHALLENGE_MESSAGE_QUERY = gql`
+  query ChallengeQuery($challengeId:ID!){
+    challenge(id:$challengeId){
+      challengeMessages{
+        id
+        challengeMessage
+        addedDate
+        addedBy{
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+  `
+
+const CHALLENGE_MESSAGE_SUBSCRIPTION = gql`
+  subscription ChallengeMsgSub($challengeId:ID!){
+    challengeMsg(challengeId:$challengeId){
+      node{
+        id
+        challengeMessage
+        addedDate
+        addedBy{
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+  `
+
 class ChallengeSection extends Component {
 
   state = {
         challengeMessage:'',
-        test_id: this.props.test_id,
       }
-      handleSubmit = () => this.setState({ challengeMessage: ''})
+
+  handleSubmit = () => this.setState({ challengeMessage: ''})
 
   render() {
-      const { challengeMessage, test_id } = this.state
+      const { challengeMessage } = this.state
     return (
-        <Tab.Pane key={this.props.id}>
+        <Tab.Pane key={this.props.challenges.id}>
 
         <Grid columns={2} >
         <Grid.Row>
@@ -93,7 +125,37 @@ class ChallengeSection extends Component {
 
         <Grid.Column centered='true'>
 
-        <ChallengeMessageList {...this.props.challenges}/>
+        <Query query={CHALLENGE_MESSAGE_QUERY}
+              variables={{ challengeId: this.props.challenges.id }} >
+          {({ loading, error, data, subscribeToMore }) => {
+            if (loading) return <div>Loading... </div>
+            if (error) return <div>Error... </div>
+
+            const challenge = data.challenge
+
+            return (
+
+            <ChallengeMessageList {...challenge}
+              subscribeToNewChallengeMessage={() =>
+                subscribeToMore({
+                  document: CHALLENGE_MESSAGE_SUBSCRIPTION,
+                  variables: {challengeId: this.props.challenges.id },
+                  updateQuery: (prev, { subscriptionData }) => {
+                    if (!subscriptionData.data) return prev
+                    const newChallengeMsg = subscriptionData.data.challengeMsg.node
+                    return  Object.assign({}, prev, {
+                      challenge: {
+                        challengeMessages: [...prev.challenge.challengeMessages,newChallengeMsg],
+                        __typename: prev.challenge.__typename
+                    }
+                    })
+                  }
+                })
+              }
+              />
+          )
+       }}
+     </Query>
 
         <Form onSubmit={this.handleSubmit}>
         <div style={{margin:'40px'}}>
@@ -103,7 +165,6 @@ class ChallengeSection extends Component {
         <Mutation
             mutation={ADD_CHALLENGE_MESSAGE_MUTATION}
             variables={{ challengeId: this.props.challenges.id, challengeMessage:challengeMessage }}
-            onCompleted={data => this._confirm(data)}
             refetchQueries={() => {
                return [{
                   query: gql`
@@ -167,7 +228,7 @@ class ChallengeSection extends Component {
                       }
                   }
                 `,
-                  variables: { testId: test_id }
+                  variables: { testId: this.props.test_id, }
               }];
               }} >
             {mutation => (

@@ -3,7 +3,7 @@ import '../css/App.css';
 import { Tab } from 'semantic-ui-react'
 import ChallengeHeader from '../components/ChallengeHeader'
 
-import ChallengeSection from '../components/ChallengeSection'
+import ChallengeSection from '../components/ChallengeSection1'
 import { Query } from "react-apollo";
 import Error from './Error'
 import Loading from './Loading'
@@ -24,6 +24,7 @@ query TestChallenges($test_id:ID!){
       }
       questions{
         challenges{
+          id
           challenge
           addedBy{
             id
@@ -39,7 +40,6 @@ query TestChallenges($test_id:ID!){
               lastName
             }
           }
-          id
           question{
             question
             choices{
@@ -86,14 +86,14 @@ class ChallengeDashboard extends Component {
 
               const challenges = testToRender.questions.map(question => question.challenges.map(challenge => challenge)).flat()
 
-              const challengepanels = challenges.map(x => ({menuItem: x.challenge + ' - ' + x.addedBy.firstName + ' ' + x.addedBy.lastName, render: () => <ChallengeSection key={x.id}  test_id={testToRender.id} challenges={x}/>  }))
+              const challengepanels = challenges.map(x => ({menuItem: x.challenge + ' - ' + x.addedBy.firstName + ' ' + x.addedBy.lastName, render: () => <ChallengeSection key={x.id}  challengeId={x.id} test_id={testToRender.id} challenges={x}/>  }))
 
           return (
             <div className="main">
 
                 <div className="container">
 
-                  <ChallengeHeader {...testToRender}/>
+                  <ChallengeHeader {...testToRender} />
 
                   <div className="coursecontainer">
 
