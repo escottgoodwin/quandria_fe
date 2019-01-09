@@ -7,12 +7,11 @@ import { Link } from 'react-router-dom'
 import TestHeader from '../components/TestHeader'
 import TestChallenges from '../components/TestChallenges'
 import TestPerformance from '../components/TestPerformance'
-import MainPlaceholder from './MainPlaceholder'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Error from './Error'
 import PlaceholderQ from '../components/Placeholder'
-
+import TestLoading from '../components/TestLoading'
 
 const TEST_QUERY = gql`
 query TestQuery($test_id:ID!){
@@ -91,7 +90,7 @@ class TestDashboard extends Component {
 
       <Query query={TEST_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
-              if (loading) return <MainPlaceholder />
+              if (loading) return <TestLoading />
               if (error) return <Error/>
 
               const testToRender = data.test

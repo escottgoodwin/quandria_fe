@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import '../css/App.css';
 import { Tab, Image, Icon, Grid, Form, Divider, Input, Button } from 'semantic-ui-react'
 import ChallengeMessageList from './ChallengeMessageList'
+import ChatLoading from './ChatLoading'
 import { withRouter } from "react-router-dom";
 import { Mutation, Query } from "react-apollo";
 import gql from "graphql-tag";
@@ -128,7 +129,7 @@ class ChallengeSection extends Component {
         <Query query={CHALLENGE_MESSAGE_QUERY}
               variables={{ challengeId: this.props.challenges.id }} >
           {({ loading, error, data, subscribeToMore }) => {
-            if (loading) return <div>Loading... </div>
+            if (loading) return <ChatLoading />
             if (error) return <div>Error... </div>
 
             const challenge = data.challenge

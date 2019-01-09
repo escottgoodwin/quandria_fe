@@ -6,7 +6,7 @@ import ChallengeHeader from '../components/ChallengeHeader'
 import ChallengeSection from '../components/ChallengeSection1'
 import { Query } from "react-apollo";
 import Error from './Error'
-import Loading from './Loading'
+import ChallengeLoading from './ChallengeLoading'
 import gql from "graphql-tag";
 
 const CHALLENGE_QUERY = gql`
@@ -79,7 +79,7 @@ class ChallengeDashboard extends Component {
 
       <Query query={CHALLENGE_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
-              if (loading) return <Loading />
+              if (loading) return <ChallengeLoading />
               if (error) return <Error />
 
               const testToRender = data.test
