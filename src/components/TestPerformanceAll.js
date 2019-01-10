@@ -2,20 +2,8 @@ import _ from 'lodash'
 import '../css/App.css';
 import React, { Component } from 'react'
 import { Segment, Table } from 'semantic-ui-react'
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 
-const TEST_STATS_QUERY = gql`
-query TestStats($testId:ID!){
-  testStats(testId:$testId){
-    totalCorrect
-    total
-
-  }
-}
-`
-
-class TestPerformance extends Component {
+class TestPerformanceAll extends Component {
   state = {
     column: null,
     data: this.props.stats,
@@ -46,21 +34,6 @@ class TestPerformance extends Component {
 
     return (
       <Segment style={{ minHeight: 400 }} attached>
-      <Query query={TEST_STATS_QUERY} variables={{ testId: this.props.testId }}>
-            {({ loading, error, data }) => {
-              if (loading) return <div>Loading</div >
-              if (error) return <div>Error</div >
-
-              const stats = data.testStats
-
-          return (
-
-            <div>
-              <b>Percent Correct:</b> { stats.totalCorrect/stats.total } <b>Correct:</b> {stats.totalCorrect} <b>Total:</b> {stats.total}
-              </div>
-            )
-          }}
-          </Query>
 
     <Table sortable celled fixed basic='very' >
             <Table.Header>
@@ -112,4 +85,4 @@ class TestPerformance extends Component {
   }
 }
 
-export default TestPerformance
+export default TestPerformanceAll

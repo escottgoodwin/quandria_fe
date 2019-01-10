@@ -2,12 +2,13 @@ import React,{Component} from 'react';
 import '../css/App.css';
 import { Segment, Grid } from 'semantic-ui-react'
 import ChallengeHeader from '../components/ChallengeHeader'
-import TestPerformance from '../components/TestPerformance'
+import TestPerformanceAll from '../components/TestPerformanceAll'
+import TestQuestionPerformance from '../components/TestQuestionPerformance'
 import PlaceholderQ from '../components/Placeholder'
+import StudentPerformanceLoading from './StudentPerformanceLoading'
 
 import { Query } from "react-apollo";
 import Error from './Error'
-import Loading from './Loading'
 import gql from "graphql-tag";
 
 
@@ -45,16 +46,37 @@ query TestChallenges($test_id:ID!){
 }
 `
 
-const TEST_STATS_QUERY = gql`
-  query TestStats($testId:String,$courseId:String){
-    userTestStats(testId:$testId,
-    courseId:$courseId){
+const USER_TEST_STATS_QUERY = gql`
+  query TestStats($testId:ID!, $courseId:ID!){
+    userTestStats(testId: $testId,
+    courseId: $courseId){
       name
       totalCorrect
       percentCorrect
       total
     }
   }
+  `
+
+  const TEST_STATS_QUERY = gql`
+  query TestStats($testId:ID!){
+    testStats(testId:$testId){
+      totalCorrect
+      total
+    }
+  }
+  `
+
+  const TEST_QUESTION_STATS_QUERY = gql`
+  query TestQuestionStats($testId:ID!){
+    testQuestionStats(testId: $testId){
+      panelLink
+      question
+      total
+      totalCorrect
+      percentCorrect
+  }
+}
   `
 
 class StudentPerformance extends Component {
@@ -75,7 +97,7 @@ class StudentPerformance extends Component {
 
       <Query query={CHALLENGE_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
-              if (loading) return <Loading />
+              if (loading) return <StudentPerformanceLoading />
               if (error) return <Error />
 
               const testToRender = data.tests.tests[0]
@@ -85,15 +107,29 @@ class StudentPerformance extends Component {
 
       <ChallengeHeader {...testToRender}/>
 
-    )
+      )
     }
   }
     </Query>
 
       <div className="coursecontainer">
 
-      <h3>Performance</h3>
+      <Query query={TEST_STATS_QUERY} variables={{ testId: test_id }}>
+            {({ loading, error, data }) => {
+              if (loading) return <div>Loading</div >
+              if (error) return <div>Error</div >
 
+              const stats = data.testStats
+
+          return (
+
+            <div >
+              <div><h4><b>Percent Correct:</b> { stats.totalCorrect/stats.total >0 ? (stats.totalCorrect/stats.total)*100 : 0 }% </h4></div>
+              <div><h4><b>Total Correct:</b> {stats.totalCorrect}  <b>Total:</b> {stats.total}</h4></div>
+            </div>
+            )
+          }}
+          </Query>
       <div className="coursecontainer">
       <Grid columns={2} stackable className="fill-content">
         <Grid.Row stretched>
@@ -102,7 +138,8 @@ class StudentPerformance extends Component {
           <h5>Student</h5>
         </Segment>
 
-          <Query query={TEST_STATS_QUERY} variables={{ testId: test_id, courseId: course_id }}>
+
+          <Query query={USER_TEST_STATS_QUERY} variables={{ testId: test_id, courseId: course_id }}>
                 {({ loading, error, data }) => {
                   if (loading) return <PlaceholderQ />
                   if (error) return <div>Error</div >
@@ -111,7 +148,7 @@ class StudentPerformance extends Component {
 
               return (
 
-              <TestPerformance stats={stats}  />
+              <TestPerformanceAll testId={test_id} stats={stats}  />
               )
             }}
           </Query>
@@ -122,16 +159,17 @@ class StudentPerformance extends Component {
         <Segment  secondary attached='top'>
         <h5>Questions</h5>
       </Segment>
-      <Query query={TEST_STATS_QUERY} variables={{ testId: test_id, courseId: course_id }}>
+      <Query query={TEST_QUESTION_STATS_QUERY} variables={{ testId: test_id, courseId: course_id }}>
             {({ loading, error, data }) => {
               if (loading) return <PlaceholderQ />
               if (error) return <div>Error</div >
 
-              const stats = data.userTestStats
+              const stats = data.testQuestionStats
 
           return (
 
-          <TestPerformance stats={stats}  />
+          <TestQuestionPerformance stats={stats}  />
+
           )
         }}
       </Query>
@@ -146,9 +184,6 @@ class StudentPerformance extends Component {
     </div>
     </div>
     </div>
-
-
-
 
 )
 }

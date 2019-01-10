@@ -8,7 +8,7 @@ const MainPlaceholder = () => (
 
   <div className="container">
     <div style={{padding:"15px",width:"500px",margin:'auto'}}>
-
+    <Segment>
   <Placeholder fluid>
 
     <Placeholder.Paragraph>
@@ -21,7 +21,7 @@ const MainPlaceholder = () => (
       </Placeholder.Paragraph>
 
     </Placeholder>
-  
+    </Segment>
     </div>
 
   <div className="coursecontainer">

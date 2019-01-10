@@ -54,7 +54,7 @@ query TestQuery($test_id:ID!){
 `
 
 const TEST_STATS_QUERY = gql`
-query TestStats($testId:String,$courseId:String){
+query TestStats($testId:ID!,$courseId:ID!){
   userTestStats(testId:$testId,
   courseId:$courseId){
     name
@@ -64,6 +64,7 @@ query TestStats($testId:String,$courseId:String){
   }
 }
 `
+
 const DELETE_TEST_MUTATION = gql`
   mutation DeleteTest(
     $test_id: ID!,
@@ -114,6 +115,8 @@ class TestDashboard extends Component {
 
                 <Grid.Column >
                 <div>
+
+
                 <Segment  secondary attached='top'>
                 <Link  to={{
                 pathname: "/student_performance",
@@ -135,7 +138,7 @@ class TestDashboard extends Component {
 
                     return (
 
-                    <TestPerformance testToRender={testToRender} stats={stats}  />
+                    <TestPerformance testId={testToRender.id} stats={stats}  />
                     )
                   }}
                 </Query>
