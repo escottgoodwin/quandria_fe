@@ -34,8 +34,6 @@ query TestChallenges($test_id:ID!){
 }
 `
 
-
-
 class StudentPerformance extends Component {
 
   render() {
