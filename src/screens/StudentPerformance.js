@@ -135,7 +135,7 @@ class StudentPerformance extends Component {
         <Grid.Row stretched>
         <Grid.Column  >
           <Segment  secondary attached='top'>
-          <h5>Student</h5>
+          <h6>Student</h6>
         </Segment>
 
 
@@ -157,7 +157,7 @@ class StudentPerformance extends Component {
 
         <Grid.Column  >
         <Segment  secondary attached='top'>
-        <h5>Questions</h5>
+        <h6>Questions</h6>
       </Segment>
       <Query query={TEST_QUESTION_STATS_QUERY} variables={{ testId: test_id, courseId: course_id }}>
             {({ loading, error, data }) => {

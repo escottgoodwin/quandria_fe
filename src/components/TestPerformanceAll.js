@@ -33,7 +33,7 @@ class TestPerformanceAll extends Component {
     const { column, data, direction } = this.state
 
     return (
-      <Segment style={{ minHeight: 400 }} attached>
+      <Segment style={{ minHeight: 400, overflow: 'auto' }} attached>
 
     <Table sortable celled fixed basic='very' >
             <Table.Header>
