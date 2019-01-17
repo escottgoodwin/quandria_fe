@@ -49,7 +49,7 @@ class TeacherDashboard extends Component {
         <Query query={COURSE_QUERY} variables={{ userid: userid }}>
               {({ loading, error, data }) => {
                 if (loading) return <MainPlaceholder />
-                if (error) return <Error/>
+                if (error) return <Error error={error} />
 
                 const userToRender = data.user
                 const teacherCourses = new Array(userToRender.teacherCourses.filter(course => !course.deleted))

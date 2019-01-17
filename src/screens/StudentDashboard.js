@@ -63,7 +63,7 @@ class StudentDashboard extends Component {
         <Query query={COURSE_QUERY} variables={{ userid: userid }}>
               {({ loading, error, data }) => {
                 if (loading) return <Loading />
-                if (error) return <Error/>
+                if (error) return <Error error={error} />
 
                 const userToRender = data.user
                 const studentCourses = new Array(userToRender.studentCourses.filter(course => !course.deleted))

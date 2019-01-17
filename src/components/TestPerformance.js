@@ -56,7 +56,7 @@ class TestPerformance extends Component {
           return (
 
             <div>
-              <b>Percent Correct:</b> { stats.totalCorrect/stats.total } <b>Correct:</b> {stats.totalCorrect} <b>Total:</b> {stats.total}
+              <b>Percent Correct:</b> { stats.totalCorrect/stats.total > 0 ? (stats.totalCorrect/stats.total)*100 : 0.0 }%  <b>Correct:</b> {stats.totalCorrect} <b>Total:</b> {stats.total}
               </div>
             )
           }}

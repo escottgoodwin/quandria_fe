@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 import TestHeader from '../components/TestHeader'
 import TestChallenges from '../components/TestChallenges'
 import TestPerformance from '../components/TestPerformance'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Error from './Error'
 import PlaceholderQ from '../components/Placeholder'
@@ -92,15 +91,12 @@ class TestDashboard extends Component {
       <Query query={TEST_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
               if (loading) return <TestLoading />
-              if (error) return <Error/>
+              if (error) return <Error error={error} />
 
               const testToRender = data.test
 
           return (
-            <ReactCSSTransitionGroup
-          transitionName="fade"
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={300}>
+
             <div className="main">
             <div className="container">
               <TestHeader  {...testToRender} />
@@ -117,7 +113,7 @@ class TestDashboard extends Component {
                 <div>
 
 
-                <Segment  secondary attached='top'>
+                <Segment secondary attached='top'>
                 <Link  to={{
                 pathname: "/student_performance",
                 state:
@@ -165,7 +161,7 @@ class TestDashboard extends Component {
                 </div>
               </div>
 </div>
-</ReactCSSTransitionGroup>
+
 
 
           )
