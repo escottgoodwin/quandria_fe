@@ -25,7 +25,7 @@ const httpLink = createHttpLink({
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000/`,
+  uri: process.env.REACT_APP_GRAPHQL_SUB_SERVER,
   options: {
     reconnect: true,
     connectionParams: {
