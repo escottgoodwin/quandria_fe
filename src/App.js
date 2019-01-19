@@ -10,6 +10,7 @@ import SignIn from './screens/SignIn'
 import SignOut from './screens/SignOut'
 import SignUp from './screens/SignUp'
 import SignedUp from './screens/SignedUp'
+import SignUpConfirmation from './screens/SignUpConfirmation'
 import CourseDashboard from './screens/CourseDashboard'
 import CourseInvitation from './screens/CourseInvitation'
 import AddCourse from './screens/AddCourse'
@@ -28,7 +29,6 @@ import Nav from './components/Nav'
 import Footer from './components/Footer'
 
 // Add the reducer to your store on the `routing` key
-
 class App extends Component {
 
   render() {
@@ -42,6 +42,7 @@ class App extends Component {
           <Route path="/sign_out" component={SignOut}/>
           <Route path="/sign_up" component={SignUp}/>
           <Route path="/signed_up" component={SignedUp}/>
+          <Route path="/confirm/:token/:email" component={SignUpConfirmation}/>
           <Route path="/teacher_dashboard" component={TeacherDashboard}/>
           <Route path="/student_dashboard" component={StudentDashboard}/>
           <Route path="/admin_dashboard" component={AdminDashboard}/>
@@ -50,7 +51,6 @@ class App extends Component {
           <Route path="/add_course" component={AddCourse}/>
           <Route path="/edit_course/" component={EditCourse}/>
           <Route path="/course_invitation/" component={CourseInvitation}/>
-
           <Route path="/test_dashboard/" component={TestDashboard}/>
           <Route path="/add_test/" component={AddTest}/>
           <Route path="/edit_test/" component={EditTest}/>

@@ -49,7 +49,6 @@ class SignUp extends Component {
         control={Input}
         label='Last Name'
         value={lastName}
-        type='password'
         onChange={e => this.setState({ lastName: e.target.value })}
         placeholder='Last Name'
       />
@@ -97,11 +96,6 @@ class SignUp extends Component {
       state: { authMsg: authMsg }
       })
     }
-
-
-  _saveUserData = (token, user) => {
-
-  }
 
 }
 
