@@ -23,23 +23,6 @@ query TestQuery($test_id:ID!){
       releaseDate
       published
       publishDate
-      questions{
-        challenges{
-          challenge
-          id
-          question{
-            question
-            addedBy{
-              firstName
-              lastName
-            }
-          }
-          addedBy{
-            firstName
-            lastName
-          }
-        }
-      }
     	course{
         id
         name
@@ -80,6 +63,29 @@ const DELETE_TEST_MUTATION = gql`
 }
 `
 
+const CHALLENGE_TEST_QUERY = gql`
+query ChallengeTestQuery($testId:ID!){
+  challenges(where:{question:{test:{id:$testId}}},orderBy:addedDate_DESC){
+    challenges{
+      id
+      challenge
+      addedDate
+      addedBy{
+        firstName
+        lastName
+      }
+      question{
+        question
+        addedBy{
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+}
+`
+
 class TestDashboard extends Component {
 
   render() {
@@ -105,7 +111,20 @@ class TestDashboard extends Component {
                 <Grid.Row stretched>
                 <Grid.Column  >
 
-                    <TestChallenges {...testToRender} />
+                <Query query={CHALLENGE_TEST_QUERY} variables={{ testId: test_id, courseId: testToRender.course.id }}>
+                      {({ loading, error, data }) => {
+                        if (loading) return <PlaceholderQ />
+                        if (error) return <div>Error</div >
+
+                        const challenges = data.challenges.challenges
+
+                    return (
+
+                    <TestChallenges testToRender={testToRender} challenges={challenges} />
+
+                  )
+                }}
+              </Query>
 
                 </Grid.Column>
 

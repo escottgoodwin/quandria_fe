@@ -8,27 +8,25 @@ class TestChallenges extends Component {
 
     render() {
 
-      const challenges = this.props.questions.map(question => question.challenges.map(challenge => challenge)).flat()
-
       return (
 
       <div >
       <Segment  fluid="true"  secondary attached='top'>
-      {challenges.length>0 ?
+      {Object.values(this.props.challenges).length>0 ?
           <Link  to={{
             pathname: "/challenge_dashboard",
             state:
-              { course_id: this.props.course.id,
-                test_id: this.props.id }
+              { course_id: this.props.testToRender.course.id,
+                test_id: this.props.testToRender.id }
             }} >
             Challenges
-              </Link>
+          </Link>
               :
               <div>Challenges</div>
             }
               </Segment>
         <Segment style={{ minHeight: 400 }} textAlign='left' attached>
-          <ChallengeList {...challenges}/>
+          <ChallengeList {...this.props.challenges}/>
         </Segment>
     </div>
 
