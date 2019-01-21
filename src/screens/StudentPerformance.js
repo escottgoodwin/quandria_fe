@@ -32,14 +32,6 @@ query TestChallenges($test_id:ID!){
           firstName
           lastName
         }
-        challenges{
-          id
-          challenge
-          addedBy{
-            firstName
-            lastName
-          }
-        }
       }
     }
   }
