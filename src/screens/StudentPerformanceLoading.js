@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 import { Segment, Grid, Placeholder } from 'semantic-ui-react'
+import Skeleton from 'react-loading-skeleton';
 
 
 class StudentPerformanceLoading extends Component {
@@ -13,43 +14,18 @@ class StudentPerformanceLoading extends Component {
 
         <div >
         <div style={{width:"50%", margin:"auto"}}>
-
-        <Placeholder fluid>
-
-          <Placeholder.Paragraph>
-            <Placeholder.Line />
-            <Placeholder.Line />
-            <Placeholder.Line />
-
-          </Placeholder.Paragraph>
-
-        </Placeholder >
-
+          <Skeleton count={2} />
         </div>
 
 <hr />
 
   <div style={{width:"60%", margin:"auto"}}>
-  <Placeholder fluid>
-
-    <Placeholder.Paragraph>
-      <Placeholder.Line />
-      <Placeholder.Line />
-      <Placeholder.Line />
-    </Placeholder.Paragraph>
-
-  </Placeholder >
+  <Skeleton count={1} />
   </div>
 
       <div className="coursecontainer">
       <div style={{width:"30%", margin:"auto"}}>
-    <Placeholder fluid>
-
-      <Placeholder.Paragraph>
-        <Placeholder.Line />
-        <Placeholder.Line />
-      </Placeholder.Paragraph>
-    </Placeholder >
+      <Skeleton count={2} />
 </div>
       <div className="coursecontainer">
 
@@ -58,14 +34,15 @@ class StudentPerformanceLoading extends Component {
         <Grid.Row stretched>
         <Grid.Column  >
           <Segment  secondary attached='top'>
-          <Placeholder fluid>
-
-            <Placeholder.Paragraph>
-              <Placeholder.Line />
-            </Placeholder.Paragraph>
-          </Placeholder >
+          <center>
+          <div style={{width:'200px'}}>
+          <Skeleton count={1} />
+          </div>
+          </center>
         </Segment>
             <Segment style={{ minHeight: 400 }} attached>
+
+
               <Placeholder fluid>
               <Placeholder.Paragraph>
               <Placeholder.Line />
@@ -94,12 +71,11 @@ class StudentPerformanceLoading extends Component {
 
         <Grid.Column  >
           <Segment  secondary attached='top'>
-          <Placeholder fluid>
-
-            <Placeholder.Paragraph>
-              <Placeholder.Line />
-            </Placeholder.Paragraph>
-          </Placeholder >
+          <center>
+          <div style={{width:'200px'}}>
+          <Skeleton count={1} />
+          </div>
+          </center>
         </Segment>
 
 

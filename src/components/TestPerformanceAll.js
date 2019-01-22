@@ -70,12 +70,12 @@ class TestPerformanceAll extends Component {
             </Table.Header>
 
             <Table.Body>
-              {_.map(data, ({ name, total, totalCorrect, percentCorrect }) => (
-                <Table.Row key={name}>
+              {_.map(data, ({ id, name, total, totalCorrect, percentCorrect }) => (
+                <Table.Row key={id}>
                   <Table.Cell>{name}</Table.Cell>
                   <Table.Cell>{total}</Table.Cell>
                   <Table.Cell>{totalCorrect}</Table.Cell>
-                  <Table.Cell>{percentCorrect}</Table.Cell>
+                  <Table.Cell>{percentCorrect *100}%</Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>

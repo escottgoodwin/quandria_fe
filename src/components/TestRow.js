@@ -15,19 +15,19 @@ const TestRow = (props) =>
     <Link  to={{
       pathname: "/test_dashboard",
       state:
-        { test_id: props.id }
+        { test_id: props.test.id }
       }} >
 
-  <h5>{props.testNumber} - {props.subject} - { dateFormat(props.testDate, "dddd, mmmm dS, yyyy") }</h5>
+  <h5>{props.test.testNumber} - {props.test.subject} - { dateFormat(props.test.testDate, "dddd, mmmm dS, yyyy") }</h5>
 
   </Link>
   </div>
   <div>
-  {props.published &&
+  {props.test.published &&
     <Button basic disabled color="green" size="small">Test Published</Button>
   }
 
-  {(props.release && props.published) &&
+  {(props.test.release && props.test.published) &&
     <Button basic disabled color="teal" size="small">Questions Released</Button>
   }
 </div>
@@ -43,23 +43,24 @@ const TestRow = (props) =>
         pathname: "/student_performance",
         state:
           {
-            test_id: props.id }
+            course_id: props.courseId,
+            test_id: props.test.id }
         }} >
-         {props.questions.length}
+         {props.test.questions.length}
       </Link>
       </h6>
       </div>
 
       <div>
       <h6>
-        Answered: { props.questions.filter(q => q.questionAnswers.length).length  }
+        Answered: { props.test.questions.filter(q => q.questionAnswers.length).length  }
         </h6>
       </div>
 
       <div>
       <h6>
-        Accuracy: { props.questions.map(q => q.questionAnswers.filter(a => a.answer.correct)).filter(qa => qa.length).length / props.questions.filter(q => q.questionAnswers.length).length > 0 ?
-                    props.questions.map(q => q.questionAnswers.filter(a => a.answer.correct)).filter(qa => qa.length).length / props.questions.filter(q => q.questionAnswers.length).length *100 :
+        Accuracy: { props.test.questions.map(q => q.questionAnswers.filter(a => a.answer.correct)).filter(qa => qa.length).length / props.test.questions.filter(q => q.questionAnswers.length).length > 0 ?
+                    props.test.questions.map(q => q.questionAnswers.filter(a => a.answer.correct)).filter(qa => qa.length).length / props.test.questions.filter(q => q.questionAnswers.length).length *100 :
                     0
          }%
         </h6>
@@ -70,9 +71,9 @@ const TestRow = (props) =>
         pathname: "/challenge_dashboard",
         state:
           {
-            test_id: props.id }
+            test_id: props.test.id }
         }} >
-         { props.questions.filter(q => q.challenges.length).length  }
+         { props.test.questions.filter(q => q.challenges.length).length  }
       </Link>
       </h6>
       </div>
@@ -82,9 +83,9 @@ const TestRow = (props) =>
         pathname: "/test_panels",
         state:
           {
-            test_id: props.id }
+            test_id: props.test.id }
         }} >
-         { props.panels.length }
+         { props.test.panels.length }
       </Link>
       </h6>
       </div>

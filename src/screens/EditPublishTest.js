@@ -63,24 +63,26 @@ class EditPublishTest extends Component {
       const { startHour, endHour, testEndDate } = this.state
 
       const statStopNumbers = [
-      {value:"Test 1",text:"6 AM"},
-      {value:"Test 2",text:"7 AM"},
-      {value:"Test 3",text:"8 AM"},
-      {value:"Test 4",text:"9 AM"},
-      {value:"Test 5",text:"10 AM"},
-      {value:"Test 6",text:"11 AM"},
-      {value:"Test 1",text:"12 PM"},
-      {value:"Test 2",text:"1 PM"},
-      {value:"Test 3",text:"2 PM"},
-      {value:"Test 4",text:"3 PM"},
-      {value:"Test 5",text:"4 PM"},
-      {value:"Test 2",text:"5 PM"},
-      {value:"Test 3",text:"6 PM"},
-      {value:"Test 4",text:"7 PM"},
-      {value:"Test 5",text:"8 PM"},
-      {value:"Test 4",text:"9 PM"},
-      {value:"Test 5",text:"10 PM"},
+      {value:"6 AM",text:"6 AM"},
+      {value:"7 AM",text:"7 AM"},
+      {value:"8 AM",text:"8 AM"},
+      {value:"9 AM",text:"9 AM"},
+      {value:"10 AM",text:"10 AM"},
+      {value:"11 AM",text:"11 AM"},
+      {value:"12 PM",text:"12 PM"},
+      {value:"1 PM",text:"1 PM"},
+      {value:"2 PM",text:"2 PM"},
+      {value:"3 PM",text:"3 PM"},
+      {value:"4 PM",text:"4 PM"},
+      {value:"5 PM",text:"5 PM"},
+      {value:"6 PM",text:"6 PM"},
+      {value:"7 PM",text:"7 PM"},
+      {value:"8 PM",text:"8 PM"},
+      {value:"9 PM",text:"9 PM"},
+      {value:"10 PM",text:"10 PM"},
+      {value:"11 PM",text:"11 PM"}
     ]
+
 
       return (
         <div className="main">

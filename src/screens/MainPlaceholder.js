@@ -1,71 +1,139 @@
 import React from 'react'
-import { Placeholder, Segment } from 'semantic-ui-react'
+import { Segment } from 'semantic-ui-react'
+import Skeleton, {SkeletonTheme} from 'react-loading-skeleton';
 
 const MainPlaceholder = () => (
 
+<SkeletonTheme  >
+  <div className="main">
+    <div className="container">
+      <div style={{padding:"15px",width:"500px",margin:'auto'}}>
 
-<div className="main">
+          <center>
+          <div >
+            <Skeleton width={250} height={25} count={1} />
+          </div>
+          <div >
+            <Skeleton width={100} height={50}count={1} />
+          </div>
+          <div >
+            <Skeleton width={200} count={1} />
+        </div>
+        </center>
 
-  <div className="container">
-    <div style={{padding:"15px",width:"500px",margin:'auto'}}>
-    <Segment>
-  <Placeholder fluid>
+      </div>
+      <div className="coursecontainer">
 
-    <Placeholder.Paragraph>
-      <Placeholder.Line />
-      <Placeholder.Line />
-      <Placeholder.Line />
-      <Placeholder.Line />
-      <Placeholder.Line />
-      <Placeholder.Line />
-      </Placeholder.Paragraph>
 
-    </Placeholder>
-    </Segment>
-    </div>
+      <Segment >
+        <div className="course_row">
 
-  <div className="coursecontainer">
-  <Segment>
-  <Placeholder fluid>
-    <Placeholder.Paragraph>
-      <Placeholder.Line />
-      <Placeholder.Line />
-      <Placeholder.Line />
+        <div style={{width:'200px',paddingLeft:'20px'}}>
+        <Skeleton count={1} />
+        </div>
 
-      </Placeholder.Paragraph>
-    </Placeholder>
-    </Segment >
+        <div style={{width:'100px',paddingLeft:'20px'}}>
 
-    <Segment>
-    <Placeholder fluid>
-      <Placeholder.Paragraph>
-        <Placeholder.Line />
-        <Placeholder.Line />
-        <Placeholder.Line />
+        <Skeleton count={1} />
 
-        </Placeholder.Paragraph>
-      </Placeholder>
-      </Segment >
+        </div>
 
-      <Segment>
-      <Placeholder fluid>
-        <Placeholder.Paragraph>
-          <Placeholder.Line />
-          <Placeholder.Line />
-          <Placeholder.Line />
-          </Placeholder.Paragraph>
-        </Placeholder>
+        <div style={{width:'100px',paddingLeft:'20px'}}>
+
+        <Skeleton count={1} />
+
+        </div>
+
+        <div style={{width:'100px',paddingLeft:'20px'}}>
+
+        <Skeleton count={1} />
+
+        </div>
+
+        <div style={{width:'100px',paddingLeft:'15px'}}>
+
+        <Skeleton count={1} />
+
+        </div>
+
+        </div>
+
         </Segment >
 
+        <Segment >
+          <div className="course_row">
+
+          <div style={{width:'200px',paddingLeft:'20px'}}>
+          <Skeleton count={1} />
+          </div>
+
+          <div style={{width:'100px',paddingLeft:'20px'}}>
+
+          <Skeleton count={1} />
+
+          </div>
+
+          <div style={{width:'100px',paddingLeft:'20px'}}>
+
+          <Skeleton count={1} />
+
+          </div>
+
+          <div style={{width:'100px',paddingLeft:'20px'}}>
+
+          <Skeleton count={1} />
+
+          </div>
+
+          <div style={{width:'100px',paddingLeft:'15px'}}>
+
+          <Skeleton count={1} />
+
+          </div>
+
+          </div>
+
+          </Segment >
+
+          <Segment >
+            <div className="course_row">
+
+            <div style={{width:'200px',paddingLeft:'20px'}}>
+            <Skeleton count={1} />
+            </div>
+
+            <div style={{width:'100px',paddingLeft:'20px'}}>
+
+            <Skeleton count={1} />
+
+            </div>
+
+            <div style={{width:'100px',paddingLeft:'20px'}}>
+
+            <Skeleton count={1} />
+
+            </div>
+
+            <div style={{width:'100px',paddingLeft:'20px'}}>
+
+            <Skeleton count={1} />
+
+            </div>
+
+            <div style={{width:'100px',paddingLeft:'15px'}}>
+
+            <Skeleton count={1} />
+
+            </div>
+
+            </div>
+
+            </Segment >
+
+      </div>
+    </div>
   </div>
-
-</div>
-
-</div>
-
-
-
-
+</SkeletonTheme  >
 )
 
 export default MainPlaceholder

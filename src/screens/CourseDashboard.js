@@ -8,7 +8,7 @@ import gql from "graphql-tag";
 import { Button } from 'semantic-ui-react'
 import Error from './Error'
 
-import MainPlaceholder from './MainPlaceholder'
+import CoursePlaceholder from './CoursePlaceholder'
 
 
 
@@ -72,7 +72,7 @@ class CourseDashboard extends Component {
     return (
     <Query query={COURSE_QUERY} variables={{ courseid: course_id }}>
           {({ loading, error, data }) => {
-            if (loading) return <MainPlaceholder />
+            if (loading) return <CoursePlaceholder />
             if (error) return <Error/>
 
             const courseToRender = data.course
@@ -84,7 +84,7 @@ class CourseDashboard extends Component {
         <div className="container">
 
               <CourseHeader {...courseToRender} />
-              <TestList tests={tests1}  />
+              <TestList tests={tests1} courseId={course_id} />
               <div >
 
               <Mutation

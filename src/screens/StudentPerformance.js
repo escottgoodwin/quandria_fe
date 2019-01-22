@@ -6,11 +6,10 @@ import TestPerformanceAll from '../components/TestPerformanceAll'
 import TestQuestionPerformance from '../components/TestQuestionPerformance'
 import PlaceholderQ from '../components/Placeholder'
 import StudentPerformanceLoading from './StudentPerformanceLoading'
-
 import { Query } from "react-apollo";
 import Error from './Error'
 import gql from "graphql-tag";
-
+const uuidv4 = require('uuid/v4');
 
 const CHALLENGE_QUERY = gql`
 query TestChallenges($test_id:ID!){
@@ -42,6 +41,7 @@ const USER_TEST_STATS_QUERY = gql`
   query TestStats($testId:ID!, $courseId:ID!){
     userTestStats(testId: $testId,
     courseId: $courseId){
+      id
       name
       totalCorrect
       percentCorrect
@@ -136,7 +136,18 @@ class StudentPerformance extends Component {
                   if (loading) return <PlaceholderQ />
                   if (error) return <div>Error</div >
 
-                  const stats = data.userTestStats
+                  const stats = []
+                  data.userTestStats.forEach(function(element) {
+                  const id = uuidv4()
+                    const item =  {
+                      id: id,
+                      name: element.name,
+                      total: element.total,
+                      totalCorrect: element.totalCorrect,
+                      percentCorrect: element.percentCorrect
+                    }
+                    stats.push(item)
+                  });
 
               return (
 

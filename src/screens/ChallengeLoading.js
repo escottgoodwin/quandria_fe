@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Placeholder, Grid } from 'semantic-ui-react'
+import { Grid,Segment } from 'semantic-ui-react'
+import Skeleton, {SkeletonTheme} from 'react-loading-skeleton';
 
 class ChallengeLoading extends Component {
 
@@ -8,95 +9,38 @@ class ChallengeLoading extends Component {
 
 
       return (
-
+        <SkeletonTheme  >
             <div className="main">
 
                 <div className="container">
 
                 <div style={{width:"50%", margin:"auto"}}>
-                <Placeholder fluid>
+                <Skeleton count={2} />
 
-                <Placeholder.Paragraph>
-                  <Placeholder.Line />
-                  <Placeholder.Line />
-                  <Placeholder.Line />
-                </Placeholder.Paragraph>
-
-                </Placeholder>
                 <hr/>
-                <Placeholder fluid>
-
-                <Placeholder.Paragraph>
-                  <Placeholder.Line />
-                  <Placeholder.Line />
-                  <Placeholder.Line />
-                </Placeholder.Paragraph>
-                </Placeholder>
+                <Skeleton count={2} />
                 </div>
 
 
                   <div className="coursecontainer">
                   <div style={{width:"30%", margin:"auto"}}>
-                  <Placeholder fluid>
-
-                  <Placeholder.Paragraph>
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                  </Placeholder.Paragraph>
-
-                  </Placeholder>
+                  <Skeleton count={2} />
                   </div>
                   <hr/>
                   <Grid>
                     <Grid.Row>
                     <Grid.Column width={4}>
-                    <Placeholder fluid>
-
-                    <Placeholder.Paragraph>
-                      <Placeholder.Line />
-                      <Placeholder.Line />
-                      <Placeholder.Line />
-                      <Placeholder.Line />
-                      <Placeholder.Line />
-                      <Placeholder.Line />
-                      <Placeholder.Line />
-                      <Placeholder.Line />
-                    </Placeholder.Paragraph>
-
-                    </Placeholder>
-
+                    <Segment>
+                    <Skeleton count={8} />
+                      </Segment>
                     </Grid.Column>
                     <Grid.Column width={12}>
                     <div style={{minHeight:"400px"}}>
-                  <Placeholder fluid>
-
-                  <Placeholder.Paragraph>
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                  </Placeholder.Paragraph>
-
-                  </Placeholder>
+                    <Segment>
+                    <Skeleton count={18} />
+                    </Segment>
                   </div>
                   </Grid.Column>
-
-
                   </Grid.Row>
                   </Grid>
                   </div>
@@ -104,7 +48,7 @@ class ChallengeLoading extends Component {
 
 
             </div>
-
+        </SkeletonTheme  >
     )
   }
 }

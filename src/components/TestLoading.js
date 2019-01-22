@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Grid, Segment, Placeholder } from 'semantic-ui-react'
+import { Grid, Segment } from 'semantic-ui-react'
+import Skeleton, {SkeletonTheme} from 'react-loading-skeleton';
 
 class TestLoading extends Component {
 
@@ -8,46 +9,24 @@ class TestLoading extends Component {
 
 
     return (
-
+          <SkeletonTheme  >
             <div className="main">
             <div className="container">
 
             <div >
             <div style={{width:"50%",margin:'auto'}}>
-            <Placeholder fluid>
-
-              <Placeholder.Paragraph>
-                <Placeholder.Line />
-                <Placeholder.Line />
-                <Placeholder.Line />
-              </Placeholder.Paragraph>
-            </Placeholder >
+              <Skeleton count={2} />
             </div>
           <hr/>
 
-            <div style={{width:"75%",margin:'auto',padding:'15px'}}>
-            <Placeholder fluid>
+            <div style={{width:"70%",margin:'auto',padding:'15px'}}>
 
-              <Placeholder.Paragraph>
-                <Placeholder.Line />
-                <Placeholder.Line />
-                <Placeholder.Line />
-                <Placeholder.Line />
-                
+              <Skeleton count={2} />
 
-              </Placeholder.Paragraph>
-            </Placeholder >
             </div>
 
-            <div style={{width:"75%",margin:'auto'}}>
-            <Placeholder fluid>
-
-              <Placeholder.Paragraph>
-                <Placeholder.Line />
-                <Placeholder.Line />
-
-              </Placeholder.Paragraph>
-            </Placeholder >
+            <div style={{width:"70%",margin:'auto'}}>
+              <Skeleton count={2} />
             </div>
 
 
@@ -65,17 +44,9 @@ class TestLoading extends Component {
                 <Segment  secondary attached='top'>
                 </Segment>
                 <Segment style={{ minHeight: 400 }} attached>
-                <Placeholder fluid>
 
-                  <Placeholder.Paragraph>
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                  </Placeholder.Paragraph>
-                </Placeholder >
+                  <Skeleton count={3} />
+
                 </Segment>
                 </Grid.Column>
 
@@ -83,17 +54,9 @@ class TestLoading extends Component {
                 <Segment  secondary attached='top'>
                 </Segment>
                 <Segment style={{ minHeight: 400 }} attached>
-                <Placeholder fluid>
 
-                  <Placeholder.Paragraph>
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                    <Placeholder.Line />
-                  </Placeholder.Paragraph>
-                </Placeholder >
+                  <Skeleton count={3} />
+
                 </Segment>
                 </Grid.Column>
               </Grid.Row>
@@ -101,6 +64,7 @@ class TestLoading extends Component {
 
               </div>
               </div>
+              </SkeletonTheme  >
 
       )
     }

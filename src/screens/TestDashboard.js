@@ -12,6 +12,8 @@ import Error from './Error'
 import PlaceholderQ from '../components/Placeholder'
 import TestLoading from '../components/TestLoading'
 
+const uuidv4 = require('uuid/v4');
+
 const TEST_QUERY = gql`
 query TestQuery($test_id:ID!){
   test(id:$test_id){
@@ -110,7 +112,18 @@ class TestDashboard extends Component {
               <Grid columns={2} stackable className="fill-content">
                 <Grid.Row stretched>
                 <Grid.Column  >
+                <Segment  fluid="true"  secondary attached='top'>
 
+                    <Link  to={{
+                      pathname: "/challenge_dashboard",
+                      state:
+                      { course_id: testToRender.course.id,
+                        test_id: testToRender.id }
+                      }} >
+                      Challenges
+                    </Link>
+
+                </Segment>
                 <Query query={CHALLENGE_TEST_QUERY} variables={{ testId: test_id, courseId: testToRender.course.id }}>
                       {({ loading, error, data }) => {
                         if (loading) return <PlaceholderQ />
@@ -149,7 +162,18 @@ class TestDashboard extends Component {
                         if (loading) return <PlaceholderQ />
                         if (error) return <div>Error</div >
 
-                        const stats = data.userTestStats
+                        const stats = []
+                        data.userTestStats.forEach(function(element) {
+                        const id = uuidv4()
+                          const item =  {
+                            id: id,
+                            name: element.name,
+                            total: element.total,
+                            totalCorrect: element.totalCorrect,
+                            percentCorrect: element.percentCorrect
+                          }
+                          stats.push(item)
+                        });
 
                     return (
 
