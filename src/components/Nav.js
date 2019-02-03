@@ -13,7 +13,7 @@ const Nav = (props) =>
     <DashboardButton />
     </div>
     <div>
-    <Link  to="/"><div><Button basic color='blue'>Quandria</Button></div></Link>
+    <Link  to="/"><div><Button size='large' basic color='blue'>Quandrio</Button></div></Link>
     </div>
     <div className="sign-button">
     <SignInButton />

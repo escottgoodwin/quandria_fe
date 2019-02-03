@@ -11,82 +11,9 @@ import TestPerformance from '../components/TestPerformance'
 import Error from './Error'
 import PlaceholderQ from '../components/Placeholder'
 import TestLoading from '../components/TestLoading'
+import {TEST_QUERY,DELETE_TEST_MUTATION,CHALLENGE_TEST_QUERY,TEST_STATS_QUERY} from '../ApolloQueries';
 
 const uuidv4 = require('uuid/v4');
-
-const TEST_QUERY = gql`
-query TestQuery($test_id:ID!){
-  test(id:$test_id){
-      id
-      subject
-      testNumber
-      testDate
-      release
-      releaseDate
-      published
-      publishDate
-    	course{
-        id
-        name
-        courseNumber
-      }
-      panels{
-        id
-    }
-    }
-  }
-`
-
-const TEST_STATS_QUERY = gql`
-query TestStats($testId:ID!,$courseId:ID!){
-  userTestStats(testId:$testId,
-  courseId:$courseId){
-    name
-    totalCorrect
-    percentCorrect
-    total
-  }
-}
-`
-
-const DELETE_TEST_MUTATION = gql`
-  mutation DeleteTest(
-    $test_id: ID!,
-  ){
-    updateTest(
-      id: $test_id,
-      deleted: true,
-    ){
-    id
-    course{
-      id
-    }
-  }
-}
-`
-
-const CHALLENGE_TEST_QUERY = gql`
-query ChallengeTestQuery($testId:ID!){
-  challenges(where:{question:{test:{id:$testId}}},orderBy:addedDate_DESC){
-    challenges{
-      id
-      challenge
-      addedDate
-      addedBy{
-        firstName
-        lastName
-      }
-      question{
-        question
-        addedBy{
-          firstName
-          lastName
-        }
-      }
-    }
-  }
-}
-`
 
 class TestDashboard extends Component {
 

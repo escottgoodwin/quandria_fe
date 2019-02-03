@@ -13,7 +13,7 @@ class DashboardButton extends Component {
     return (
 
     token ?
-    <Link to="/teacher_dashboard"> <Button basic color='blue'>Dashboard</Button></Link>
+    <Link to="/teacher_dashboard"> <Button size='large' basic color='blue'>Dashboard</Button></Link>
     :
     <Link to="/sign_up"><Button basic color='blue'>Sign Up</Button></Link>
 

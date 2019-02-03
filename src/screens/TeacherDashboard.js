@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-
+import {COURSE_QUERY} from '../ApolloQueries';
 import '../css/App.css';
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
@@ -10,38 +10,10 @@ import MainPlaceholder from './MainPlaceholder'
 
 import Error from './Error'
 
-
-const COURSE_QUERY = gql`
-  query UserQuery($userid: ID!) {
-    user(id: $userid){
-      id
-      firstName
-      lastName
-      teacherCourses{
-        id
-        name
-        time
-        deleted
-        institution{
-          name
-        }
-        students{
-          id
-        }
-        tests{
-          id
-          panels{
-            id
-          }
-        }
-      }
-    }
-  }
-`
-
 class TeacherDashboard extends Component {
 
   render() {
+
     const userid = sessionStorage.getItem('userid');
 
     return (
@@ -59,7 +31,7 @@ class TeacherDashboard extends Component {
 
                     <div className="container">
 
-                    <TeacherHeader {...userToRender} />
+                      <TeacherHeader {...userToRender} />
 
                     <div className="coursecontainer">
 

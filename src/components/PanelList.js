@@ -25,7 +25,7 @@ class PanelList extends Component {
         <Query query={NEW_PANEL_QUERY} variables={{ testId: this.props.id }}>
               {({ loading, error, data }) => {
                 if (loading) return <div>Loading...</div>
-                if (error) return <div>Error</div>
+                if (error) return <div>{JSON.stringify(error)}</div>
 
                 const panelStats = data.testPanelStats
 

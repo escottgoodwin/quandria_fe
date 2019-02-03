@@ -104,31 +104,31 @@ const TEST_COURSE_QUERY = gql`
 
 
 export const COURSE_QUERY = gql`
-  query UserQuery($userid: ID!) {
-    user(id: $userid){
+query UserQuery($userid: ID!) {
+  user(id: $userid){
+    id
+    firstName
+    lastName
+    teacherCourses{
       id
-      firstName
-      lastName
-      teacherCourses{
-        id
+      name
+      time
+      deleted
+      institution{
         name
-        time
-        deleted
-        institution{
-          name
-        }
-        students{
+      }
+      students{
+        id
+      }
+      tests{
+        id
+        panels{
           id
-        }
-        tests{
-          id
-          panels{
-            id
-          }
         }
       }
     }
   }
+}
 `
 const DELETE_COURSE_MUTATION = gql`
   mutation DeleteCourse(
@@ -142,41 +142,6 @@ const DELETE_COURSE_MUTATION = gql`
     id
   }
 }
-`
-
-const TEST_QUERY1 = gql`
-  query TestQuery($test_id: ID!){
-    test(id:$test_id){
-      subject
-      testDate
-      testNumber
-      id
-      course {
-        id
-        name
-        courseNumber
-      }
-  }
-}
-`
-
-const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-      user{
-        id
-        firstName
-        lastName
-        online
-        role
-        institution{
-          name
-          id
-        }
-      }
-    }
-  }
 `
 
 const TEST_QUERY = gql`
@@ -198,6 +163,25 @@ query TestQuery($test_id:ID!){
       panels{
         id
     }
+    }
+  }
+`
+
+const LOGIN_MUTATION = gql`
+  mutation LoginMutation($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+      user{
+        id
+        firstName
+        lastName
+        online
+        role
+        institution{
+          name
+          id
+        }
+      }
     }
   }
 `
@@ -226,7 +210,68 @@ query TestChallenges($test_id:ID!){
    }
 }
 `
+const TEST_STATS_QUERY = gql`
+query TestStats($testId:ID!,$courseId:ID!){
+  userTestStats(testId:$testId,
+  courseId:$courseId){
+    name
+    totalCorrect
+    percentCorrect
+    total
+  }
+}
+`
 
+const DELETE_TEST_MUTATION = gql`
+  mutation DeleteTest(
+    $test_id: ID!,
+  ){
+    updateTest(
+      id: $test_id,
+      deleted: true,
+    ){
+    id
+    course{
+      id
+    }
+  }
+}
+`
 
+const CHALLENGE_TEST_QUERY = gql`
+query ChallengeTestQuery($testId:ID!){
+  challenges(where:{question:{test:{id:$testId}}},orderBy:addedDate_DESC){
+    challenges{
+      id
+      challenge
+      addedDate
+      addedBy{
+        firstName
+        lastName
+      }
+      question{
+        question
+        addedBy{
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+}
+`
 
-export default COURSE_QUERY
+export {
+  ADD_COURSE_MUTATION,
+  PERFORMANCE_CHALLENGE_QUERY,
+  CHALLENGE_QUERY,
+  ADD_TEST_MUTATION,
+  TEST_COURSE_QUERY,
+  DELETE_COURSE_MUTATION,
+  LOGIN_MUTATION,
+  TEST_QUERY,
+  PANEL_QUERY,
+  TEST_STATS_QUERY,
+  DELETE_TEST_MUTATION,
+  CHALLENGE_TEST_QUERY,
+}
