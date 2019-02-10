@@ -34,6 +34,7 @@ const CHALLENGE_MESSAGE_QUERY = gql`
         challengeMessage
         addedDate
         addedBy{
+          id
           firstName
           lastName
         }
@@ -41,7 +42,6 @@ const CHALLENGE_MESSAGE_QUERY = gql`
     }
   }
   `
-
 
 const CHALLENGE_MESSAGE_SUBSCRIPTION = gql`
   subscription ChallengeMsgSub($challengeId:ID!){
@@ -51,6 +51,7 @@ const CHALLENGE_MESSAGE_SUBSCRIPTION = gql`
         challengeMessage
         addedDate
         addedBy{
+          id
           firstName
           lastName
         }
@@ -65,12 +66,10 @@ class ChallengeSection extends Component {
         challengeMessage:'',
       }
 
-  handleSubmit = () => this.setState({ challengeMessage: ''})
-
   render() {
       const { challengeMessage } = this.state
     return (
-        <Tab.Pane key={this.props.challenges.id}>
+        <Tab.Pane key={this.props.challenge.id}>
 
         <Grid columns={2} >
         <Grid.Row>
@@ -81,42 +80,41 @@ class ChallengeSection extends Component {
         <div style={{width:"100%"}}>
 
         <div>
-        <b>Challenge:</b> {this.props.challenges.challenge}
+        <b>Challenge:</b> {this.props.challenge.challenge}
         </div>
 
         <div>
-        <b>By:</b> {this.props.challenges.addedBy.firstName} {this.props.challenges.addedBy.lastName}
+        <b>By:</b> {this.props.challenge.addedBy.firstName} {this.props.challenge.addedBy.lastName}
         </div>
 
         <div><b>Answer Given:</b>
         {
-        this.props.challenges.question.questionAnswers.filter(a => a.addedBy.id === this.props.challenges.addedBy.id)[0].answer.choice
+        this.props.challenge.answer.answer.choice
         } </div>
 
         <div style={{padding:'10px'}}>
 
         <div>
-        <b>Question:</b> {this.props.challenges.question.question}
+        <b>Question:</b> {this.props.challenge.answer.question.question}
         </div>
 
         <div>
         <ul>
         {
-          this.props.challenges.question.choices.map(choice => <li key={choice.choice}>{choice.choice} {choice.correct &&  <Icon  size='large' name='check square outline' color='teal' />} </li>)
-
+          this.props.challenge.answer.question.choices.map(choice => <li key={choice.choice}>{choice.choice} {choice.correct &&  <Icon  size='large' name='check square outline' color='teal' />} </li>)
         }
         </ul>
         </div>
 
         <div>
-        <b>By:</b>{this.props.challenges.question.addedBy.firstName} {this.props.challenges.question.addedBy.lastName}
+        <b>By:</b>{this.props.challenge.answer.question.addedBy.firstName} {this.props.challenge.answer.question.addedBy.lastName}
         </div>
 
         </div>
 
         <div>
-        {this.props.challenges.question.panel.link &&
-          <Image  src={this.props.challenges.question.panel.link} />
+        {this.props.challenge.answer.question.panel.link &&
+          <Image  src={this.props.challenge.answer.question.panel.link} />
         }
         </div>
 
@@ -130,7 +128,7 @@ class ChallengeSection extends Component {
         <Grid.Column centered='true'>
 
         <Query query={CHALLENGE_MESSAGE_QUERY}
-              variables={{ challengeId: this.props.challenges.id }} >
+              variables={{ challengeId: this.props.challenge.id }} >
           {({ loading, error, data, subscribeToMore }) => {
             if (loading) return <ChatLoading />
             if (error) return <div>Error... </div>
@@ -143,7 +141,7 @@ class ChallengeSection extends Component {
               subscribeToNewChallengeMessage={() =>
                 subscribeToMore({
                   document: CHALLENGE_MESSAGE_SUBSCRIPTION,
-                  variables: {challengeId: this.props.challenges.id },
+                  variables: {challengeId: this.props.challenge.id },
                   updateQuery: (prev, { subscriptionData }) => {
                     if (!subscriptionData.data) return prev
                     const newChallengeMsg = subscriptionData.data.challengeMsg.node
@@ -161,14 +159,14 @@ class ChallengeSection extends Component {
        }}
      </Query>
 
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={() => this.setState({ challengeMessage: ''})}>
         <div style={{margin:'40px'}}>
 
         <Form.Group>
 
         <Mutation
             mutation={ADD_CHALLENGE_MESSAGE_MUTATION}
-            variables={{ challengeId: this.props.challenges.id, challengeMessage:challengeMessage }}
+            variables={{ challengeId: this.props.challenge.id, challengeMessage:challengeMessage }}
             refetchQueries={() => {
                return [{
                   query: gql`
@@ -243,7 +241,6 @@ class ChallengeSection extends Component {
                     placeholder='comment...'
                     name='challengeMessage'
                     value={this.state.challengeMessage}
-
                     onChange={e => this.setState({ challengeMessage: e.target.value })}
                   />
               //<Button size="tiny" color='teal' onClick={mutation}>Submit</Button>

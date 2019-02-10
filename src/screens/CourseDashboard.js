@@ -31,13 +31,14 @@ query CourseQuery($courseid:ID!){
       testDate
       questions{
         id
-        challenges{
-          challenge
-        }
         questionAnswers{
+          challenge{
+            challenge
+          }
         answer{
           choice
           correct
+
         }
       }
       }

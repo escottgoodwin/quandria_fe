@@ -150,7 +150,7 @@ class EditPublishTest extends Component {
             testEndDate:testEndDate,
             published: true,
             testId: test_id
-  }}
+          }}
           onCompleted={data => this._confirm(data)}
           refetchQueries={() => {
              return [{

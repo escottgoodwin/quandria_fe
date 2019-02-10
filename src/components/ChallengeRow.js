@@ -4,7 +4,6 @@ import moment from 'moment'
 
 const ChallengeRow = (props) =>
 
-
 <div >
 
   <div >
@@ -15,7 +14,7 @@ const ChallengeRow = (props) =>
 
   <div >
   <b>Question:</b>
-    {props.question.question} by {props.question.addedBy.firstName} {props.question.addedBy.lastName}
+    {props.answer.question.question} by {props.answer.question.addedBy.firstName} {props.answer.question.addedBy.lastName}
   </div>
   <div style={{fontSize: '12px',color:'#C0C0C0'}}>
     {moment(props.addedDate).format("dddd, MMMM Do YYYY, h:mm a")}

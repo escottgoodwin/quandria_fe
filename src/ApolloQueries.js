@@ -240,7 +240,7 @@ const DELETE_TEST_MUTATION = gql`
 
 const CHALLENGE_TEST_QUERY = gql`
 query ChallengeTestQuery($testId:ID!){
-  challenges(where:{question:{test:{id:$testId}}},orderBy:addedDate_DESC){
+  challenges(where:{answer:{question:{test:{id:$testId}}}},orderBy:addedDate_DESC){
     challenges{
       id
       challenge
@@ -249,11 +249,14 @@ query ChallengeTestQuery($testId:ID!){
         firstName
         lastName
       }
-      question{
-        question
-        addedBy{
-          firstName
-          lastName
+      answer{
+        question{
+          question
+          addedDate
+          addedBy{
+            firstName
+            lastName
+          }
         }
       }
     }

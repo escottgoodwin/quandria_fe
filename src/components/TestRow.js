@@ -73,7 +73,7 @@ const TestRow = (props) =>
           {
             test_id: props.test.id }
         }} >
-         { props.test.questions.filter(q => q.challenges.length).length  }
+         0
       </Link>
       </h6>
       </div>
