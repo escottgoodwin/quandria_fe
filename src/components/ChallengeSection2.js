@@ -27,21 +27,21 @@ mutation AddChallengeMessage($challengeId: ID!, $challengeMessage: String!) {
 `
 
 const CHALLENGE_MESSAGE_QUERY = gql`
-  query ChallengeQuery($challengeId:ID!){
-    challenge(id:$challengeId){
-      challengeMessages{
+query ChallengeMessages($challengeId:ID!){
+   challengeMessages(where:{challenge:{id:$challengeId}}){
+    challengeMessages{
+      id
+      challengeMessage
+      addedDate
+      addedBy{
         id
-        challengeMessage
-        addedDate
-        addedBy{
-          id
-          firstName
-          lastName
-        }
+        firstName
+        lastName
       }
     }
   }
-  `
+}
+`
 
 const CHALLENGE_MESSAGE_SUBSCRIPTION = gql`
   subscription ChallengeMsgSub($challengeId:ID!){
@@ -68,6 +68,8 @@ class ChallengeSection extends Component {
 
   render() {
       const { challengeMessage } = this.state
+      const challengeId = this.props.challenge.id
+
     return (
         <Tab.Pane key={this.props.challenge.id}>
 
@@ -122,33 +124,32 @@ class ChallengeSection extends Component {
 
         </div>
 
-
         </Grid.Column>
 
         <Grid.Column centered='true'>
 
         <Query query={CHALLENGE_MESSAGE_QUERY}
-              variables={{ challengeId: this.props.challenge.id }} >
+              variables={{ challengeId: challengeId }} >
           {({ loading, error, data, subscribeToMore }) => {
             if (loading) return <ChatLoading />
             if (error) return <div>Error... </div>
 
-            const challenge = data.challenge
+            const challengeMessages = data.challengeMessages
 
             return (
 
-            <ChallengeMessageList {...challenge}
+              <ChallengeMessageList {...challengeMessages}
               subscribeToNewChallengeMessage={() =>
                 subscribeToMore({
                   document: CHALLENGE_MESSAGE_SUBSCRIPTION,
-                  variables: {challengeId: this.props.challenge.id },
+                  variables: {challengeId: challengeId },
                   updateQuery: (prev, { subscriptionData }) => {
                     if (!subscriptionData.data) return prev
                     const newChallengeMsg = subscriptionData.data.challengeMsg.node
                     return  Object.assign({}, prev, {
-                      challenge: {
-                        challengeMessages: [...prev.challenge.challengeMessages,newChallengeMsg],
-                        __typename: prev.challenge.__typename
+                      challengeMessages: {
+                        challengeMessages: [...prev.challengeMessages.challengeMessages, newChallengeMsg],
+                        __typename: prev.challengeMessages.__typename
                     }
                     })
                   }
@@ -167,72 +168,7 @@ class ChallengeSection extends Component {
         <Mutation
             mutation={ADD_CHALLENGE_MESSAGE_MUTATION}
             variables={{ challengeId: this.props.challenge.id, challengeMessage:challengeMessage }}
-            refetchQueries={() => {
-               return [{
-                  query: gql`
-                  query TestChallenges($testId:ID!){
-                    test(id:$testId){
-                        id
-                        subject
-                        testNumber
-                        testDate
-
-                        course{
-                          id
-                          name
-                          courseNumber
-                        }
-                        questions{
-                          challenges{
-                            challenge
-                            addedBy{
-                              id
-                              firstName
-                              lastName
-                            }
-                            challengeMessages{
-                              id
-                              challengeMessage
-                              addedDate
-                              addedBy{
-                                firstName
-                                lastName
-                              }
-                            }
-                            id
-                            question{
-                              question
-                              choices{
-                                correct
-                                choice
-                              }
-                  						questionAnswers{
-                                addedBy{
-                                  id
-                                  firstName
-                                }
-                                answer{
-                                  choice
-                                }
-                              }
-                              panel{
-                                link
-                              }
-                              addedBy{
-                                firstName
-                                lastName
-                              }
-                            }
-
-                          }
-                        }
-
-                      }
-                  }
-                `,
-                  variables: { testId: this.props.test_id, }
-              }];
-              }} >
+            >
             {mutation => (
 
               <Input
