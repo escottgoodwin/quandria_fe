@@ -16,7 +16,6 @@ query TestChallenges($test_id:ID!){
       subject
       testNumber
       testDate
-
       course{
         id
         name

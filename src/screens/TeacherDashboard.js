@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import {COURSE_QUERY} from '../ApolloQueries';
 import '../css/App.css';
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
 
 import TeacherHeader from '../components/TeacherHeader'
 import CourseList from '../components/CourseList'

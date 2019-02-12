@@ -9,6 +9,22 @@ import Error from './Error'
 import ChallengeLoading from './ChallengeLoading'
 import gql from "graphql-tag";
 
+const TEST_CHALLENGE_QUERY = gql`
+query TestChallenges($testId:ID!){
+  test(id:$testId){
+      id
+      subject
+      testNumber
+      testDate
+      course{
+        id
+        name
+        courseNumber
+      }
+    }
+  }
+`
+
 const CHALLENGE_QUERY = gql`
 query ChallengeTestQuery($testId:ID!){
   challenges(where:{answer:{question:{test:{id:$testId}}}},orderBy:addedDate_DESC){
@@ -84,7 +100,23 @@ class ChallengeDashboard extends Component {
 
                 <div className="container">
 
+                <Query query={TEST_CHALLENGE_QUERY} variables={{ testId: test_id }}>
+                      {({ loading, error, data }) => {
+                        if (loading) return <ChallengeLoading />
+                        if (error) return <Error />
 
+                        const testToRender = data.test
+
+                    return (
+
+                      <ChallengeHeader {...testToRender} />
+
+                    )
+                  }
+
+
+                }
+                </Query>
 
                   <div className="coursecontainer">
 

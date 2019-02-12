@@ -24,7 +24,6 @@ import EditPublishTest from './screens/EditPublishTest'
 import AddPanels from './screens/AddPanels'
 import Main from './screens/Main'
 import StudentPerformance from './screens/StudentPerformance'
-import ChallengeDashboard from './screens/ChallengeDashboard'
 import ChallengeDashboard2 from './screens/ChallengeDashboard2'
 
 import Nav from './components/Nav'

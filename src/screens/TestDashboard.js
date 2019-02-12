@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 import { Query,Mutation } from "react-apollo";
-import gql from "graphql-tag";
 import { Button, Grid, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import TestHeader from '../components/TestHeader'

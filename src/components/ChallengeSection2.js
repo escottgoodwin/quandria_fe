@@ -168,7 +168,71 @@ class ChallengeSection extends Component {
         <Mutation
             mutation={ADD_CHALLENGE_MESSAGE_MUTATION}
             variables={{ challengeId: this.props.challenge.id, challengeMessage:challengeMessage }}
-            >
+            refetchQueries={() => {
+               return [{
+                  query: gql`
+                  query TestChallenges($testId:ID!){
+                    test(id:$testId){
+                        id
+                        subject
+                        testNumber
+                        testDate
+                        course{
+                          id
+                          name
+                          courseNumber
+                        }
+                        questions{
+                          challenges{
+                            challenge
+                            addedBy{
+                              id
+                              firstName
+                              lastName
+                            }
+                            challengeMessages{
+                              id
+                              challengeMessage
+                              addedDate
+                              addedBy{
+                                firstName
+                                lastName
+                              }
+                            }
+                            id
+                            question{
+                              question
+                              choices{
+                                correct
+                                choice
+                              }
+                  						questionAnswers{
+                                addedBy{
+                                  id
+                                  firstName
+                                }
+                                answer{
+                                  choice
+                                }
+                              }
+                              panel{
+                                link
+                              }
+                              addedBy{
+                                firstName
+                                lastName
+                              }
+                            }
+
+                          }
+                        }
+
+                      }
+                  }
+                `,
+                  variables: { testId: this.props.test_id, }
+              }];
+              }} >
             {mutation => (
 
               <Input
@@ -179,8 +243,7 @@ class ChallengeSection extends Component {
                     value={this.state.challengeMessage}
                     onChange={e => this.setState({ challengeMessage: e.target.value })}
                   />
-              //<Button size="tiny" color='teal' onClick={mutation}>Submit</Button>
-            )}
+                    )}
           </Mutation>
           </Form.Group>
 
@@ -197,13 +260,6 @@ class ChallengeSection extends Component {
 
     )
   }
-  _confirm = async data => {
-    this.props.history.push({
-      pathname: `/challenge_dashboard`,
-      state: { test_id: this.props.test_id  }
-      })
-  }
-
 }
 
 
