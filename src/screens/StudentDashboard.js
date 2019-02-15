@@ -7,7 +7,6 @@ import gql from "graphql-tag";
 import InvitationList from '../components/InvitationList'
 import StudentCourseList from '../components/StudentCourseList'
 
-
 import Error from './Error'
 import Loading from './Loading'
 
@@ -52,6 +51,8 @@ query UserQuery($userid: ID!) {
   }
 }
 `
+
+
 
 class StudentDashboard extends Component {
 

@@ -4,7 +4,7 @@ import ChallengeHeader from '../components/ChallengeHeader'
 import PanelList from '../components/PanelList'
 import AddPanelButton from '../components/AddPanelButton'
 import { Query } from "react-apollo";
-import Error from './Error'
+import Error from '../components/Error'
 import Loading from './Loading'
 import gql from "graphql-tag";
 
@@ -45,7 +45,7 @@ class StudentPerformance extends Component {
       <Query query={PANEL_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
               if (loading) return <Loading />
-              if (error) return <Error />
+              if (error) return <Error {...error}/>
 
               const testToRender = data.test
 
