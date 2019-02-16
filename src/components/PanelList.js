@@ -4,6 +4,7 @@ import { Card } from 'semantic-ui-react'
 import PanelRow from './PanelRow'
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import Error from '../components/Error'
 
 const NEW_PANEL_QUERY = gql`
 query PanelQuery($testId:ID!){
@@ -25,7 +26,7 @@ class PanelList extends Component {
         <Query query={NEW_PANEL_QUERY} variables={{ testId: this.props.id }}>
               {({ loading, error, data }) => {
                 if (loading) return <div>Loading...</div>
-                if (error) return <div>{JSON.stringify(error)}</div>
+                if (error) return <Error {...error}/>
 
                 const panelStats = data.testPanelStats
 
