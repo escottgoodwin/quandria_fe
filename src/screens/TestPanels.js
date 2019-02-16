@@ -45,7 +45,7 @@ class StudentPerformance extends Component {
       <Query query={PANEL_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
               if (loading) return <Loading />
-              if (error) return <Error {...error}/>
+              if (error) return <Error {...error} />
 
               const testToRender = data.test
 
