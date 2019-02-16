@@ -116,7 +116,7 @@ class StudentPerformance extends Component {
           return (
 
             <div >
-              <div><h4><b>Percent Correct:</b> { stats.totalCorrect/stats.total >0 ? (stats.totalCorrect/stats.total)*100 : 0 }% </h4></div>
+              <div><h4><b>Percent Correct:</b> { stats.totalCorrect/stats.total >0 ? Math.round(stats.totalCorrect/stats.total*100) : 0 }% </h4></div>
               <div><h4><b>Total Correct:</b> {stats.totalCorrect}  <b>Total:</b> {stats.total}</h4></div>
             </div>
             )
