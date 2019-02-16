@@ -102,7 +102,7 @@ class TestPerformance extends Component {
                   <Table.Cell>{name}</Table.Cell>
                   <Table.Cell>{total}</Table.Cell>
                   <Table.Cell>{totalCorrect}</Table.Cell>
-                  <Table.Cell>{percentCorrect *100}%</Table.Cell>
+                  <Table.Cell>{Math.round(percentCorrect *100)}%</Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
