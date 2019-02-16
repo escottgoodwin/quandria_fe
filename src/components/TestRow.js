@@ -60,7 +60,7 @@ const TestRow = (props) =>
       <div>
       <h6>
         Accuracy: { props.test.questions.map(q => q.questionAnswers.filter(a => a.answer.correct)).filter(qa => qa.length).length / props.test.questions.filter(q => q.questionAnswers.length).length > 0 ?
-                    props.test.questions.map(q => q.questionAnswers.filter(a => a.answer.correct)).filter(qa => qa.length).length / props.test.questions.filter(q => q.questionAnswers.length).length *100 :
+                    Math.round(props.test.questions.map(q => q.questionAnswers.filter(a => a.answer.correct)).filter(qa => qa.length).length / props.test.questions.filter(q => q.questionAnswers.length).length * 100) :
                     0
          }%
         </h6>
