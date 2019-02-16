@@ -69,7 +69,7 @@ const USER_TEST_STATS_QUERY = gql`
       percentCorrect
   }
 }
-  `
+`
 
 class StudentPerformance extends Component {
 
@@ -134,7 +134,7 @@ class StudentPerformance extends Component {
           <Query query={USER_TEST_STATS_QUERY} variables={{ testId: test_id, courseId: course_id }}>
                 {({ loading, error, data }) => {
                   if (loading) return <PlaceholderQ />
-                  if (error) return <div>Error</div >
+                  if (error) return <Error error={error} />
 
                   const stats = []
                   data.userTestStats.forEach(function(element) {
@@ -165,7 +165,7 @@ class StudentPerformance extends Component {
       <Query query={TEST_QUESTION_STATS_QUERY} variables={{ testId: test_id, courseId: course_id }}>
             {({ loading, error, data }) => {
               if (loading) return <PlaceholderQ />
-              if (error) return <div>Error</div >
+              if (error) return <Error error={error} />
 
               const stats = data.testQuestionStats
 
