@@ -35,7 +35,7 @@ class TestPerformanceAll extends Component {
     return (
       <Segment style={{ minHeight: 400, overflow: 'auto' }} attached>
 
-    <Table sortable celled fixed basic='very' >
+    <Table sortable celled fixed striped >
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell

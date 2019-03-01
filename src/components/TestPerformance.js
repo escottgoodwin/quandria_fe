@@ -62,7 +62,7 @@ class TestPerformance extends Component {
           }}
           </Query>
 
-    <Table sortable celled fixed basic='very' >
+    <Table sortable celled fixed striped >
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell
