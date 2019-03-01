@@ -9,39 +9,16 @@ import StudentPerformanceLoading from './StudentPerformanceLoading'
 import { Query } from "react-apollo";
 import Error from './Error'
 import gql from "graphql-tag";
+import {TEST_QUERY} from '../ApolloQueries';
+
 const uuidv4 = require('uuid/v4');
 
-const CHALLENGE_QUERY = gql`
-query TestChallenges($test_id:ID!){
-  tests(where:{id:$test_id}){
-    tests{
-      id
-      subject
-      testNumber
-      testDate
-      course{
-        id
-        name
-        courseNumber
-      }
-      questions{
-        id
-        question
-        addedBy{
-          firstName
-          lastName
-        }
-      }
-    }
-  }
-}
-`
+
 
 const USER_TEST_STATS_QUERY = gql`
   query TestStats($testId:ID!, $courseId:ID!){
     userTestStats(testId: $testId,
     courseId: $courseId){
-      id
       name
       totalCorrect
       percentCorrect
@@ -62,7 +39,6 @@ const USER_TEST_STATS_QUERY = gql`
   const TEST_QUESTION_STATS_QUERY = gql`
   query TestQuestionStats($testId:ID!){
     testQuestionStats(testId: $testId){
-      panelLink
       question
       total
       totalCorrect
@@ -87,17 +63,17 @@ class StudentPerformance extends Component {
 
         <div className="container">
 
-      <Query query={CHALLENGE_QUERY} variables={{ test_id: test_id }}>
+      <Query query={TEST_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
               if (loading) return <StudentPerformanceLoading />
               if (error) return <Error error={error} />
 
-              const testToRender = data.tests.tests[0]
+              const testToRender = data.test
 
           return (
 
 
-      <ChallengeHeader {...testToRender}/>
+      <ChallengeHeader  {...testToRender} />
 
       )
     }
@@ -126,10 +102,6 @@ class StudentPerformance extends Component {
       <Grid columns={2} stackable className="fill-content">
         <Grid.Row stretched>
         <Grid.Column  >
-          <Segment  secondary attached='top'>
-          <h6>Student</h6>
-        </Segment>
-
 
           <Query query={USER_TEST_STATS_QUERY} variables={{ testId: test_id, courseId: course_id }}>
                 {({ loading, error, data }) => {
@@ -159,15 +131,24 @@ class StudentPerformance extends Component {
         </Grid.Column  >
 
         <Grid.Column  >
-        <Segment  secondary attached='top'>
-        <h6>Questions</h6>
-      </Segment>
-      <Query query={TEST_QUESTION_STATS_QUERY} variables={{ testId: test_id, courseId: course_id }}>
+
+      <Query query={TEST_QUESTION_STATS_QUERY} variables={{ testId: test_id }}>
             {({ loading, error, data }) => {
               if (loading) return <PlaceholderQ />
               if (error) return <Error error={error} />
 
-              const stats = data.testQuestionStats
+              const stats = []
+              data.testQuestionStats.forEach(function(element) {
+              const id = uuidv4()
+                const item =  {
+                  id: id,
+                  question: element.question,
+                  total: element.total,
+                  totalCorrect: element.totalCorrect,
+                  percentCorrect: element.percentCorrect
+                }
+                stats.push(item)
+              });
 
           return (
 

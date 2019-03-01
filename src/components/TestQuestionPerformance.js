@@ -72,12 +72,12 @@ class TestQuestionPerformance extends Component {
             </Table.Header>
 
             <Table.Body>
-              {_.map(data, ({ question, total, totalCorrect, percentCorrect }) => (
-                <Table.Row key={question}>
+              {_.map(data, ({ id, question, total, totalCorrect, percentCorrect }) => (
+                <Table.Row key={id}>
                   <Table.Cell>{question}</Table.Cell>
                   <Table.Cell>{total}</Table.Cell>
                   <Table.Cell>{totalCorrect}</Table.Cell>
-                  <Table.Cell>{percentCorrect*100}%</Table.Cell>
+                  <Table.Cell>{Math.round(percentCorrect*100)}%</Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
