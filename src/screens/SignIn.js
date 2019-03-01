@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 //import { Button, Form, FormGroup, Label, Input,} from 'reactstrap';
-import { Form, Input, Button } from 'semantic-ui-react'
+import { Form, Input, Button, Message } from 'semantic-ui-react'
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -17,7 +17,7 @@ const LOGIN_MUTATION = gql`
         role
         teacherInstitutions {
           id
-          name 
+          name
         }
         studentInstitutions {
           id
@@ -33,20 +33,28 @@ const LOGIN_MUTATION = gql`
 `
 
 class SignIn extends Component {
+
     state = {
       email: '',
       password: '',
+      graphQLError: '',
+      isVisibleGraph:false,
+      networkError:false,
+      isVisibleNet:false,
+      pushToken:'',
+      isVisible:false
     }
 
     render() {
-      const { email, password } = this.state
+      const { email, password, graphQLError, networkError, isVisibleNet, isVisibleGraph, pushToken } = this.state
+
 
       return (
       <div className="main">
       <div className="dashboard">
       <div className="signin">
       <h2>Sign In</h2>
-      <div>{this.props.login_message}</div>
+
       <Form size="big">
 
       <Form.Field
@@ -70,7 +78,9 @@ class SignIn extends Component {
             mutation={LOGIN_MUTATION}
             variables={{ email:email, password:password }}
             onCompleted={data => this._confirm(data)}
+            onError={error => this._error (error)}
           >
+
             {mutation => (
               <Button color='blue' onClick={mutation}>Submit</Button>
             )}
@@ -78,10 +88,33 @@ class SignIn extends Component {
 
 
         </Form>
+
+        {isVisibleGraph &&
+          <Message negative>
+            <p><b>{graphQLError}</b></p>
+          </Message>
+        }
+
+        {isVisibleNet &&
+          <Message negative>
+            <p><b>{networkError}</b></p>
+          </Message>
+        }
+
       </div>
       </div>
       </div>
   )
+}
+
+_error = async error => {
+
+    const gerrorMessage = error.graphQLErrors.map((err,i) => err.message)
+    this.setState({ isVisibleGraph: true, graphQLError: gerrorMessage})
+
+    error.networkError &&
+      this.setState({ isVisibleNet: true, networkError: error.networkError.message})
+
 }
 
   _confirm = async data => {
