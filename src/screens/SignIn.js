@@ -46,7 +46,7 @@ class SignIn extends Component {
     }
 
     render() {
-      const { email, password, graphQLError, networkError, isVisibleNet, isVisibleGraph, pushToken } = this.state
+      const { email, password, graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
 
 
       return (
