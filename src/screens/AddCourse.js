@@ -1,33 +1,11 @@
-import React,{Component} from 'react';
-import '../css/App.css';
-//import { Form, FormGroup, Label, Input, } from 'reactstrap';
-import { Form, Input, Button, Select } from 'semantic-ui-react'
+import React,{Component} from 'react'
+import '../css/App.css'
+//import { Form, FormGroup, Label, Input, } from 'reactstrap'
+import { Form, Input, Button, Select, Message } from 'semantic-ui-react'
 
-import { Mutation } from "react-apollo";
+import { Mutation } from "react-apollo"
 
-import gql from "graphql-tag";
-
-const ADD_COURSE_MUTATION = gql`
-  mutation AddCourse(
-    $name: String!,
-    $time:String,
-    $schoolId: String,
-    $institutionId: ID!,
-    $department1: String
-  ){
-    addCourse(
-      name: $name,
-      time: $time,
-      deleted: false,
-      courseNumber: $schoolId,
-      institutionId: $institutionId,
-      department1: $department1
-    ){
-    name
-    id
-  }
-}
-`
+import {COURSE_QUERY, ADD_COURSE_MUTATION} from '../ApolloQueries'
 
 class AddCourse extends Component {
 
@@ -38,20 +16,17 @@ class AddCourse extends Component {
         schoolId:'',
         time:'',
         course_message:'',
-        institutions:''
+        institutions:'',
+        graphQLError: '',
+        isVisibleGraph:false,
+        networkError:false,
+        isVisibleNet:false,
       }
-
-  handleChange = (event, {name, value}) => {
-      if (this.state.hasOwnProperty(name)) {
-        this.setState({ [name]: value });
-      }
-  }
 
 render() {
-  const user =  JSON.parse(sessionStorage.getItem('user'));
-  const { name, schoolId, time, department1, institutionId } = this.state
+  const user =  JSON.parse(sessionStorage.getItem('user'))
+  const { name, schoolId, time, department1, institutionId, graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
   const institutions = user.teacherInstitutions.map(institution => ({value: institution.id, text: institution.name}))
-
   return (
         <div className="dashboard">
           <div className="signin">
@@ -107,58 +82,53 @@ render() {
 
       </ Form>
 
-              <Mutation
-                  mutation={ADD_COURSE_MUTATION}
-                  variables={{ name: name,
-                    schoolId:schoolId,
-                    time: time,
-                    department1: department1,
-                    institutionId: institutionId
-                  }}
-                  onCompleted={data => this._confirm(data)}
-                  refetchQueries={() => {
-                     return [{
-                        query: gql`
-                        query UserQuery($userid: ID!) {
-                          user(id: $userid){
-                            id
-                            firstName
-                            lastName
-                            teacherCourses{
-                              id
-                              name
-                              time
-                              deleted
-                              institution{
-                                name
-                              }
-                              students{
-                                id
-                              }
-                              tests{
-                                id
-                                panels{
-                                  id
-                                }
-                              }
-                            }
-                          }
-                        }
-                      `,
-                        variables: { userid: user.id }
-                    }];
-                }}  >
-                  {mutation => (
-                    <div style={{padding:'15px'}}>
-                    <Button color='blue' onClick={mutation}>Submit</Button>
-                    </div>
-                  )}
-                </Mutation>
+      {isVisibleGraph &&
+        <Message negative>
+          <p><b>{graphQLError}</b></p>
+        </Message>
+      }
 
+      {isVisibleNet &&
+        <Message negative>
+          <p><b>{networkError}</b></p>
+        </Message>
+      }
 
-            </div>
+        <Mutation
+            mutation={ADD_COURSE_MUTATION}
+            variables={{ name: name,
+              schoolId:schoolId,
+              time: time,
+              department1: department1,
+              institutionId: institutionId
+            }}
+            onCompleted={data => this._confirm(data)}
+            refetchQueries={() => {
+               return [{
+                  query: COURSE_QUERY,
+                  variables: { userid: user.id }
+              }]
+          }}  >
+            {mutation => (
+              <div style={{padding:'15px'}}>
+              <Button color='blue' onClick={mutation}>Submit</Button>
+              </div>
+            )}
+          </Mutation>
+
         </div>
+      </div>
       )
+    }
+
+    _error = async error => {
+
+        const gerrorMessage = error.graphQLErrors.map((err,i) => err.message)
+        this.setState({ isVisibleGraph: true, graphQLError: gerrorMessage})
+
+        error.networkError &&
+          this.setState({ isVisibleNet: true, networkError: error.networkError.message})
+
     }
 
     _confirm = async data => {
@@ -173,4 +143,4 @@ render() {
 
 
 
-export default AddCourse ;
+export default AddCourse

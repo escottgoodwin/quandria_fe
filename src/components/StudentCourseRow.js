@@ -11,7 +11,7 @@ const StudentCourseRow = (props) =>
   <div className="course_cell">
   <h5>
   <Link  to={{
-    pathname: "/course_dashboard",
+    pathname: "/student_course_dashboard",
     state:
       { course_id: props.id }
     }} >

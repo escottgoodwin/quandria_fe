@@ -16,6 +16,7 @@
     "apollo-utilities": "^1.0.27",
     "axios": "^0.18.0",
     "bootstrap": "^4.1.3",
+    "caniuse-lite": "^1.0.30000951",
     "dateformat": "^3.0.3",
     "dotenv": "^6.2.0",
     "graphql": "^14.0.2",

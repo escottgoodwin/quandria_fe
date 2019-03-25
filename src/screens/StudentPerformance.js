@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Segment, Grid } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 import ChallengeHeader from '../components/ChallengeHeader'
 import TestPerformanceAll from '../components/TestPerformanceAll'
 import TestQuestionPerformance from '../components/TestQuestionPerformance'
@@ -12,8 +12,6 @@ import gql from "graphql-tag";
 import {TEST_QUERY} from '../ApolloQueries';
 
 const uuidv4 = require('uuid/v4');
-
-
 
 const USER_TEST_STATS_QUERY = gql`
   query TestStats($testId:ID!, $courseId:ID!){

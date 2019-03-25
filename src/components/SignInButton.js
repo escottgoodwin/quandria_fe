@@ -1,29 +1,17 @@
-import React,{Component} from 'react';
+import React,{Component} from 'react'
 import {Link} from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
 import {withRouter} from "react-router-dom"
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import { Mutation } from "react-apollo"
 
-const LOGOUT_MUTATION = gql`
-  mutation {
-    logout{
-      authMsg
-      user{
-        online
-        firstName
-        lastName
-      }
-    }
-  }
-`
+import {LOGOUT_MUTATION} from '../ApolloQueries'
 
 class SignInButton extends Component {
 
   render() {
 
-    const userid = sessionStorage.getItem('userid');
-    const token = sessionStorage.getItem('auth_token');
+    const userid = sessionStorage.getItem('userid')
+    const token = sessionStorage.getItem('auth_token')
 
     return (
 
@@ -46,10 +34,10 @@ class SignInButton extends Component {
     }
 
     _confirm = (data) => {
-      const { user, authMsg } = data.logout
-      sessionStorage.removeItem('userid');
-      sessionStorage.removeItem('auth_token');
-      sessionStorage.setItem('online', user.online);
+      const { authMsg } = data.logout
+      sessionStorage.removeItem('userid')
+      sessionStorage.removeItem('auth_token')
+      sessionStorage.setItem('online', false)
       this.props.history.push({
         pathname: `/sign_out`,
         state: { authMsg: authMsg }

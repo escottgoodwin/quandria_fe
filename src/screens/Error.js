@@ -9,7 +9,7 @@ class Error extends Component {
         <div className="dashboard">
           <div className="signin">
           <h2>Error</h2>
-          <h4>{console.log(this.props.error)}</h4>
+          <h4>{this.props}</h4>
           </div>
         </div>
       )

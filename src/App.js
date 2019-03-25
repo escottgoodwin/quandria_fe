@@ -12,10 +12,12 @@ import SignUp from './screens/SignUp'
 import SignedUp from './screens/SignedUp'
 import SignUpConfirmation from './screens/SignUpConfirmation'
 import CourseDashboard from './screens/CourseDashboard'
+import StudentCourseDashboard from './screens/StudentCourseDashboard'
 import CourseInvitation from './screens/CourseInvitation'
 import AddCourse from './screens/AddCourse'
 import EditCourse from './screens/EditCourse'
 import TestDashboard from './screens/TestDashboard'
+import StudentTestDashboard from './screens/StudentTestDashboard'
 import TestPanels from './screens/TestPanels'
 import AddTest from './screens/AddTest'
 import EditTest from './screens/EditTest'
@@ -49,10 +51,12 @@ class App extends Component {
           <Route path="/admin_dashboard" component={AdminDashboard}/>
           <Route path="/quandria_dashboard" component={QuandriaDashboard}/>
           <Route path="/course_dashboard" component={CourseDashboard}/>
+          <Route path="/student_course_dashboard" component={StudentCourseDashboard}/>
           <Route path="/add_course" component={AddCourse}/>
           <Route path="/edit_course/" component={EditCourse}/>
           <Route path="/course_invitation/" component={CourseInvitation}/>
           <Route path="/test_dashboard/" component={TestDashboard}/>
+          <Route path="/student_test_dashboard/" component={StudentTestDashboard}/>
           <Route path="/add_test/" component={AddTest}/>
           <Route path="/edit_test/" component={EditTest}/>
           <Route path="/add_panels" component={AddPanels}/>

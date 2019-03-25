@@ -6,9 +6,10 @@ import InvitationRow from './InvitationRow'
 const InvitationList = (props) =>
 <div>
 
+
   <div className="coursecontainer">
-    {props.invitesSentTo.map(invite =>
-      <InvitationRow key={invite.id} userid={props.userid} {...invite} />
+    {props.invites.map(invite =>
+      <InvitationRow key={invite.id} userid={props.userid} invite={invite} />
     )}
   </div>
     </div>

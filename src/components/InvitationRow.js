@@ -29,25 +29,26 @@ render() {
 
   <div className="course_cell">
   <h6>
-    {this.props.course.name} - {this.props.course.courseNumber}
+    {this.props.invite.course.name} - {this.props.invite.course.courseNumber}
   </h6>
   </div>
 
   <div className="course_cell">
 
-    {this.props.course.time}
+    {this.props.invite.course.time}
 
   </div>
 
   <div className="course_cell">
 
-  {this.props.course.teachers.map(teacher => teacher.firstName + ' ' + teacher.lastName).join()}
+  {this.props.invite.course.teachers.map(teacher => teacher.firstName + ' ' + teacher.lastName).join()}
+
 
   </div>
 
   <div className="course_cell">
 
-  {this.props.course.institution.name}
+  {this.props.invite.course.institution.name}
 
   </div>
 
@@ -55,7 +56,7 @@ render() {
 
   <Mutation
       mutation={JOIN_MUTATION}
-      variables={{ courseId: this.props.course.id, inviteId: this.props.id }}
+      variables={{ courseId: this.props.invite.course.id, inviteId: this.props.invite.id }}
       onCompleted={data => this._confirm(data)}
       refetchQueries={() => {
          return [{
@@ -73,10 +74,12 @@ render() {
                     name
                     time
                     teachers{
+                      id
                       firstName
                       lastName
                     }
                     institution{
+                      id
                       name
                     }
                   }
@@ -87,9 +90,11 @@ render() {
                   time
                   deleted
                   institution{
+                    id
                     name
                   }
                   teachers{
+                    id
                     firstName
                     lastName
                   }

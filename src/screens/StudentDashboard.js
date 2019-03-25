@@ -1,8 +1,7 @@
-import React,{Component} from 'react';
+import React,{Component} from 'react'
 
-import '../css/App.css';
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
+import '../css/App.css'
+import { Query } from "react-apollo"
 
 import InvitationList from '../components/InvitationList'
 import StudentCourseList from '../components/StudentCourseList'
@@ -10,58 +9,16 @@ import StudentCourseList from '../components/StudentCourseList'
 import Error from './Error'
 import Loading from './Loading'
 
-const COURSE_QUERY = gql`
-query UserQuery($userid: ID!) {
-  user(id: $userid){
-    id
-    firstName
-    lastName
-    invitesSentTo{
-      id
-      course{
-        id
-        courseNumber
-        name
-        time
-        teachers{
-          firstName
-          lastName
-        }
-        institution{
-          name
-        }
-      }
-    }
-    studentCourses{
-      id
-      name
-      time
-      deleted
-      institution{
-        name
-      }
-      teachers{
-        firstName
-        lastName
-      }
-      tests{
-        id
-      }
-    }
-  }
-}
-`
-
-
+import {STUDENT_COURSE_QUERY} from '../ApolloQueries'
 
 class StudentDashboard extends Component {
 
   render() {
-    const userid = sessionStorage.getItem('userid');
+    const userid = sessionStorage.getItem('userid')
 
     return (
 
-        <Query query={COURSE_QUERY} variables={{ userid: userid }}>
+        <Query query={STUDENT_COURSE_QUERY} variables={{ userid: userid }}>
               {({ loading, error, data }) => {
                 if (loading) return <Loading />
                 if (error) return <Error error={error} />
@@ -89,7 +46,7 @@ class StudentDashboard extends Component {
                       <div>
                     <div><h4>Course Inivitations</h4></div>
 
-                    <InvitationList userid={userToRender.id} {...userToRender}/>
+                    <InvitationList userid={userToRender.id} invites={userToRender.invitesSentTo}/>
                     </div>
                     }
 

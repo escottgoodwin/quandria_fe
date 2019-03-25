@@ -1,16 +1,13 @@
-import React,{Component} from 'react';
-import '../css/App.css';
+import React,{Component} from 'react'
+import '../css/App.css'
 
 import CourseHeader from '../components/CourseHeader'
-import TestList from '../components/TestList'
-import { Query, Mutation } from "react-apollo";
-import gql from "graphql-tag";
-import { Button } from 'semantic-ui-react'
+import StudentTestList from '../components/StudentTestList'
+import { Query } from "react-apollo"
+import gql from "graphql-tag"
 import Error from './Error'
 
 import CoursePlaceholder from './CoursePlaceholder'
-
-
 
 const COURSE_QUERY = gql`
 query CourseQuery($courseid:ID!){
@@ -20,7 +17,6 @@ query CourseQuery($courseid:ID!){
     courseNumber
     time
     institution{
-      id
       name
     }
     tests{
@@ -33,15 +29,13 @@ query CourseQuery($courseid:ID!){
       questions{
         id
         questionAnswers{
-          id
           challenge{
-            id
             challenge
           }
         answer{
-          id
           choice
           correct
+
         }
       }
       }
@@ -53,21 +47,8 @@ query CourseQuery($courseid:ID!){
 }
 `
 
-const DELETE_COURSE_MUTATION = gql`
-  mutation DeleteCourse(
-    $course_id: ID!,
-  ){
-    updateCourse(
-      id: $course_id,
-      deleted: true,
-    ){
-    name
-    id
-  }
-}
-`
 
-class CourseDashboard extends Component {
+class StudentCourseDashboard extends Component {
 
   render() {
 
@@ -77,7 +58,7 @@ class CourseDashboard extends Component {
     <Query query={COURSE_QUERY} variables={{ courseid: course_id }}>
           {({ loading, error, data }) => {
             if (loading) return <CoursePlaceholder />
-            if (error) return <Error/>
+            if (error) return <Error {...error} />
 
             const courseToRender = data.course
             const tests1 = courseToRender.tests.filter(test => !test.deleted)
@@ -88,18 +69,9 @@ class CourseDashboard extends Component {
         <div className="container">
 
               <CourseHeader {...courseToRender} />
-              <TestList tests={tests1} courseId={course_id} />
+              <StudentTestList tests={tests1} courseId={course_id} />
               <div >
 
-              <Mutation
-                  mutation={DELETE_COURSE_MUTATION}
-                  variables={{ course_id: course_id }}
-                  onCompleted={data => this._confirm(data)}
-                >
-                  {mutation => (
-                    <Button  color='red' onClick={mutation}>Delete Course</Button>
-                  )}
-                </Mutation>
               </div>
             </div>
             </div>
@@ -120,4 +92,4 @@ class CourseDashboard extends Component {
 }
 
 
-export default CourseDashboard
+export default StudentCourseDashboard

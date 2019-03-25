@@ -120,6 +120,7 @@ _error = async error => {
   _confirm = async data => {
     const { token, user } = data.login
     this._saveUserData(token, user)
+
     if (user.role === "TEACHER") {
       this.props.history.push(`/teacher_dashboard`)
     }

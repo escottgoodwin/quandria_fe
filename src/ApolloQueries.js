@@ -115,6 +115,7 @@ query UserQuery($userid: ID!) {
       time
       deleted
       institution{
+        id
         name
       }
       students{
@@ -130,6 +131,53 @@ query UserQuery($userid: ID!) {
   }
 }
 `
+
+export const STUDENT_COURSE_QUERY = gql`
+query UserQuery($userid: ID!) {
+  user(id: $userid){
+    id
+    firstName
+    lastName
+    invitesSentTo{
+      id
+      course{
+        id
+        courseNumber
+        name
+        time
+        teachers{
+          id
+          firstName
+          lastName
+        }
+        institution{
+          id
+          name
+        }
+      }
+    }
+    studentCourses{
+      id
+      name
+      time
+      deleted
+      institution{
+        id
+        name
+      }
+      teachers{
+        id
+        firstName
+        lastName
+      }
+      tests{
+        id
+      }
+    }
+  }
+}
+`
+
 const DELETE_COURSE_MUTATION = gql`
   mutation DeleteCourse(
     $course_id: ID!,
@@ -264,6 +312,19 @@ query ChallengeTestQuery($testId:ID!){
 }
 `
 
+const LOGOUT_MUTATION = gql`
+  mutation {
+    logout{
+      authMsg
+      user{
+        online
+        firstName
+        lastName
+      }
+    }
+  }
+`
+
 export {
   ADD_COURSE_MUTATION,
   PERFORMANCE_CHALLENGE_QUERY,
@@ -277,4 +338,5 @@ export {
   TEST_STATS_QUERY,
   DELETE_TEST_MUTATION,
   CHALLENGE_TEST_QUERY,
+  LOGOUT_MUTATION,
 }
