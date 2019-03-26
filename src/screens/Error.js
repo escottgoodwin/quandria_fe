@@ -1,19 +1,19 @@
-import React,{Component} from 'react';
+import React from 'react';
 import '../css/App.css';
 
-class Error extends Component {
+const Error = props =>
 
-    render() {
+    <div className="dashboard">
+      <div className="signin">
+      <h2>Error</h2>
+      <h4>{props.graphQLErrors.length>0 &&
+      props.graphQLErrors.map(error => error.message)}
+      </h4>
+      <h4>{props.networkError !== null &&
+        props.networkError.message}
+      </h4>
+      </div>
+    </div>
 
-      return (
-        <div className="dashboard">
-          <div className="signin">
-          <h2>Error</h2>
-          <h4>{this.props}</h4>
-          </div>
-        </div>
-      )
-    }
-  }
 
 export default Error;

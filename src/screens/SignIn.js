@@ -1,36 +1,11 @@
-import React,{Component} from 'react';
-import '../css/App.css';
-//import { Button, Form, FormGroup, Label, Input,} from 'reactstrap';
+import React,{Component} from 'react'
+import * as Cookies from "js-cookie"
+import '../css/App.css'
+//import { Button, Form, FormGroup, Label, Input,} from 'reactstrap'
 import { Form, Input, Button, Message } from 'semantic-ui-react'
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import { Mutation } from "react-apollo"
 
-const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-      user{
-        id
-        firstName
-        lastName
-        online
-        role
-        teacherInstitutions {
-          id
-          name
-        }
-        studentInstitutions {
-          id
-          name
-        }
-        institution{
-          name
-          id
-        }
-      }
-    }
-  }
-`
+import {LOGIN_MUTATION} from '../ApolloQueries'
 
 class SignIn extends Component {
 
@@ -74,17 +49,17 @@ class SignIn extends Component {
         placeholder='Login password'
       />
 
-        <Mutation
-            mutation={LOGIN_MUTATION}
-            variables={{ email:email, password:password }}
-            onCompleted={data => this._confirm(data)}
-            onError={error => this._error (error)}
-          >
+      <Mutation
+          mutation={LOGIN_MUTATION}
+          variables={{ email:email, password:password }}
+          onCompleted={data => this._confirm(data)}
+          onError={error => this._error (error)}
+        >
 
-            {mutation => (
-              <Button color='blue' onClick={mutation}>Submit</Button>
-            )}
-          </Mutation>
+          {mutation => (
+            <Button color='blue' onClick={mutation}>Submit</Button>
+          )}
+        </Mutation>
 
 
         </Form>
@@ -140,12 +115,18 @@ _error = async error => {
   }
 
   _saveUserData = (token, user) => {
-    sessionStorage.setItem('auth_token', token);
-    sessionStorage.setItem('user', JSON.stringify(user));
-    sessionStorage.setItem('userid', user.id);
-    sessionStorage.setItem('online', user.online);
+    sessionStorage.setItem('auth_token', token)
+    sessionStorage.setItem('user', JSON.stringify(user))
+    sessionStorage.setItem('userid', user.id)
+    sessionStorage.setItem('online', user.online)
+    Cookies.set('auth_token', token)
+    Cookies.set('user', JSON.stringify(user))
+    Cookies.set('userid', user.id)
+    Cookies.set('online', user.online)
+
+
   }
 
 }
 
-export default SignIn;
+export default SignIn

@@ -1,11 +1,13 @@
-import React,{Component} from 'react';
-import {COURSE_QUERY} from '../ApolloQueries';
-import '../css/App.css';
-import { Query } from "react-apollo";
+import React,{Component} from 'react'
+import * as Cookies from "js-cookie"
+import '../css/App.css'
+import { Query } from "react-apollo"
 
 import TeacherHeader from '../components/TeacherHeader'
 import CourseList from '../components/CourseList'
 import MainPlaceholder from './MainPlaceholder'
+
+import {TEACHER_DASHBOARD_QUERY} from '../ApolloQueries'
 
 import Error from './Error'
 
@@ -13,11 +15,11 @@ class TeacherDashboard extends Component {
 
   render() {
 
-    const userid = sessionStorage.getItem('userid');
+    const userid = Cookies.get('userid')
 
     return (
 
-        <Query query={COURSE_QUERY} variables={{ userid: userid }}>
+        <Query query={TEACHER_DASHBOARD_QUERY} variables={{ userid }} >
               {({ loading, error, data }) => {
                 if (loading) return <MainPlaceholder />
                 if (error) return <Error error={error} />

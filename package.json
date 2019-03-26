@@ -21,6 +21,7 @@
     "dotenv": "^6.2.0",
     "graphql": "^14.0.2",
     "i": "^0.3.6",
+    "js-cookie": "^2.2.0",
     "npm": "^6.4.1",
     "react": "^16.6.3",
     "react-addons-css-transition-group": "^15.6.2",

@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import {Link} from 'react-router-dom'
+import * as Cookies from "js-cookie"
 import { Button } from 'semantic-ui-react'
 import {withRouter} from "react-router-dom"
 import { Mutation } from "react-apollo"
@@ -38,6 +39,11 @@ class SignInButton extends Component {
       sessionStorage.removeItem('userid')
       sessionStorage.removeItem('auth_token')
       sessionStorage.setItem('online', false)
+
+      Cookies.remove('userid')
+      Cookies.remove('auth_token')
+      Cookies.remove('user')
+
       this.props.history.push({
         pathname: `/sign_out`,
         state: { authMsg: authMsg }

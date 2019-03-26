@@ -1,4 +1,5 @@
 import React from 'react'
+import * as Cookies from "js-cookie"
 import ReactDOM from 'react-dom'
 import registerServiceWorker from './registerServiceWorker'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -13,8 +14,8 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import App from './App'
 
-const token = sessionStorage.getItem('auth_token')
-console.log(token)
+//const token1 = sessionStorage.getItem('auth_token')
+const token1 = Cookies.get('auth_token')
 
 const httpLink = createHttpLink({
   uri: process.env.REACT_APP_GRAPHQL_SERVER,
@@ -29,12 +30,13 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     connectionParams: {
-        authorization: token ? `Bearer ${token}` : "",
+        authorization: token1 ? `Bearer ${token1}` : "",
     },
   }
 })
 
-const authLink = setContext((_, { headers }) => {
+const authLink = setContext( async (_, { headers }) => {
+  const token = Cookies.get('auth_token')
   return {
     headers: {
       ...headers,

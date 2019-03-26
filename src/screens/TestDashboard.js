@@ -10,7 +10,7 @@ import TestPerformance from '../components/TestPerformance'
 import Error from './Error'
 import PlaceholderQ from '../components/Placeholder'
 import TestLoading from '../components/TestLoading'
-import {TEST_QUERY,DELETE_TEST_MUTATION,CHALLENGE_TEST_QUERY,TEST_STATS_QUERY} from '../ApolloQueries';
+import {TEST_QUERY,DELETE_TEST_MUTATION,CHALLENGE_TEST_QUERY,TEST_STATS_QUERY, TEACHER_DASHBOARD_QUERY} from '../ApolloQueries';
 
 const uuidv4 = require('uuid/v4');
 
@@ -19,6 +19,7 @@ class TestDashboard extends Component {
   render() {
 
     const { test_id } = this.props.location.state
+    const userid = sessionStorage.getItem('userid')
 
     return (
 
@@ -122,6 +123,12 @@ class TestDashboard extends Component {
                   mutation={DELETE_TEST_MUTATION}
                   variables={{ test_id: test_id }}
                   onCompleted={data => this._confirm(data)}
+                  refetchQueries={() => {
+                     return [{
+                        query: TEACHER_DASHBOARD_QUERY,
+                        variables: { userid }
+                    }]
+                }}
                 >
                   {mutation => (
                     <Button  color='red' onClick={mutation}>Delete Test</Button>

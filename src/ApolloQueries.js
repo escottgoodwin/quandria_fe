@@ -101,9 +101,36 @@ const TEST_COURSE_QUERY = gql`
     }
   }
   `
-
-
 export const COURSE_QUERY = gql`
+  query CourseQuery($courseid:ID!){
+    course(id:$courseid){
+      id
+      name
+      courseNumber
+      time
+      institution{
+        id
+        name
+      }
+      tests{
+        id
+        subject
+        deleted
+        testNumber
+        release
+        testDate
+        questions{
+          id
+        }
+        panels{
+          id
+        }
+      }
+    }
+  }
+`
+
+export const TEACHER_DASHBOARD_QUERY = gql`
 query UserQuery($userid: ID!) {
   user(id: $userid){
     id
@@ -216,22 +243,30 @@ query TestQuery($test_id:ID!){
 `
 
 const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-      user{
+mutation LoginMutation($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    token
+    user{
+      id
+      firstName
+      lastName
+      online
+      role
+      teacherInstitutions {
         id
-        firstName
-        lastName
-        online
-        role
-        institution{
-          name
-          id
-        }
+        name
+      }
+      studentInstitutions {
+        id
+        name
+      }
+      institution{
+        name
+        id
       }
     }
   }
+}
 `
 
 const PANEL_QUERY = gql`
