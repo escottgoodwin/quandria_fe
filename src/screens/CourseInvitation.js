@@ -1,75 +1,35 @@
-import React,{Component} from 'react';
-import '../css/App.css';
+import React,{Component} from 'react'
+import '../css/App.css'
 
 import CourseHeader from '../components/CourseHeader'
-import { Query, Mutation, } from "react-apollo";
-import gql from "graphql-tag";
-import { Button, Form, TextArea } from 'semantic-ui-react'
+import { Query, Mutation, } from "react-apollo"
+import { Button, Form, TextArea, Message } from 'semantic-ui-react'
 import Error from './Error'
 import Loading from './Loading'
 
-
-const COURSE_QUERY = gql`
-query CourseQuery($courseid:ID!){
-  course(id:$courseid){
-    id
-    name
-    courseNumber
-    time
-    institution{
-      name
-    }
-    tests{
-      id
-      subject
-      deleted
-      testNumber
-      release
-      testDate
-      questions{
-        id
-        challenges{
-          challenge
-        }
-        questionAnswers{
-        answer{
-          choice
-          correct
-        }
-      }
-      }
-      panels{
-        id
-      }
-    }
-  }
-}
-`
-
-const SEND_INVITES_MUTATION = gql`
-mutation SendInvites($emails:String,$course_id:ID!){
-  sendInvite(emails:$emails,
-    courseId:$course_id){
-      authMsg
-    }
-}
-`
+import {COURSE_DASHBOARD_QUERY, SEND_INVITES_MUTATION} from '../ApolloQueries'
 
 class CourseInvitation extends Component {
 
   state = {
         emails:'',
+        graphQLError: '',
+        isVisibleGraph:false,
+        networkError:'',
+        isVisibleNet:false,
       }
 
   render() {
 
     const { course_id }= this.props.location.state
+    const { graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
+
 
     return (
-    <Query query={COURSE_QUERY} variables={{ courseid: course_id }}>
+    <Query query={COURSE_DASHBOARD_QUERY} variables={{ courseid: course_id }}>
           {({ loading, error, data }) => {
             if (loading) return <Loading />
-            if (error) return <Error/>
+            if (error) return <Error {...error}/>
 
             const courseToRender = data.course
 
@@ -99,12 +59,25 @@ class CourseInvitation extends Component {
               <Mutation
                   mutation={SEND_INVITES_MUTATION}
                   variables={{ course_id: course_id, emails: this.state.emails }}
+                  onError={error => this._error (error)}
                   onCompleted={data => this._confirm(data)}
                 >
                   {mutation => (
                     <Button color='blue' onClick={mutation}>Send Invitations</Button>
                   )}
                 </Mutation>
+
+                {isVisibleGraph &&
+                  <Message negative>
+                    <p><b>{graphQLError}</b></p>
+                  </Message>
+                }
+
+                {isVisibleNet &&
+                  <Message negative>
+                    <p><b>{networkError}</b></p>
+                  </Message>
+                }
                 </div>
                 </div>
               </div>
@@ -116,6 +89,17 @@ class CourseInvitation extends Component {
     </Query>
     )
   }
+
+  _error = async error => {
+
+      const gerrorMessage = error.graphQLErrors.map((err,i) => err.message)
+      this.setState({ isVisibleGraph: true, graphQLError: gerrorMessage})
+
+      error.networkError &&
+        this.setState({ isVisibleNet: true, networkError: error.networkError.message})
+
+  }
+
   _confirm = async data => {
     this.props.history.push({
       pathname: `/course_dashboard`,

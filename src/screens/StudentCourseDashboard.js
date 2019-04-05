@@ -4,49 +4,11 @@ import '../css/App.css'
 import CourseHeader from '../components/CourseHeader'
 import StudentTestList from '../components/StudentTestList'
 import { Query } from "react-apollo"
-import gql from "graphql-tag"
-import Error from './Error'
 
+import Error from './Error'
 import CoursePlaceholder from './CoursePlaceholder'
 
-const COURSE_QUERY = gql`
-query CourseQuery($courseid:ID!){
-  course(id:$courseid){
-    id
-    name
-    courseNumber
-    time
-    institution{
-      name
-    }
-    tests{
-      id
-      subject
-      deleted
-      testNumber
-      release
-      testDate
-      questions{
-        id
-        questionAnswers{
-          challenge{
-            challenge
-          }
-        answer{
-          choice
-          correct
-
-        }
-      }
-      }
-      panels{
-        id
-      }
-    }
-  }
-}
-`
-
+import {STUDENT_COURSE_QUERY} from '../ApolloQueries'
 
 class StudentCourseDashboard extends Component {
 
@@ -55,7 +17,7 @@ class StudentCourseDashboard extends Component {
     const { course_id }= this.props.location.state
 
     return (
-    <Query query={COURSE_QUERY} variables={{ courseid: course_id }}>
+    <Query query={STUDENT_COURSE_QUERY} variables={{ courseid: course_id }}>
           {({ loading, error, data }) => {
             if (loading) return <CoursePlaceholder />
             if (error) return <Error {...error} />
@@ -75,21 +37,14 @@ class StudentCourseDashboard extends Component {
               </div>
             </div>
             </div>
-
-
-
-
-
         )
       }}
     </Query>
     )
   }
   _confirm = async data => {
-
     this.props.history.push(`/teacher_dashboard`)
   }
 }
-
 
 export default StudentCourseDashboard

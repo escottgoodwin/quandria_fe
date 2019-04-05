@@ -34,7 +34,7 @@ render() {
     <Query query={COURSE_QUERY} variables={{ course_id: this.props.location.state.course_id }}>
           {({ loading, error, data }) => {
             if (loading) return <Loading/>
-            if (error) return <Error/>
+            if (error) return <Error {...error}/>
 
             const courseToRender = data.course
 
@@ -49,8 +49,8 @@ render() {
             <h2>Edit Course</h2>
 
             <EditCourseInput {...courseToRender}/>
-                    </div>
-                      </div>
+            </div>
+          </div>
 
             )
           }}
@@ -58,7 +58,6 @@ render() {
 
   )
 }
-
 
     _confirm = async data => {
       const { id } = data.updateCourse

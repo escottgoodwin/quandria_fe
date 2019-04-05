@@ -4,26 +4,8 @@ import { Tab, Image, Icon, Grid, Form, Divider, Input, Button } from 'semantic-u
 import ChallengeMessageList from './ChallengeMessageList'
 import { withRouter } from "react-router-dom";
 import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
 
-const ADD_CHALLENGE_MESSAGE_MUTATION = gql`
-mutation AddChallengeMessage($challengeId: ID!, $challengeMessage: String!) {
-  addChallengeMessage(challengeMessage: $challengeMessage,
-  challengeId: $challengeId){
-    addedBy{
-      firstName
-    }
-    challengeMessage
-    challenge{
-      answer{
-        answer{
-          choice
-        }
-      }
-    }
-  }
-}
-`
+import {ADD_CHALLENGE_MESSAGE_MUTATION, CHALLENGE_DASHBOARD_QUERY} from '../ApolloQueries'
 
 class ChallengeSection extends Component {
 
@@ -106,69 +88,9 @@ class ChallengeSection extends Component {
             onCompleted={data => this._confirm(data)}
             refetchQueries={() => {
                return [{
-                  query: gql`
-                  query TestChallenges($testId:ID!){
-                    test(id:$testId){
-                        id
-                        subject
-                        testNumber
-                        testDate
-
-                        course{
-                          id
-                          name
-                          courseNumber
-                        }
-                        questions{
-                          challenges{
-                            challenge
-                            addedBy{
-                              id
-                              firstName
-                              lastName
-                            }
-                            challengeMessages{
-                              id
-                              challengeMessage
-                              addedDate
-                              addedBy{
-                                firstName
-                                lastName
-                              }
-                            }
-                            id
-                            question{
-                              question
-                              choices{
-                                correct
-                                choice
-                              }
-                  						questionAnswers{
-                                addedBy{
-                                  id
-                                  firstName
-                                }
-                                answer{
-                                  choice
-                                }
-                              }
-                              panel{
-                                link
-                              }
-                              addedBy{
-                                firstName
-                                lastName
-                              }
-                            }
-
-                          }
-                        }
-
-                      }
-                  }
-                `,
+                  query: CHALLENGE_DASHBOARD_QUERY,
                   variables: { testId: test_id }
-              }];
+              }]
               }} >
             {mutation => (
 

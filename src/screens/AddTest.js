@@ -1,41 +1,16 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Form, Input, Button, Select } from 'semantic-ui-react'
+import { Form, Input, Button, Select, Message } from 'semantic-ui-react'
 import {  DateTimeInput } from 'semantic-ui-calendar-react';
 import moment from 'moment'
 
 import { Mutation, Query } from "react-apollo";
 import Error from './Error'
 import Loading from './Loading'
-import gql from "graphql-tag";
+
+import {ADD_TEST_MUTATION, TEST_COURSE_QUERY, COURSE_QUERY} from '../ApolloQueries'
 
 import AddTestHeader from '../components/AddTestHeader'
-
-const ADD_TEST_MUTATION = gql`
-mutation AddTest(
-  $subject:String!
-  $testDate: DateTime,
-  $testNumber: String,
-  $courseId:ID!){
-    addTest(subject:$subject,
-      testDate:$testDate,
-      testNumber:$testNumber,
-      courseId:$courseId){
-        id
-      }
-    }
-    `
-
-const COURSE_QUERY = gql`
-  query COURSE($course_id:ID!){
-    course(id:$course_id){
-      name
-      courseNumber
-      time
-      id
-    }
-  }
-  `
 
 class AddTest extends Component {
 
@@ -44,6 +19,10 @@ class AddTest extends Component {
           testNumber:'',
           subject:'',
           testDate:'',
+          graphQLError: '',
+          isVisibleGraph:false,
+          networkError:false,
+          isVisibleNet:false,
         }
 
     handleChange = (event, {name, value}) => {
@@ -54,19 +33,19 @@ class AddTest extends Component {
 
     render() {
       const { course_id } = this.props.location.state
-      const { testNumber, subject, testDate } = this.state
+      const { testNumber, subject, testDate, graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
       const testDate1 = moment(testDate).format()
       const testnumbers = [{value:"Test 1",text:"Test 1"}, {value:"Test 2",text:"Test 2"}, {value:"Test 3",text:"Test 3"}, {value:"Test 4",text:"Test 4"}, {value:"Test 5",text:"Test 5"}, {value:"Test 6",text:"Test 6"}]
       return (
         <div className="main">
-  <div className="dashboard">
-    <div className="signin">
-      <h2>Add Test</h2>
+        <div className="dashboard">
+          <div className="signin">
+            <h2>Add Test</h2>
 
-      <Query query={COURSE_QUERY} variables={{ course_id: course_id }}>
+      <Query query={TEST_COURSE_QUERY} variables={{ course_id: course_id }}>
             {({ loading, error, data }) => {
               if (loading) return <Loading />
-              if (error) return <Error/>
+              if (error) return <Error {...error}/>
 
               const course = data.course
 
@@ -118,51 +97,43 @@ class AddTest extends Component {
             published: false,
             release:false,
             courseId: course_id
-  }}
+          }}
+
+          refetchQueries={() => { return [{ query: COURSE_QUERY, variables: { courseid: course_id }}] }}
           onCompleted={data => this._confirm(data)}
-          refetchQueries={() => {
-             return [{
-                query: gql`
-                query CourseQuery($courseid:ID!){
-                  course(id:$courseid){
-                    id
-                    name
-                    courseNumber
-                    time
-                    institution{
-                      name
-                    }
-                    tests{
-                      id
-                      subject
-                      deleted
-                      testNumber
-                      release
-                      testDate
-                      questions{
-                        id
-                      }
-                      panels{
-                        id
-                      }
-                    }
-                  }
-                }
-              `,
-                variables: { courseid: course_id }
-            }];
-        }}
         >
           {mutation => (
             <Button  color='blue' onClick={mutation}>Submit</Button>
           )}
         </Mutation>
 
+        {isVisibleGraph &&
+          <Message negative>
+            <p><b>{graphQLError}</b></p>
+          </Message>
+        }
+
+        {isVisibleNet &&
+          <Message negative>
+            <p><b>{networkError}</b></p>
+          </Message>
+        }
+
       </Form>
     </div>
   </div>
   </div>
 )
+}
+
+_error = async error => {
+
+    const gerrorMessage = error.graphQLErrors.map((err,i) => err.message)
+    this.setState({ isVisibleGraph: true, graphQLError: gerrorMessage})
+
+    error.networkError &&
+      this.setState({ isVisibleNet: true, networkError: error.networkError.message})
+
 }
 
 _confirm = async data => {

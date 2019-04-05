@@ -7,11 +7,6 @@ import {Link} from 'react-router-dom'
 
 const CourseRow = (props) =>
 
-//<Card key={props.id} className="card" body>
-
-//  <CardText>
-
-
 <Segment >
   <div className="course_row">
 

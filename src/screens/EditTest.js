@@ -9,24 +9,7 @@ import Loading from './Loading'
 import EditTestInput from '../components/EditTestInput'
 import EditTestHeader from '../components/EditTestHeader'
 
-import gql from "graphql-tag";
-
-
-const TEST_QUERY = gql`
-  query TestQuery($test_id: ID!){
-    test(id:$test_id){
-      subject
-      testDate
-      testNumber
-      id
-      course {
-        id
-        name
-        courseNumber
-      }
-  }
-}
-`
+import {TEST_EDIT_QUERY} from '../ApolloQueries'
 
 class EditTest extends Component {
 
@@ -38,13 +21,12 @@ render() {
       <div className="signin">
 
 
-    <Query query={TEST_QUERY} variables={{ test_id: this.props.location.state.test_id }}>
+    <Query query={TEST_EDIT_QUERY} variables={{ test_id: this.props.location.state.test_id }}>
           {({ loading, error, data }) => {
             if (loading) return <Loading/>
-            if (error) return <Error/>
+            if (error) return <Error {...error}/>
 
             const testToRender = data.test
-            console.log(testToRender)
 
         return (
             <div>
@@ -54,19 +36,14 @@ render() {
             </div>
             <EditTestInput {...testToRender}/>
             </div>
-
-
             )
           }}
         </Query>
         </div>
-      </div>
         </div>
-  )
-}
-
+        </div>
+      )
   }
-
-
+}
 
 export default EditTest ;

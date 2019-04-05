@@ -7,58 +7,7 @@ import { withRouter } from "react-router-dom";
 import { Mutation, Query } from "react-apollo";
 import gql from "graphql-tag";
 
-const ADD_CHALLENGE_MESSAGE_MUTATION = gql`
-mutation AddChallengeMessage($challengeId: ID!, $challengeMessage: String!) {
-  addChallengeMessage(challengeMessage: $challengeMessage,
-  challengeId: $challengeId){
-    addedBy{
-      firstName
-    }
-    challengeMessage
-    challenge{
-      answer{
-        answer{
-          choice
-        }
-      }
-    }
-  }
-}
-`
-
-const CHALLENGE_MESSAGE_QUERY = gql`
-query ChallengeMessages($challengeId:ID!){
-   challengeMessages(where:{challenge:{id:$challengeId}}){
-    challengeMessages{
-      id
-      challengeMessage
-      addedDate
-      addedBy{
-        id
-        firstName
-        lastName
-      }
-    }
-  }
-}
-`
-
-const CHALLENGE_MESSAGE_SUBSCRIPTION = gql`
-  subscription ChallengeMsgSub($challengeId:ID!){
-    challengeMsg(challengeId:$challengeId){
-      node{
-        id
-        challengeMessage
-        addedDate
-        addedBy{
-          id
-          firstName
-          lastName
-        }
-      }
-    }
-  }
-  `
+import {CHALLENGE_MESSAGE_SUBSCRIPTION, CHALLENGE_MESSAGE_QUERY, ADD_CHALLENGE_MESSAGE_MUTATION} from '../ApolloQueries'
 
 class ChallengeSection extends Component {
 

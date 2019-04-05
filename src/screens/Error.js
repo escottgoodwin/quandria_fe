@@ -1,19 +1,26 @@
-import React from 'react';
-import '../css/App.css';
+import React from 'react'
+import '../css/App.css'
+import { Message,Icon } from 'semantic-ui-react'
 
 const Error = props =>
 
-    <div className="dashboard">
-      <div className="signin">
-      <h2>Error</h2>
-      <h4>{props.graphQLErrors.length>0 &&
-      props.graphQLErrors.map(error => error.message)}
-      </h4>
-      <h4>{props.networkError !== null &&
-        props.networkError.message}
-      </h4>
+<div className="main">
+<div className="coursecontainer">
+      {props.error.graphQLErrors.length>0 &&
+      <Message negative>
+      <div><Icon name='warning sign'  /></div>
+      <div>{props.error.graphQLErrors.map(error => error.message)}</div>
+      </Message>
+      }
+
+      {props.error.networkError !== null &&
+      <Message negative>
+      <div><Icon name='warning sign' size='large' /></div>
+      <div>{props.error.networkError.message}</div>
+      </Message>
+      }
       </div>
     </div>
 
 
-export default Error;
+export default Error

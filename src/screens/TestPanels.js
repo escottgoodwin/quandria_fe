@@ -1,42 +1,19 @@
-import React,{Component} from 'react';
-import '../css/App.css';
+import React,{Component} from 'react'
+import '../css/App.css'
+import { Query } from "react-apollo"
+
+import {PANEL_QUERY} from '../ApolloQueries'
+
 import ChallengeHeader from '../components/ChallengeHeader'
-import PanelList from '../components/PanelList'
+import PanelList from '../components/PanelList2'
 import AddPanelButton from '../components/AddPanelButton'
-import { Query } from "react-apollo";
 import Error from '../components/Error'
 import Loading from './Loading'
-import gql from "graphql-tag";
-
-
-const PANEL_QUERY = gql`
-query TestChallenges($test_id:ID!){
-  test(id:$test_id){
-    id
-      subject
-      testNumber
-      testDate
-      course{
-        id
-        name
-        courseNumber
-      }
-      panels{
-        link
-        questions{
-         question
-         questionAnswers{
-           answerCorrect
-         }
-        }
-      }
-   }
-}
-`
 
 class StudentPerformance extends Component {
 
   render() {
+
     const { test_id } = this.props.location.state
 
       return (
@@ -57,9 +34,6 @@ class StudentPerformance extends Component {
       <ChallengeHeader {...testToRender}/>
 
       <div style={{padding:'15px'}}>
-
-
-      <h5>{testToRender.panels.length} Panels</h5>
 
       <AddPanelButton {...testToRender}/>
 
@@ -87,4 +61,4 @@ class StudentPerformance extends Component {
 
 
 
-export default StudentPerformance ;
+export default StudentPerformance

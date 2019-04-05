@@ -1,36 +1,17 @@
-import React,{Component} from 'react';
+import React,{Component} from 'react'
+import '../css/App.css'
 
-import '../css/App.css';
 import ChallengeHeader from '../components/ChallengeHeader'
 import DropZoneUpload from '../components/DropZoneUpload'
-
-import { Query } from "react-apollo";
+import AddPanelList from '../components/AddPanelList'
+import Loading from '../screens/Loading'
 import Error from './Error'
-import Loading from './Loading'
-import gql from "graphql-tag";
 
-const CHALLENGE_QUERY = gql`
-query TestChallenges($test_id:ID!){
-  test(id:$test_id){
-      id
-      subject
-      testNumber
-      testDate
-      course{
-        id
-        name
-        courseNumber
-      }
-      panels{
-        link
-        id
-      }
-      }
-    }
-`
+import { Query } from "react-apollo"
+
+import {PANEL_QUERY} from '../ApolloQueries'
 
 class AddPanels extends Component {
-
 
     render() {
       const { test_id } = this.props.location.state
@@ -38,21 +19,25 @@ class AddPanels extends Component {
 
       return (
 
-        <Query query={CHALLENGE_QUERY} variables={{ test_id: test_id }}>
+        <Query query={PANEL_QUERY} variables={{ test_id: test_id }}>
               {({ loading, error, data }) => {
                 if (loading) return <Loading />
-                if (error) return <Error />
+                if (error) return <Error {...error}/>
 
                 const testToRender = data.test
 
             return (
               <div className="main">
-        <div className="coursecontainer">
+              <div className="coursecontainer">
 
               <ChallengeHeader {...testToRender }/>
 
-              <DropZoneUpload token={auth_token} {...testToRender}/>
+              <div style={{padding:"15px"}}>
+              </div>
 
+              <DropZoneUpload token={auth_token} {...testToRender} />
+
+              <AddPanelList test_id={test_id}/>
             </div>
             </div>
 

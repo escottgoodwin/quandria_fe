@@ -1,21 +1,13 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 import { Card } from 'semantic-ui-react'
-import PanelRow from './PanelRow'
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import Error from '../components/Error'
 
-const NEW_PANEL_QUERY = gql`
-query PanelQuery($testId:ID!){
-  testPanelStats(testId:$testId){
-    panelLink
-    total
-    totalCorrect
-  	percentCorrect
-  }
-}
-`
+import { Query } from "react-apollo";
+import {TEST_PANEL_STATS_QUERY} from '../ApolloQueries'
+
+import PanelRow from './PanelRow'
+
+import Error from '../components/Error'
 
 class PanelList extends Component {
 
@@ -23,7 +15,7 @@ class PanelList extends Component {
 
       return (
 
-        <Query query={NEW_PANEL_QUERY} variables={{ testId: this.props.id }}>
+        <Query query={TEST_PANEL_STATS_QUERY} variables={{ testId: this.props.id }}>
               {({ loading, error, data }) => {
                 if (loading) return <div>Loading...</div>
                 if (error) return <Error {...error}/>
@@ -44,7 +36,6 @@ class PanelList extends Component {
 
           }
         </Query>
-
 )
 }
 }

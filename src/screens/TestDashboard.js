@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 import { Query,Mutation } from "react-apollo";
-import { Button, Grid, Segment } from 'semantic-ui-react'
+import { Button, Grid, Segment, Message } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import TestHeader from '../components/TestHeader'
 import TestChallenges from '../components/TestChallenges'
@@ -16,10 +16,19 @@ const uuidv4 = require('uuid/v4');
 
 class TestDashboard extends Component {
 
+  state = {
+    graphQLError: '',
+    isVisibleGraph:false,
+    networkError:false,
+    isVisibleNet:false,
+  }
+
   render() {
 
     const { test_id } = this.props.location.state
     const userid = sessionStorage.getItem('userid')
+    const { graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
+
 
     return (
 
@@ -54,7 +63,7 @@ class TestDashboard extends Component {
                 <Query query={CHALLENGE_TEST_QUERY} variables={{ testId: test_id, courseId: testToRender.course.id }}>
                       {({ loading, error, data }) => {
                         if (loading) return <PlaceholderQ />
-                        if (error) return <div>Error</div >
+                        if (error) return <Error error={error} />
 
                         const challenges = data.challenges.challenges
 
@@ -87,7 +96,7 @@ class TestDashboard extends Component {
                 <Query query={TEST_STATS_QUERY} variables={{ testId: test_id, courseId: testToRender.course.id }}>
                       {({ loading, error, data }) => {
                         if (loading) return <PlaceholderQ />
-                        if (error) return <div>Error</div >
+                        if (error) return <Error error={error} />
 
                         const stats = []
                         data.userTestStats.forEach(function(element) {
@@ -123,6 +132,7 @@ class TestDashboard extends Component {
                   mutation={DELETE_TEST_MUTATION}
                   variables={{ test_id: test_id }}
                   onCompleted={data => this._confirm(data)}
+                  onError={error => this._error (error)}
                   refetchQueries={() => {
                      return [{
                         query: TEACHER_DASHBOARD_QUERY,
@@ -134,6 +144,19 @@ class TestDashboard extends Component {
                     <Button  color='red' onClick={mutation}>Delete Test</Button>
                   )}
                 </Mutation>
+
+                {isVisibleGraph &&
+                  <Message negative>
+                    <p><b>{graphQLError}</b></p>
+                  </Message>
+                }
+
+                {isVisibleNet &&
+                  <Message negative>
+                    <p><b>{networkError}</b></p>
+                  </Message>
+                }
+
                 </div>
               </div>
 </div>
@@ -144,6 +167,16 @@ class TestDashboard extends Component {
         }}
       </Query>
       )
+    }
+
+    _error = async error => {
+
+        const gerrorMessage = error.graphQLErrors.map((err,i) => err.message)
+        this.setState({ isVisibleGraph: true, graphQLError: gerrorMessage})
+
+        error.networkError &&
+          this.setState({ isVisibleNet: true, networkError: error.networkError.message})
+
     }
 
     _confirm = async data => {

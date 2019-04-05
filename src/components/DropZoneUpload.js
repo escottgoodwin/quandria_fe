@@ -3,11 +3,12 @@ import React,{Component} from 'react';
 import '../css/App.css';
 import classNames from 'classnames'
 import Dropzone from 'react-dropzone'
+import { Segment, Icon, Progress  } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
-import { Card, Progress, Segment, Icon  } from 'semantic-ui-react'
-import UploadPanel from '../components/UploadPanel'
-import PanelCount from '../components/PanelCount'
+
 import axios from 'axios'
+
+import {DELETE_PANEL, ADD_PANEL_MUTATION,TEST_PANEL_STATS_QUERY} from '../ApolloQueries'
 
 class DropZoneUpload extends Component {
 
@@ -20,7 +21,6 @@ class DropZoneUpload extends Component {
     }
 
     deletePanel = (panelId) => {
-      const that = this;
 
        axios({
           url: process.env.REACT_APP_GRAPHQL_SERVER,
@@ -29,62 +29,54 @@ class DropZoneUpload extends Component {
             authorization: this.props.token ? `Bearer ${this.props.token}` : "",
           },
           data: {
-            query: `
-            mutation DeletePanel($panelId:ID!){
-              deletePanel(id:$panelId){
-                id
-              }
-            }
-              `,
+            query: DELETE_PANEL,
               variables: {panelId:panelId}
             }
-        }).then(result => {
-          axios({
+        })
+        .then(result => {
+          return axios({
              url: process.env.REACT_APP_GRAPHQL_SERVER,
              method: 'post',
              headers: {
                authorization: this.props.token ? `Bearer ${this.props.token}` : "",
              },
              data: {
-               query: `
-               query TestChallenges($testId:ID!){
-                 test(id:$testId){
-                     id
-                     subject
-                     testNumber
-                     testDate
-                     course{
-                       id
-                       name
-                       courseNumber
-                     }
-                     panels{
-                       link
-                       id
-                     }
-                     }
-                   }
-                 `,
+               query: TEST_PANEL_STATS_QUERY,
                  variables: {testId:this.props.id}
                }
-           }).then(result => {
-             let grapqhql_resp = result.request.response
-             let panels = JSON.parse(grapqhql_resp)
-             let currentPanels = panels.data.test.panels
-             console.log(currentPanels)
-             that.setState({fileUrls:currentPanels})
-           });
-    }
-  )
-}
+           })
+         })
+        .then(result => console.log('updated'))
+        .catch((error) => {
+             // Error
+             if (error.response) {
+                 // The request was made and the server responded with a status code
+                 // that falls out of the range of 2xx
+                 // console.log(error.response.data);
+                 // console.log(error.response.status);
+                 // console.log(error.response.headers);
+             } else if (error.request) {
+                 // The request was made but no response was received
+                 // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                 // http.ClientRequest in node.js
+                 console.log(error.request);
+             } else {
+                 // Something happened in setting up the request that triggered an Error
+                 console.log('Error', error.message);
+             }
+             console.log(error.config);
+           })
+          }
 
     onDrop = async (acceptedFiles, rejectedFiles) =>  {
       // Push all the axios request promise into a single array
 
       const file_total = acceptedFiles.length
       let uploadFiles = 0
-      let fileTotalSize = 0
-      acceptedFiles.map(file => fileTotalSize += file.size)
+      const fileSizes = acceptedFiles.map(file => file.size)
+      const reducer = (accumulator, currentValue) => accumulator + currentValue
+      const totalUploadSize = fileSizes.reduce(reducer)
+      console.log(totalUploadSize)
 
       acceptedFiles.map(file => {
 
@@ -100,79 +92,118 @@ class DropZoneUpload extends Component {
           headers: { "X-Requested-With": "XMLHttpRequest" },
         }
 
+        const axiosCall = {
+            url: url,
+            method: 'post',
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+            data:{
+              file: file,
+              upload_preset: unsignedUploadPreset,
+            },
+            onUploadProgress: (progressEvent) => {
+             let percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
+             let newLoadTotal = this.state.fileTotalSize + progressEvent.loaded
+             this.setState({fileTotalSize: newLoadTotal})
+             console.log(newLoadTotal)
+           }
+         }
+
         const that = this;
-         axios.post(url, formData, config).then(response => {
+         axios.post(url, formData, config)
+         .then(response => {
           const data = response.data;
           const fileURL = data.secure_url // You should store this URL for future references in your app
           const testId = this.props.id
-          uploadFiles += 1
-          let percent = (uploadFiles / file_total)*100
 
-          that.setState({percent})
-
-         axios({
+         return axios({
             url: process.env.REACT_APP_GRAPHQL_SERVER,
             method: 'post',
             headers: {
               authorization: this.props.token ? `Bearer ${this.props.token}` : "",
             },
             data: {
-              query: `
-              mutation SendLink($testId:ID!,
-              $link:String!){
-                addPanel(link:$link,
-                testId:$testId){
-                  link
-                  id
-                  test{
-                    panels{
-                      id
-                      link
-                    }
-                  }
-                }
-              }
-                `,
+              query: ADD_PANEL_MUTATION,
                 variables: {testId:testId,link:fileURL}
               }
-
-          }).then(result => {
-            let grapqhql_resp = result.request.response
-            let panels = JSON.parse(grapqhql_resp)
-            let currentPanels = panels.data.addPanel.test.panels
-            that.setState({fileUrls:currentPanels})
-            that.setState({percent:0})
-            that.setState({panelcount:currentPanels.length})
-          });
+          })
+          .then(result => {
+            uploadFiles += 1
+            let percent = (uploadFiles / file_total)*100
+            that.setState({percent})
+          })
+          .catch((error) => {
+               // Error
+               if (error.response) {
+                   // The request was made and the server responded with a status code
+                   // that falls out of the range of 2xx
+                   // console.log(error.response.data);
+                   // console.log(error.response.status);
+                   // console.log(error.response.headers);
+               } else if (error.request) {
+                   // The request was made but no response was received
+                   // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                   // http.ClientRequest in node.js
+                   console.log(error.request);
+               } else {
+                   // Something happened in setting up the request that triggered an Error
+                   console.log('Error', error.message);
+               }
+               console.log(error.config);
+             })
 
         })
-        return file_total
-      });
-
+        return file
+      })
+      this.setState({percent:0})
+      axios({
+         url: process.env.REACT_APP_GRAPHQL_SERVER,
+         method: 'post',
+         headers: {
+           authorization: this.props.token ? `Bearer ${this.props.token}` : "",
+         },
+         data: {
+           query: TEST_PANEL_STATS_QUERY,
+             variables: {testId:this.props.id}
+           }
+       })
+       .catch((error) => {
+            // Error
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                // console.log(error.response.data);
+                // console.log(error.response.status);
+                // console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+            console.log(error.config);
+          })
     }
 
       render() {
 
         return (
+
           <div>
-          <div style={{padding:"15px"}}>
-
-          <Link  to={{
-            pathname: "/test_panels",
-            state:
-              {
-                test_id: this.props.id }
-            }} >
-            <PanelCount count={this.state.panelcount }/>
-          </Link>
-
-          </div>
-
-          <hr/>
 
           <div >
           <center>
           <div style={{width:"500px",paddingBottom:"25px"}}>
+
+          <Link  to={{
+            pathname: "/test_panels",
+            state: { test_id: this.props.id }
+            }} >
+          <h4>Panel Performance Statistics</h4>
+          </Link>
+
         <Dropzone token={this.props.token} onDrop={this.onDrop}>
           {({getRootProps, getInputProps, isDragActive}) => {
             return (
@@ -210,13 +241,7 @@ class DropZoneUpload extends Component {
         </div >
         </center>
         </div >
-        <div style={{padding:"20"}}>
-        <div style={{padding:"20"}}>
-        <Progress  percent={this.state.percent} color='teal' /> </div>
-        <Card.Group centered>
-        {this.state.fileUrls.map(url => <UploadPanel deletePanel={this.deletePanel} key={url.link} {...url}/>)}
-        </Card.Group>
-    </div>
+        <Progress percent={this.state.percent} color='teal' />
     </div>
 
       )

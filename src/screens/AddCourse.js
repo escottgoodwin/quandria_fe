@@ -1,11 +1,12 @@
 import React,{Component} from 'react'
+import * as Cookies from "js-cookie"
 import '../css/App.css'
 //import { Form, FormGroup, Label, Input, } from 'reactstrap'
 import { Form, Input, Button, Select, Message } from 'semantic-ui-react'
 
 import { Mutation } from "react-apollo"
 
-import {COURSE_QUERY, ADD_COURSE_MUTATION} from '../ApolloQueries'
+import {ADD_COURSE_MUTATION, TEACHER_DASHBOARD_QUERY} from '../ApolloQueries'
 
 class AddCourse extends Component {
 
@@ -24,14 +25,17 @@ class AddCourse extends Component {
       }
 
 render() {
+
   const user =  JSON.parse(sessionStorage.getItem('user'))
+  const userid = Cookies.get('userid')
   const { name, schoolId, time, department1, institutionId, graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
   const institutions = user.teacherInstitutions.map(institution => ({value: institution.id, text: institution.name}))
+
   return (
-        <div className="dashboard">
-          <div className="signin">
-            <h2>Add Course</h2>
-            <h6 style={{color:'green',height:10,padding:5}}>{this.state.course_message}</h6>
+  <div className="dashboard">
+    <div className="signin">
+      <h2>Add Course</h2>
+      <h6 style={{color:'green',height:10,padding:5}}>{this.state.course_message}</h6>
 
       <Form size="big">
 
@@ -94,6 +98,7 @@ render() {
         </Message>
       }
 
+
         <Mutation
             mutation={ADD_COURSE_MUTATION}
             variables={{ name: name,
@@ -102,19 +107,30 @@ render() {
               department1: department1,
               institutionId: institutionId
             }}
+            onError={error => this._error (error)}
             onCompleted={data => this._confirm(data)}
-            refetchQueries={() => {
-               return [{
-                  query: COURSE_QUERY,
-                  variables: { userid: user.id }
-              }]
-          }}  >
+            refetchQueries={() => { return [{
+                query: TEACHER_DASHBOARD_QUERY,
+                variables: { userid }}]
+              }}
+            >
             {mutation => (
               <div style={{padding:'15px'}}>
               <Button color='blue' onClick={mutation}>Submit</Button>
               </div>
             )}
           </Mutation>
+          {isVisibleGraph &&
+            <Message negative>
+              <p><b>{graphQLError}</b></p>
+            </Message>
+          }
+
+          {isVisibleNet &&
+            <Message negative>
+              <p><b>{networkError}</b></p>
+            </Message>
+          }
 
         </div>
       </div>
@@ -140,7 +156,5 @@ render() {
     }
 
   }
-
-
 
 export default AddCourse

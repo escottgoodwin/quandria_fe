@@ -1,6 +1,9 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 import { Image, Button, Dimmer, Header } from 'semantic-ui-react'
+import { Mutation } from "react-apollo"
+import {DELETE_PANEL, TEST_PANEL_STATS_QUERY} from '../ApolloQueries'
+
 
 class UploadPanel extends Component {
   state = {}
@@ -16,7 +19,22 @@ class UploadPanel extends Component {
           Title
         </Header>
 
-        <Button color="red" onClick={()=>this.props.deletePanel(this.props.id)}>Delete</Button>
+        <Mutation
+            mutation={DELETE_PANEL}
+            variables={{ panelId:this.props.id}}
+            onError={error => this._error (error)}
+            refetchQueries={() => { return [{
+                query: TEST_PANEL_STATS_QUERY,
+                variables: { testId: this.props.test_id }}]
+              }}
+            >
+            {mutation => (
+              <div style={{padding:'15px'}}>
+              <Button color='red' onClick={mutation}>Delete</Button>
+              </div>
+            )}
+          </Mutation>
+
 
       </div>
     )
@@ -30,7 +48,7 @@ class UploadPanel extends Component {
              onMouseEnter={this.handleShow}
              onMouseLeave={this.handleHide}
              size='medium'
-             src={this.props.link}
+             src={this.props.panelLink}
            />
            </div>
 

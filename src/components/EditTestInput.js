@@ -1,30 +1,12 @@
-import React,{Component} from 'react';
-import '../css/App.css';
-import { Form, Input, Button, Select } from 'semantic-ui-react'
+import React,{Component} from 'react'
+import '../css/App.css'
+import { Form, Input, Button, Select, Message } from 'semantic-ui-react'
 import {  DateTimeInput } from 'semantic-ui-calendar-react';
-import { Mutation } from "react-apollo";
+import { Mutation } from "react-apollo"
 import {withRouter} from "react-router-dom"
 import moment from 'moment'
 
-import gql from "graphql-tag";
-
-const TEST_COURSE_MUTATION = gql`
-  mutation UpdateTest(
-    $subject: String!,
-    $testDate:DateTime,
-    $testNumber: String,
-    $id:ID!
-  ){
-    updateTest(
-      subject: $subject,
-      testDate: $testDate,
-      testNumber: $testNumber
-      id:$id
-    ){
-    id
-  }
-}
-`
+import {TEST_COURSE_MUTATION} from '../ApolloQueries'
 
 class EditTestInput extends Component {
 
@@ -32,6 +14,10 @@ class EditTestInput extends Component {
             subject: this.props.subject,
             testDate:moment(this.props.testDate).format(),
             testNumber:this.props.testNumber,
+            graphQLError: '',
+            isVisibleGraph:false,
+            networkError:false,
+            isVisibleNet:false,
   }
 
   handleChange = (event, {name, value}) => {
@@ -42,7 +28,7 @@ class EditTestInput extends Component {
 
 render() {
 
-  const { subject, testDate, testNumber } = this.state
+  const { subject, testDate, testNumber,graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
   const testnumbers = [{value:"Test 1",text:"Test 1"}, {value:"Test 2",text:"Test 2"}, {value:"Test 3",text:"Test 3"}, {value:"Test 4",text:"Test 4"}, {value:"Test 5",text:"Test 5"}, {value:"Test 6",text:"Test 6"}]
 
   const testDate1 = moment(testDate).format()
@@ -88,75 +74,58 @@ render() {
 
             <Mutation
                 mutation={TEST_COURSE_MUTATION}
-                variables={{ subject: subject,
+                variables={{
+                  subject: subject,
                   testNumber: testNumber,
                   testDate: testDate1,
                   id: this.props.id
                  }}
                 onCompleted={data => this._confirm(data)}
-                refetchQueries={() => {
-                   return [{
-                      query: gql`
-                      query CourseQuery($courseid:ID!){
-                        course(id:$courseid){
-                          id
-                          name
-                          courseNumber
-                          time
-                          institution{
-                            name
-                          }
-                          tests{
-                            id
-                            subject
-                            deleted
-                            testNumber
-                            release
-                            testDate
-                            questions{
-                              id
-                            }
-                            panels{
-                              id
-                            }
-                          }
-                        }
-                      }
-                    `,
-                      variables: { userid: this.props.course.id }
-                  }, {
-                     query: gql`
-                     query TestQuery($test_id:ID!){
-                       test(id:$test_id){
-                           id
-                           subject
-                           testNumber
-                           testDate
-                         	course{
-                             id
-                             name
-                             courseNumber
-                           }
-                           panels{
-                             id
-                         }
-                         }
-                       }
-                   `,
-                     variables: { test_id: this.props.id }
-                 }];
-              }}
+                onError={error => this._error (error)}
+                optimisticResponse={{
+                  __typename: "Mutation",
+                  updateTest: {
+                    id: this.props.id,
+                    __typename: "Test",
+                    subject: subject,
+                    testNumber: testNumber,
+                    testDate: testDate1,
+                  }
+                }}
               >
                 {mutation => (
                   <Button  color='blue' onClick={mutation}>Submit</Button>
                 )}
               </Mutation>
 
+              {isVisibleGraph &&
+                <Message negative>
+                  <p><b>{graphQLError}</b></p>
+                </Message>
+              }
+
+              {isVisibleNet &&
+                <Message negative>
+                  <p><b>{networkError}</b></p>
+                </Message>
+              }
+
           </div>
 
 
 )
 }
+
+_error = async error => {
+
+    const gerrorMessage = error.graphQLErrors.map((err,i) => err.message)
+    this.setState({ isVisibleGraph: true, graphQLError: gerrorMessage})
+
+    error.networkError &&
+      this.setState({ isVisibleNet: true, networkError: error.networkError.message})
+
+}
+
 _confirm = async data => {
   this.props.history.push({
     pathname: `/test_dashboard`,

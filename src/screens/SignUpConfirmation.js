@@ -1,9 +1,11 @@
-import React,{Component} from 'react';
+import React,{Component} from 'react'
 import {Link} from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
 import {withRouter} from "react-router-dom"
 import axios from 'axios'
-import '../css/App.css';
+import '../css/App.css'
+
+import {CONFIRMATION_MUTATION} from '../ApolloQueries'
 
 const divStyle = {
   padding: '20px',
@@ -23,13 +25,7 @@ class SignOut extends Component {
           url: process.env.REACT_APP_GRAPHQL_SERVER,
           method: 'post',
           data: {
-            query: `
-              mutation ConfirmEmail($email:String!, $confirmationToken:String!){
-                confirmEmail(email:$email,confirmationToken:$confirmationToken){
-                  authMsg
-                }
-              }
-              `,
+            query: CONFIRMATION_MUTATION,
               variables: {email: email, confirmationToken: token}
             }
         })
@@ -38,7 +34,11 @@ class SignOut extends Component {
             let gresp = JSON.parse(grapqhql_resp)
             let authMsg = gresp.data.confirmEmail.authMsg
             that.setState({authMsg})
-      });
+      })
+      .catch(error =>
+        this.setState({
+        authMsg: 'There has been an error with your confirmation. Please try again.'
+      }))
     }
 
     componentDidMount() {

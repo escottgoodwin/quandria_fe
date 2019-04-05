@@ -1,31 +1,10 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Form, Input, Button } from 'semantic-ui-react'
+import { Form, Input, Button, Message } from 'semantic-ui-react'
 import { Mutation } from "react-apollo";
 import {withRouter} from "react-router-dom"
 
-import gql from "graphql-tag";
-
-const EDIT_COURSE_MUTATION = gql`
-  mutation UpdateCourse(
-    $name: String!,
-    $time:String,
-    $courseNumber: String,
-    $department1: String
-    $id:ID!
-  ){
-    updateCourse(
-      name: $name,
-      time: $time,
-      courseNumber: $courseNumber,
-      department1: $department1
-      id:$id
-    ){
-    name
-    id
-  }
-}
-`
+import {EDIT_COURSE_MUTATION} from '../ApolloQueries'
 
 class EditCourseInput extends Component {
 
@@ -34,12 +13,15 @@ class EditCourseInput extends Component {
             name:this.props.name,
             courseNumber:this.props.courseNumber,
             time:this.props.time,
+            graphQLError: '',
+            isVisibleGraph:false,
+            networkError:false,
+            isVisibleNet:false,
   }
 
 render() {
-  const user =  JSON.parse(sessionStorage.getItem('user'));
-  const { name, courseNumber, time, department1 } = this.state
-  
+  const { name, courseNumber, time, department1, graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
+
   return (
 
     <div>
@@ -91,51 +73,52 @@ render() {
                   id: this.props.id
                  }}
                 onCompleted={data => this._confirm(data)}
-                refetchQueries={() => {
-                   return [{
-                      query: gql`
-                      query UserQuery($userid: ID!) {
-                        user(id: $userid){
-                          id
-                          firstName
-                          lastName
-                          teacherCourses{
-                            id
-                            name
-                            time
-                            deleted
-                            courseNumber
-                            department1
-                            institution{
-                              name
-                            }
-                            students{
-                              id
-                            }
-                            tests{
-                              id
-                              panels{
-                                id
-                              }
-                            }
-                          }
-                        }
-                      }
-                    `,
-                      variables: { userid: user.id }
-                  }];
-              }}
+                onError={error => this._error (error)}
+                optimisticResponse={{
+                  __typename: "Mutation",
+                  updateCourse: {
+                    id: this.props.id,
+                    __typename: "Course",
+                    name: name,
+                    courseNumber: courseNumber,
+                    time: time,
+                    department1: department1,
+                  }
+                }}
               >
                 {mutation => (
                   <Button  color='blue' onClick={mutation}>Submit</Button>
                 )}
               </Mutation>
+
+              {isVisibleGraph &&
+                <Message negative>
+                  <p><b>{graphQLError}</b></p>
+                </Message>
+              }
+
+              {isVisibleNet &&
+                <Message negative>
+                  <p><b>{networkError}</b></p>
+                </Message>
+              }
               </div>
           </div>
 
 
 )
 }
+
+_error = async error => {
+
+    const gerrorMessage = error.graphQLErrors.map((err,i) => err.message)
+    this.setState({ isVisibleGraph: true, graphQLError: gerrorMessage})
+
+    error.networkError &&
+      this.setState({ isVisibleNet: true, networkError: error.networkError.message})
+
+}
+
 _confirm = async data => {
   this.props.history.push({
     pathname: `/course_dashboard`,

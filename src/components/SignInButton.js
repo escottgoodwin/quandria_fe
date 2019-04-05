@@ -11,8 +11,8 @@ class SignInButton extends Component {
 
   render() {
 
-    const userid = sessionStorage.getItem('userid')
-    const token = sessionStorage.getItem('auth_token')
+    const userid = Cookies.get('userid')
+    const token = Cookies.get('auth_token')
 
     return (
 

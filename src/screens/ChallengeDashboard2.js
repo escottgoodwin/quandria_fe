@@ -1,83 +1,14 @@
-import React,{Component} from 'react';
-import '../css/App.css';
+import React,{Component} from 'react'
+import '../css/App.css'
 import { Tab } from 'semantic-ui-react'
 import ChallengeHeader from '../components/ChallengeHeader'
 
 import ChallengeSection from '../components/ChallengeSection2'
-import { Query } from "react-apollo";
+import { Query } from "react-apollo"
 import Error from './Error'
 import ChallengeLoading from './ChallengeLoading'
-import gql from "graphql-tag";
 
-const TEST_CHALLENGE_QUERY = gql`
-query TestChallenges($testId:ID!){
-  test(id:$testId){
-      id
-      subject
-      testNumber
-      testDate
-      course{
-        id
-        name
-        courseNumber
-      }
-    }
-  }
-`
-
-const CHALLENGE_QUERY = gql`
-query ChallengeTestQuery($testId:ID!){
-  challenges(where:{answer:{question:{test:{id:$testId}}}},orderBy:addedDate_DESC){
-    challenges{
-      id
-      challenge
-      addedDate
-      addedBy{
-        id
-        firstName
-        lastName
-      }
-      answer{
-        id
-        answer{
-          choice
-        }
-        question{
-          id
-          question
-          addedDate
-          addedBy{
-            id
-            firstName
-            lastName
-          }
-          choices{
-            id
-            choice
-          }
-        }
-      }
-      answer{
-        id
-        question{
-          id
-          panel{
-            id
-            link
-          }
-          question
-          addedDate
-          addedBy{
-            id
-            firstName
-            lastName
-          }
-        }
-      }
-    }
-  }
-}
-`
+import {TEST_CHALLENGE_QUERY, CHALLENGE_DASHBOARD2_QUERY} from '../ApolloQueries'
 
 class ChallengeDashboard extends Component {
 
@@ -86,10 +17,10 @@ class ChallengeDashboard extends Component {
 
       return (
 
-      <Query query={CHALLENGE_QUERY} variables={{ testId: test_id }}>
+      <Query query={CHALLENGE_DASHBOARD2_QUERY} variables={{ testId: test_id }}>
             {({ loading, error, data }) => {
               if (loading) return <ChallengeLoading />
-              if (error) return <Error />
+              if (error) return <Error {...error}/>
 
               const challenges = data.challenges.challenges
 
@@ -103,7 +34,7 @@ class ChallengeDashboard extends Component {
                 <Query query={TEST_CHALLENGE_QUERY} variables={{ testId: test_id }}>
                       {({ loading, error, data }) => {
                         if (loading) return <ChallengeLoading />
-                        if (error) return <Error />
+                        if (error) return <Error {...error}/>
 
                         const testToRender = data.test
 
@@ -113,8 +44,6 @@ class ChallengeDashboard extends Component {
 
                     )
                   }
-
-
                 }
                 </Query>
 
@@ -131,8 +60,6 @@ class ChallengeDashboard extends Component {
             </div>
           )
         }
-
-
       }
       </Query>
     )

@@ -7,76 +7,19 @@ import ChallengeSection from '../components/ChallengeSection1'
 import { Query } from "react-apollo";
 import Error from './Error'
 import ChallengeLoading from './ChallengeLoading'
-import gql from "graphql-tag";
 
-const CHALLENGE_QUERY = gql`
-query TestChallenges($test_id:ID!){
-  test(id:$test_id){
-      id
-      subject
-      testNumber
-      testDate
-      course{
-        id
-        name
-        courseNumber
-      }
-      questions{
-        challenges{
-          id
-          challenge
-          addedBy{
-            id
-            firstName
-            lastName
-          }
-          challengeMessages{
-            id
-            challengeMessage
-            addedDate
-            addedBy{
-              firstName
-              lastName
-            }
-          }
-          question{
-            question
-            choices{
-              correct
-              choice
-            }
-						questionAnswers{
-              addedBy{
-                id
-                firstName
-              }
-              answer{
-                choice
-              }
-            }
-            panel{
-              link
-            }
-            addedBy{
-              firstName
-              lastName
-            }
-          }
 
-        }
-      }
+import {CHALLENGE_DASHBOARD_QUERY} from '../ApolloQueries'
 
-    }
-}
-`
 class ChallengeDashboard extends Component {
 
   render() {
+    
     const { test_id } = this.props.location.state
 
       return (
 
-      <Query query={CHALLENGE_QUERY} variables={{ test_id: test_id }}>
+      <Query query={CHALLENGE_DASHBOARD_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
               if (loading) return <ChallengeLoading />
               if (error) return <Error />

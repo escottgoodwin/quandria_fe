@@ -90,6 +90,11 @@ html, body {
   height:75px;
   color:white
 }
+
+.error{
+  background-color: #343a40;
+  color:red;
+}
 .dropdown{
   position: relative;
   z-index: 10000;
