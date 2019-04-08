@@ -92,22 +92,6 @@ class DropZoneUpload extends Component {
           headers: { "X-Requested-With": "XMLHttpRequest" },
         }
 
-        const axiosCall = {
-            url: url,
-            method: 'post',
-            headers: { "X-Requested-With": "XMLHttpRequest" },
-            data:{
-              file: file,
-              upload_preset: unsignedUploadPreset,
-            },
-            onUploadProgress: (progressEvent) => {
-             let percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
-             let newLoadTotal = this.state.fileTotalSize + progressEvent.loaded
-             this.setState({fileTotalSize: newLoadTotal})
-             console.log(newLoadTotal)
-           }
-         }
-
         const that = this;
          axios.post(url, formData, config)
          .then(response => {
@@ -154,7 +138,7 @@ class DropZoneUpload extends Component {
         })
         return file
       })
-      this.setState({percent:0})
+
       axios({
          url: process.env.REACT_APP_GRAPHQL_SERVER,
          method: 'post',

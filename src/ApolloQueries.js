@@ -379,6 +379,9 @@ query CourseQuery($courseid:ID!){
       id
       name
     }
+    students{
+      id 
+    }
     tests{
       id
       subject
@@ -386,6 +389,11 @@ query CourseQuery($courseid:ID!){
       testNumber
       release
       testDate
+      course{
+        id
+        name
+        courseNumber
+      }
       questions{
         id
         questionAnswers{
@@ -732,8 +740,9 @@ query TestStats($testId:ID!, $courseId:ID!){
 export const TEST_STATS_PERFORMANCE_QUERY = gql`
 query TestStats($testId:ID!){
   testStats(testId:$testId){
-    totalCorrect
     total
+    totalCorrect
+    percentCorrect
   }
 }
 `
@@ -741,13 +750,13 @@ query TestStats($testId:ID!){
 export const TEST_PANEL_STATS_QUERY = gql`
 query PanelQuery($testId:ID!){
   testPanelStats(testId:$testId){
-    id
-    panelLink
-    total
-    totalCorrect
-  	percentCorrect
+      id
+      panelLink
+      total
+      totalCorrect
+    	percentCorrect
+    }
   }
-}
 `
 
 export const DELETE_PANEL = gql`
@@ -803,4 +812,112 @@ user(id:$userid){
   }
 }
 }
+`
+
+export const RELEASE_QUESTIONS_MUTATION = gql`
+  mutation ReleaseQuestions(
+    $test_id: ID!
+    $releaseDate: DateTime
+  ){
+    updateTest(
+      id: $test_id,
+      release:true,
+      releaseDate: $releaseDate
+    ){
+    id
+    course {
+      id
+    }
+  }
+}
+`
+
+export const PANEL_COUNT_SUBSCRIPTION = gql`
+subscription PanelCountSubscription($testId:ID!){
+	panelCount(testId:$testId){
+    count
+  }
+}
+`
+
+export const PANEL_COUNT_QUERY = gql`
+query PanelCountQuery($testId:ID!){
+  panels(where:{test:{id:$testId}}){
+    count
+  }
+}
+`
+
+export const QUESTION_COUNT_SUBSCRIPTION = gql`
+subscription QuestionCountSubscription($testId:ID!){
+	questionCount(testId:$testId){
+    count
+  }
+}
+`
+
+export const QUESTION_COUNT_QUERY = gql`
+query QuestionCountQuery($testId:ID!){
+  questions(where:{test:{id:$testId}}){
+    count
+  }
+}
+`
+
+export const ANSWER_COUNT_QUERY = gql`
+query AnswerCountQuery($testId:ID!){
+  answers(where:{question:{test:{id:$testId}}}){
+    count
+    answers{
+      answer{
+        correct
+      }
+    }
+  }
+}
+`
+
+export const CHALLENGE_COUNT_SUBSCRIPTION = gql`
+subscription ChallengeCountSubscription($testId:ID!){
+	challengeCount(testId:$testId){
+    count
+  }
+}
+`
+
+export const CHALLENGE_COUNT_QUERY = gql`
+query ChallengeCountQuery($testId:ID!){
+  challenges(where:{answer:{question:{test:{id:$testId}}}}){
+    count
+  }
+}
+`
+
+export const ANSWER_STATS_SUBSCRIPTION = gql`
+subscription AnswerStats($testId:ID!){
+  answerCount(testId:$testId){
+    total
+    totalCorrect
+    percentCorrect
+  }
+}
+`
+
+export const COURSE_STUDENT_QUERY = gql`
+query CourseStudentsQuery($courseId:ID!){
+  course(id:$courseId){
+    id
+    name
+    courseNumber
+    time
+    students{
+      id
+      firstName
+      lastName
+      answers{
+        answerCorrect
+        }
+      }
+    }
+  }
 `

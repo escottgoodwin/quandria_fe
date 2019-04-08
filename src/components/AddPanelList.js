@@ -14,7 +14,7 @@ class AddPanelList extends Component {
     const { test_id } = this.props
     return (
 
-      <Query query={TEST_PANEL_STATS_QUERY} variables={{ testId: test_id }}>
+      <Query query={TEST_PANEL_STATS_QUERY} variables={{ testId: test_id }} fetchPolicy="network-only">
             {({ loading, error, data, subscribeToMore }) => {
               if (loading) return <PlaceholderQ />
               if (error) return <Error error={error} />
@@ -32,13 +32,12 @@ class AddPanelList extends Component {
                     if (!subscriptionData.data) return prev
                     let newPanel = subscriptionData.data.newPanel
                     return {
-                      testPanelStats: [...prev.testPanelStats, newPanel]
-                    }
-              }
+                      testPanelStats:  [...prev.testPanelStats, newPanel]
+                  }
+                }
+              })
             }
-          )
-          }
-        />
+            />
 
           )
         }}

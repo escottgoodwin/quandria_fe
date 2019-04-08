@@ -7,56 +7,20 @@ import '../css/App.css';
 import { Link } from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
 import AddPanelButton from '../components/AddPanelButton'
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import PanelCountButton from '../components/PanelCountButton'
+import Error from './Error'
 
-const RELEASE_QUESTIONS_MUTATION = gql`
-  mutation ReleaseQuestions(
-    $test_id: ID!
-    $releaseDate: DateTime
-  ){
-    updateTest(
-      id: $test_id,
-      release:true,
-      releaseDate: $releaseDate
-    ){
-    id
-    course {
-      id
-    }
-  }
-}
-`
 
-const TEST_QUERY = gql`
-query TestQuery($test_id:ID!){
-  test(id:$test_id){
-      id
-      subject
-      testNumber
-      testDate
-      release
-      releaseDate
-      published
-      publishDate
-    	course{
-        id
-        name
-        courseNumber
-      }
-      panels{
-        id
-    }
-    }
-  }
-`
+import { Mutation, Query } from "react-apollo";
 
+import {RELEASE_QUESTIONS_MUTATION, PANEL_COUNT_QUERY, TEST_QUERY, PANEL_COUNT_SUBSCRIPTION} from '../ApolloQueries'
 
 class TestHeader  extends Component {
 
   render() {
 
     const now = new Date()
+    const { subject, testNumber, course, testDate, release, releaseDate, published, id, publishDate } = this.props
 
     return (
 
@@ -65,11 +29,11 @@ class TestHeader  extends Component {
   <h2><Link  to={{
     pathname: "/course_dashboard",
     state:
-      { course_id: this.props.course.id }
-    }} >{this.props.course.name} - {this.props.course.courseNumber}</Link></h2>
+      { course_id: course.id }
+    }} >{course.name} - {course.courseNumber}</Link></h2>
 <hr/>
   <div >
-  <h3>{this.props.testNumber} - {this.props.subject} - { dateFormat(this.props.testDate, "dddd, mmmm dS, yyyy") }</h3>
+  <h3>{testNumber} - {subject} - { dateFormat(testDate, "dddd, mmmm dS, yyyy") }</h3>
   </div>
 
   <div style={{display:'inline-block',padding:15}}>
@@ -77,35 +41,53 @@ class TestHeader  extends Component {
   pathname: "/edit_test",
   state:
     {
-      test_id: this.props.id,
+      test_id: id,
     }
   }} >
 
 <Button color="blue" >Edit</Button>
 </Link>
 
-<AddPanelButton {...this.props}/>
 
-{this.props.panels.length>0 ?
+<AddPanelButton {...this.props} />
 
-<Link  to={{
-  pathname: "/test_panels",
-  state:
-    {
-      test_id: this.props.id }
-  }} >
-  <Button color="blue" >{this.props.panels.length} Panels</Button>
-</Link>
-:
-<Button disabled color="blue" >{this.props.panels.length} Panels</Button>
-}
+<Query query={PANEL_COUNT_QUERY} variables={{ testId: id }}>
+      {({ loading, error, data, subscribeToMore }) => {
+        if (loading) return <Button color="blue" loading >14 Panels</Button>
+        if (error) return <Error {...error}/>
 
-{this.props.published ?
+        const count = data.panels.count
+
+    return (
+      <PanelCountButton count={count} testId={id}
+        subscribeToNewPanelCount={() =>
+          subscribeToMore({
+            document: PANEL_COUNT_SUBSCRIPTION,
+            variables: {testId: id },
+            updateQuery: (prev, { subscriptionData }) => {
+              if (!subscriptionData.data) return prev
+              return {
+                panels:{
+                  count: subscriptionData.data.panelCount.count,
+                  __typename: prev.panels.__typename
+                }
+              }
+            }
+          }
+        )
+      }
+      />
+      )
+    }
+  }
+</Query>
+
+{published ?
   <Link  to={{
     pathname: "/edit_publish_test",
     state:
       {
-        test_id: this.props.id }
+        test_id: id }
     }} >
   <Button color="blue" >Edit Published Test</Button>
   </Link>
@@ -115,26 +97,26 @@ class TestHeader  extends Component {
     pathname: "/publish_test",
     state:
       {
-        test_id: this.props.id }
+        test_id: id }
     }} >
       <Button color="blue" >Publish Test</Button>
   </Link>
 
 }
 
-{this.props.published ?
+{published ?
 
-this.props.release ?
-  <Button disabled color="blue" >Released: {moment(this.props.releaseDate).format("MM-DD-YYYY")}</Button>
+release ?
+  <Button disabled color="blue" >Released: {moment(releaseDate).format("MM-DD-YYYY")}</Button>
 :
 <Mutation
     mutation={RELEASE_QUESTIONS_MUTATION}
-    variables={{ test_id: this.props.id, releaseDate: now }}
+    variables={{ test_id: id, releaseDate: now }}
     onCompleted={data => this._confirm(data)}
     refetchQueries={() => {
        return [{
           query: TEST_QUERY,
-          variables: { test_id: this.props.id }
+          variables: { test_id: id }
       }]}}
   >
     {mutation => (
@@ -149,8 +131,8 @@ this.props.release ?
 </div>
 
 <div style={{padding:20}}>
-{this.props.published &&
-<h5><b>Test Published:</b> {moment(this.props.publishDate).format("MM-DD-YYYY")} <b>End Date:</b> 1/18/2019 <b>Between Hours:</b> 10 AM - 8 PM</h5>
+{published &&
+<h5><b>Test Published:</b> {moment(publishDate).format("MM-DD-YYYY")} <b>End Date:</b> 1/18/2019 <b>Between Hours:</b> 10 AM - 8 PM</h5>
 }
 </div>
 

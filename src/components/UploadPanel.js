@@ -2,8 +2,7 @@ import React,{Component} from 'react';
 import '../css/App.css';
 import { Image, Button, Dimmer, Header } from 'semantic-ui-react'
 import { Mutation } from "react-apollo"
-import {DELETE_PANEL, TEST_PANEL_STATS_QUERY} from '../ApolloQueries'
-
+import {DELETE_PANEL, TEST_PANEL_STATS_QUERY, PANEL_COUNT_QUERY} from '../ApolloQueries'
 
 class UploadPanel extends Component {
   state = {}
@@ -25,7 +24,11 @@ class UploadPanel extends Component {
             onError={error => this._error (error)}
             refetchQueries={() => { return [{
                 query: TEST_PANEL_STATS_QUERY,
-                variables: { testId: this.props.test_id }}]
+                variables: { testId: this.props.test_id }},
+                {
+                query: PANEL_COUNT_QUERY,
+                variables: { testId: this.props.test_id }}
+              ]
               }}
             >
             {mutation => (

@@ -46,11 +46,14 @@ class CourseDashboard extends Component {
 
               <Mutation
                   mutation={DELETE_COURSE_MUTATION}
-                  variables={{ course_id: course_id }}
+                  variables={{ course_id }}
                   onCompleted={data => this._confirm(data)}
-                  onError={error => this._error (error)}
-                  refetchQueries={() => { return [{ query: TEACHER_DASHBOARD_QUERY, variables: { userid }}] }}
-                >
+                  onError={error => this._error(error)}
+                  refetchQueries={() => { return [{
+                    query: TEACHER_DASHBOARD_QUERY,
+                    variables: { userid }
+                  }]
+                }}>
                   {mutation => (
                     <Button  color='red' onClick={mutation}>Delete Course</Button>
                   )}
@@ -88,7 +91,6 @@ class CourseDashboard extends Component {
   }
 
   _confirm = async data => {
-
     this.props.history.push(`/teacher_dashboard`)
   }
 }

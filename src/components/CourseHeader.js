@@ -7,8 +7,13 @@ import { Button } from 'semantic-ui-react'
 const CourseHeader = (props) =>
 
   <div>
+  <Link  to={{
+    pathname: "/course_dashboard",
+    state:
+      { course_id: props.id }
+    }} >
     <h2>{props.name} - {props.courseNumber}</h2>
-
+    </Link>
     <h5>Time: {props.time}</h5>
 
    <div style={{display:'inline-block',padding:5}}>
@@ -32,6 +37,16 @@ const CourseHeader = (props) =>
        <Button color="blue" >Add Test</Button>
       </Link>
     </div>
+
+    <div style={{display:'inline-block',padding:5}}>
+      <Link  to={{
+        pathname: "/course_students",
+        state:
+          { course_id: props.id }
+        }} >
+        <Button color="blue" >{props.students.length} Students</Button>
+       </Link>
+     </div>
 
     <div style={{display:'inline-block',padding:5}}>
       <Link  to={{
