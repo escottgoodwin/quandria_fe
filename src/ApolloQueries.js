@@ -380,7 +380,7 @@ query CourseQuery($courseid:ID!){
       name
     }
     students{
-      id 
+      id
     }
     tests{
       id
@@ -755,6 +755,7 @@ query PanelQuery($testId:ID!){
       total
       totalCorrect
     	percentCorrect
+      question
     }
   }
 `
