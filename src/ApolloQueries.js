@@ -177,6 +177,7 @@ query ChallengeTestQuery($testId:ID!){
   }
 }
 `
+
 export const NEW_PANEL_SUBSCRIPTION = gql`
 subscription NewPanelSubscription($testId:ID!){
   newPanel(testId:$testId){
@@ -184,7 +185,8 @@ subscription NewPanelSubscription($testId:ID!){
     panelLink
     total
     totalCorrect
-  	percentCorrect
+    percentCorrect
+    question
   }
 }
 `
@@ -921,4 +923,34 @@ query CourseStudentsQuery($courseId:ID!){
       }
     }
   }
+`
+
+export const NEW_COURSE_DASHBOARD_QUERY = gql`
+query CourseDashboardQuery($courseId:ID!){
+  courseDashboard(courseId:$courseId){
+    id
+    name
+    courseNumber
+    time
+    deleted
+    studentCount
+    testCount
+    courseTestList{
+      id
+      deleted
+      subject
+      testDate
+      testNumber
+      release
+      releaseDate
+      published
+      publishDate
+      panelsCount
+      questionsCount
+      accuracy
+      answersCount
+      challengeCount
+    }
+  }
+}
 `

@@ -5,15 +5,15 @@ import { Link } from 'react-router-dom'
 export default class ChallengeCountRow extends Component {
 
   componentDidMount() {
-    this.props.subscribeToNewChallengeCount()
+    //this.props.subscribeToNewChallengeCount()
   }
 
   render(){
 
     return (
       <div>
-      <h6>Panels: <Link  to={{
-        pathname: "/test_panels",
+      <h6>Challenges: <Link  to={{
+        pathname: "/challenge_dashboard",
         state:
           {
             test_id: this.props.testId }

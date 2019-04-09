@@ -44,7 +44,7 @@ const CourseHeader = (props) =>
         state:
           { course_id: props.id }
         }} >
-        <Button color="blue" >{props.students.length} Students</Button>
+        <Button color="blue" >{props.studentsCount} Students</Button>
        </Link>
      </div>
 

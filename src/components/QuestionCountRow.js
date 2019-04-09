@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 export default class QuestionCountRow extends Component {
 
   componentDidMount() {
-    this.props.subscribeToNewQuestionCount()
+    //this.props.subscribeToNewQuestionCount()
   }
 
   render(){

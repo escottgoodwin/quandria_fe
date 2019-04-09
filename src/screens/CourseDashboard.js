@@ -9,7 +9,7 @@ import Error from './Error'
 
 import CoursePlaceholder from './CoursePlaceholder'
 
-import {COURSE_DASHBOARD_QUERY, DELETE_COURSE_MUTATION, TEACHER_DASHBOARD_QUERY} from '../ApolloQueries'
+import {NEW_COURSE_DASHBOARD_QUERY,COURSE_DASHBOARD_QUERY, DELETE_COURSE_MUTATION, TEACHER_DASHBOARD_QUERY} from '../ApolloQueries'
 
 class CourseDashboard extends Component {
 
@@ -27,13 +27,15 @@ class CourseDashboard extends Component {
     const { graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
 
     return (
-    <Query query={COURSE_DASHBOARD_QUERY} variables={{ courseid: course_id }}>
+    <Query query={NEW_COURSE_DASHBOARD_QUERY} variables={{ courseId: course_id }} pollInterval={1500}>
           {({ loading, error, data }) => {
             if (loading) return <CoursePlaceholder />
             if (error) return <Error {...error}/>
 
-            const courseToRender = data.course
-            const tests1 = courseToRender.tests.filter(test => !test.deleted)
+
+            const courseToRender = data.courseDashboard
+            const tests = courseToRender.courseTestList
+            const tests1 = courseToRender.courseTestList.filter(test => !test.deleted)
 
         return (
 
@@ -41,7 +43,7 @@ class CourseDashboard extends Component {
         <div className="container">
 
               <CourseHeader {...courseToRender} />
-              <TestList tests={tests1} courseId={course_id} />
+              <TestList tests={tests} courseId={course_id} />
               <div >
 
               <Mutation

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 export default class PanelCountRow extends Component {
 
   componentDidMount() {
-    this.props.subscribeToNewPanelCount()
+    //this.props.subscribeToNewPanelCount()
   }
 
   render(){

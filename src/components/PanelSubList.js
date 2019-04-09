@@ -13,10 +13,11 @@ export default class PanelSubList extends Component{
   render(){
     return(
       <>
-      <h5>{Object.values(this.props.panelStats).length} Panels</h5>
+      {console.log(this.props.panelStats)}
+      <h5>{this.props.panelStats.length} Panels</h5>
       <div className="coursecontainer">
       <Card.Group centered>
-      {Object.values(this.props.panelStats).map(panel =>
+      {this.props.panelStats.map(panel =>
         <PanelRow  key={panel.id} {...panel} />
       )}
       </Card.Group>
