@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import '../css/App.css'
 import * as Cookies from "js-cookie"
 import CourseHeader from '../components/CourseHeader'
-import TestList from '../components/TestList'
+import TestList from '../components/TestList2'
 import { Query, Mutation } from "react-apollo"
 import { Button, Message } from 'semantic-ui-react'
 import Error from './Error'
