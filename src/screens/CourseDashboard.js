@@ -9,7 +9,7 @@ import Error from './Error'
 
 import CoursePlaceholder from './CoursePlaceholder'
 
-import {NEW_COURSE_DASHBOARD_QUERY,COURSE_DASHBOARD_QUERY, DELETE_COURSE_MUTATION, TEACHER_DASHBOARD_QUERY} from '../ApolloQueries'
+import {NEW_COURSE_DASHBOARD_QUERY, DELETE_COURSE_MUTATION, TEACHER_DASHBOARD_QUERY} from '../ApolloQueries'
 
 class CourseDashboard extends Component {
 
@@ -27,7 +27,7 @@ class CourseDashboard extends Component {
     const { graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
 
     return (
-    <Query query={NEW_COURSE_DASHBOARD_QUERY} variables={{ courseId: course_id }} pollInterval={1500}>
+    <Query query={NEW_COURSE_DASHBOARD_QUERY} variables={{ courseId: course_id }} fetchPolicy="network-only" >
           {({ loading, error, data }) => {
             if (loading) return <CoursePlaceholder />
             if (error) return <Error {...error}/>

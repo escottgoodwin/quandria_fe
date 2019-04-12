@@ -1,5 +1,4 @@
 import React,{Component} from 'react';
-import dateFormat from 'dateformat'
 import {withRouter} from "react-router-dom"
 import moment from 'moment'
 import '../css/App.css';
@@ -8,32 +7,41 @@ import { Link } from 'react-router-dom'
 import { Button } from 'semantic-ui-react'
 import AddPanelButton from '../components/AddPanelButton'
 import PanelCountButton from '../components/PanelCountButton'
-import Error from './Error'
 
+import { Mutation} from "react-apollo";
 
-import { Mutation, Query } from "react-apollo";
-
-import {RELEASE_QUESTIONS_MUTATION, PANEL_COUNT_QUERY, TEST_QUERY, PANEL_COUNT_SUBSCRIPTION} from '../ApolloQueries'
+import {RELEASE_QUESTIONS_MUTATION, TEST_QUERY } from '../ApolloQueries'
 
 class TestHeader  extends Component {
 
   render() {
 
     const now = new Date()
-    const { subject, testNumber, course, testDate, release, releaseDate, published, id, publishDate } = this.props
-
+    const { subject, testNumber, course, testDate, release, releaseDate, published, id, publishDate, startTime, endTime, endDate, panels } = this.props
+    //console.log(this.props)
     return (
 
   <div>
 
-  <h2><Link  to={{
+  <h2>
+  <Link  to={{
     pathname: "/course_dashboard",
     state:
       { course_id: course.id }
-    }} >{course.name} - {course.courseNumber}</Link></h2>
+    }} >
+    {course.name} - {course.courseNumber}
+    </Link>
+    </h2>
+
 <hr/>
   <div >
-  <h3>{testNumber} - {subject} - { dateFormat(testDate, "dddd, mmmm dS, yyyy") }</h3>
+  <h3>
+  <Link  to={{
+    pathname: "/test_dashboard",
+    state:
+      { test_id: id }
+    }} >{testNumber} - {subject} - { moment(testDate).format("dddd MMMM Do YYYY") }
+    </Link></h3>
   </div>
 
   <div style={{display:'inline-block',padding:15}}>
@@ -51,36 +59,7 @@ class TestHeader  extends Component {
 
 <AddPanelButton {...this.props} />
 
-<Query query={PANEL_COUNT_QUERY} variables={{ testId: id }}>
-      {({ loading, error, data, subscribeToMore }) => {
-        if (loading) return <Button color="blue" loading >14 Panels</Button>
-        if (error) return <Error {...error}/>
-
-        const count = data.panels.count
-
-    return (
-      <PanelCountButton count={count} testId={id}
-        subscribeToNewPanelCount={() =>
-          subscribeToMore({
-            document: PANEL_COUNT_SUBSCRIPTION,
-            variables: {testId: id },
-            updateQuery: (prev, { subscriptionData }) => {
-              if (!subscriptionData.data) return prev
-              return {
-                panels:{
-                  count: subscriptionData.data.panelCount.count,
-                  __typename: prev.panels.__typename
-                }
-              }
-            }
-          }
-        )
-      }
-      />
-      )
-    }
-  }
-</Query>
+<PanelCountButton count={panels.length} testId={id}  />
 
 {published ?
   <Link  to={{
@@ -107,7 +86,7 @@ class TestHeader  extends Component {
 {published ?
 
 release ?
-  <Button disabled color="blue" >Released: {moment(releaseDate).format("MM-DD-YYYY")}</Button>
+  <Button disabled color="blue" >Released: {moment(releaseDate).format("MMMM Do YYYY")}</Button>
 :
 <Mutation
     mutation={RELEASE_QUESTIONS_MUTATION}
@@ -132,7 +111,7 @@ release ?
 
 <div style={{padding:20}}>
 {published &&
-<h5><b>Test Published:</b> {moment(publishDate).format("MM-DD-YYYY")} <b>End Date:</b> 1/18/2019 <b>Between Hours:</b> 10 AM - 8 PM</h5>
+<h5><b>Test Published:</b> {moment(publishDate).format("MMMM Do YYYY")} <b>End Date:</b> {moment(endDate).format("MMMM Do YYYY")} <b>Between Hours:</b> {startTime} - {endTime}</h5>
 }
 </div>
 

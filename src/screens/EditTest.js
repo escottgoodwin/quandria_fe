@@ -7,9 +7,9 @@ import Error from './Error'
 import Loading from './Loading'
 
 import EditTestInput from '../components/EditTestInput'
-import EditTestHeader from '../components/EditTestHeader'
+import TestHeader from '../components/TestHeader'
 
-import {TEST_EDIT_QUERY} from '../ApolloQueries'
+import {TEST_QUERY} from '../ApolloQueries'
 
 class EditTest extends Component {
 
@@ -17,11 +17,10 @@ render() {
 
   return (
     <div className="main">
-    <div className="dashboard">
-      <div className="signin">
+    <div className="container">
 
 
-    <Query query={TEST_EDIT_QUERY} variables={{ test_id: this.props.location.state.test_id }}>
+    <Query query={TEST_QUERY} variables={{ test_id: this.props.location.state.test_id }}>
           {({ loading, error, data }) => {
             if (loading) return <Loading/>
             if (error) return <Error {...error}/>
@@ -31,17 +30,19 @@ render() {
         return (
             <div>
             <div style={{padding:"20px"}}>
-            <EditTestHeader  {...testToRender} />
+            <TestHeader  {...testToRender} />
             <h2>Edit Test</h2>
             </div>
+            <div style={{paddingRight:'14em',paddingLeft:'14em'}}>
             <EditTestInput {...testToRender}/>
+            </div>
             </div>
             )
           }}
         </Query>
         </div>
         </div>
-        </div>
+
       )
   }
 }

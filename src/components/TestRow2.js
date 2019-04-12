@@ -7,18 +7,30 @@ import QuestionCountRow from './QuestionCountRow'
 import AnswerCountRow from './AnswerCountRow'
 import ChallengeCountRow from './ChallengeCountRow'
 import Error from './Error'
+import CoursePlaceholder from '../screens/CoursePlaceholder'
+
 
 import { Query } from "react-apollo";
 
-import { PANEL_COUNT_SUBSCRIPTION, PANEL_COUNT_QUERY, QUESTION_COUNT_SUBSCRIPTION, QUESTION_COUNT_QUERY, CHALLENGE_COUNT_QUERY, CHALLENGE_COUNT_SUBSCRIPTION, TEST_STATS_PERFORMANCE_QUERY, ANSWER_STATS_SUBSCRIPTION} from '../ApolloQueries'
+import { TEST_LIST_QUERY2, PANEL_COUNT_SUBSCRIPTION, PANEL_COUNT_QUERY, QUESTION_COUNT_SUBSCRIPTION, QUESTION_COUNT_QUERY, CHALLENGE_COUNT_QUERY, CHALLENGE_COUNT_SUBSCRIPTION, TEST_STATS_PERFORMANCE_QUERY, ANSWER_STATS_SUBSCRIPTION} from '../ApolloQueries'
 
 var dateFormat = require('dateformat')
 
 export default class TestRow extends Component {
 
   render() {
-    const { id, testNumber, subject, testDate, published, release, questionsCount, panelsCount, answersCount, accuracy, challengeCount } = this.props.test
+    const { id } = this.props.test
     return (
+
+      <Query query={TEST_LIST_QUERY2} variables={{ testId: id }} >
+            {({ loading, error, data, subscribeToMore }) => {
+              if (loading) return <CoursePlaceholder />
+              if (error) return <Error {...error}/>
+
+              const { id, testNumber, subject, testDate, published, release, questionsCount, panelsCount, answersCount, accuracy, challengeCount }  = data.testList
+
+
+          return (
 
       <Card fluid>
         <Card.Content>
@@ -65,14 +77,31 @@ export default class TestRow extends Component {
                 />
 
 
-                <PanelCountRow count={panelsCount} testId={id}
-
+                <PanelCountRow count={panelsCount} testId={id} subscribeToMore={subscribeToMore}
+                    subscribeToNewPanelCount={() =>
+                      subscribeToMore({
+                        document: PANEL_COUNT_SUBSCRIPTION,
+                        variables: {testId: id },
+                        updateQuery: (prev, { subscriptionData }) => {
+                          if (!subscriptionData.data) return prev
+                          return {
+                            testList:{
+                              panelsCount: subscriptionData.data.panelCount.count,
+                              __typename: prev.testList.__typename
+                            }
+                          }
+                        }
+                      }
+                    )
+                  }
                   />
 
           </div>
           </Card.Content>
         </Card>
-
+      )
+    }}
+  </Query>
     )
   }
 }

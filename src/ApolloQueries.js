@@ -535,12 +535,16 @@ query TestQuery($test_id:ID!){
       releaseDate
       published
       publishDate
+      startTime
+      endTime
+      endDate
     	course{
         id
         name
         courseNumber
       }
       panels{
+        link
         id
     }
     }
@@ -906,6 +910,30 @@ subscription AnswerStats($testId:ID!){
 }
 `
 
+export const NEW_CHALLENGE_SUBSCRIPTION = gql`
+subscription NewChallenge($testId:ID!){
+  newChallenge(testId:$testId){
+    id
+    challenge
+    addedDate
+    addedBy{
+      firstName
+      lastName
+    }
+    answer{
+      question{
+        question
+        addedDate
+        addedBy{
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+}
+`
+
 export const COURSE_STUDENT_QUERY = gql`
 query CourseStudentsQuery($courseId:ID!){
   course(id:$courseId){
@@ -954,3 +982,189 @@ query CourseDashboardQuery($courseId:ID!){
   }
 }
 `
+
+export const NEW_COURSE_DASHBOARD_QUERY2 = gql`
+query CourseDashboardQuery($courseId:ID!){
+  courseDashboard(courseId:$courseId){
+    id
+    name
+    courseNumber
+    time
+    deleted
+    studentCount
+    testCount
+    courseTestList{
+      id
+      deleted
+    }
+  }
+}
+`
+
+export const TEST_LIST_QUERY2 = gql`
+query TestListQuery($testId:ID!){
+  testList(testId:$testId){
+      id
+      deleted
+      subject
+      testDate
+      testNumber
+      release
+      releaseDate
+      published
+      publishDate
+      panelsCount
+      questionsCount
+      accuracy
+      answersCount
+      challengeCount
+  }
+}
+`
+
+export const CHALLENGE_SECTION_QUERY = gql`
+query ChallengeQuery($challengeId:ID!){
+  challenge(id:$challengeId){
+    id
+    challenge
+    addedBy{
+      id
+      firstName
+      lastName
+    }
+    addedDate
+  	answer{
+      id
+      answer{
+        id
+        choice
+        question{
+          id
+          test{
+            id
+          }
+          question
+          choices{
+            choice
+            correct
+            }
+          }
+          addedBy{
+            firstName
+            lastName
+          }
+
+        }
+      }
+    }
+  }
+`
+
+export const PUBLISH_TEST_MUTATION = gql`
+  mutation PublishTest(
+    $startHour:String!
+    $testEndDate: DateTime,
+    $endHour: String!
+    $testId:ID!){
+      publishTest(
+        startHour:$startHour,
+        endHour:$endHour,
+        testEndDate:$testEndDate,
+        testId:$testId){
+          id
+        }
+      }
+    `
+export const NEW_PUBLISH_TEST_MUTATION = gql`
+mutation PublishTest(
+  $testId:ID!,
+  $startTime:String!,
+  $endTime:String!,
+  $endDate:DateTime!,
+  $panelId:ID!,
+  $question:String!,
+  $choice1:String!,
+  $choiceCorrect1:Boolean!,
+  $choice2:String!,
+  $choiceCorrect2:Boolean!,
+  $choice3:String!,
+  $choiceCorrect3:Boolean!,
+  $choice4:String!,
+  $choiceCorrect4:Boolean!){
+    publishTest(
+      testId:$testId,
+      startTime:$startTime,
+      endTime:$endTime,
+      endDate:$endDate,
+      panelId:$panelId,
+      question:$question,
+      choice1:$choice1,
+      choiceCorrect1:$choiceCorrect1,
+      choice2:$choice2,
+      choiceCorrect2:$choiceCorrect2,
+      choice3:$choice3,
+      choiceCorrect3:$choiceCorrect3,
+      choice4:$choice4,
+      choiceCorrect4:$choiceCorrect4){
+        id
+      }
+}
+`
+
+export const PUBLISH_TEST_REFETCH_QUERY = gql`
+query TestQuery($test_id:ID!){
+  test(id:$test_id){
+      id
+      subject
+      testNumber
+      testDate
+      release
+      releaseDate
+      published
+      publishDate
+      questions{
+        challenges{
+          challenge
+          id
+          question{
+            question
+            addedBy{
+              firstName
+              lastName
+            }
+          }
+          addedBy{
+            firstName
+            lastName
+          }
+        }
+      }
+      course{
+        id
+        name
+        courseNumber
+      }
+      panels{
+        id
+    }
+    }
+  }
+`
+
+export const EDIT_PUBLISH_TEST_MUTATION = gql`
+mutation EditPublishTest(
+  $published:Boolean
+  $startTime:String
+  $endDate: DateTime,
+  $endTime: String
+  $testId:ID!){
+    editPublishTest(
+      published:$published,
+      startTime:$startTime,
+      endTime:$endTime,
+      endDate:$endDate,
+      testId:$testId){
+        id
+      }
+    }
+    `

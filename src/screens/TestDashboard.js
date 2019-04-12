@@ -10,7 +10,7 @@ import TestPerformance from '../components/TestPerformance'
 import Error from './Error'
 import PlaceholderQ from '../components/Placeholder'
 import TestLoading from '../components/TestLoading'
-import {TEST_QUERY,DELETE_TEST_MUTATION,CHALLENGE_TEST_QUERY,TEST_STATS_QUERY, TEACHER_DASHBOARD_QUERY} from '../ApolloQueries';
+import {TEST_QUERY,NEW_CHALLENGE_SUBSCRIPTION,DELETE_TEST_MUTATION,CHALLENGE_TEST_QUERY,TEST_STATS_QUERY, TEACHER_DASHBOARD_QUERY} from '../ApolloQueries';
 
 const uuidv4 = require('uuid/v4');
 
@@ -32,7 +32,7 @@ class TestDashboard extends Component {
 
     return (
 
-      <Query query={TEST_QUERY} variables={{ test_id: test_id }}>
+      <Query query={TEST_QUERY} variables={{ test_id: test_id }} fetchPolicy="network-only">
             {({ loading, error, data }) => {
               if (loading) return <TestLoading />
               if (error) return <Error error={error} />
@@ -59,9 +59,10 @@ class TestDashboard extends Component {
                       Challenges
                     </Link>
 
+
                 </Segment>
                 <Query query={CHALLENGE_TEST_QUERY} variables={{ testId: test_id, courseId: testToRender.course.id }}>
-                      {({ loading, error, data }) => {
+                      {({ loading, error, data, subscribeToMore }) => {
                         if (loading) return <PlaceholderQ />
                         if (error) return <Error error={error} />
 
@@ -69,8 +70,24 @@ class TestDashboard extends Component {
 
                     return (
 
-                    <TestChallenges testToRender={testToRender} challenges={challenges} />
-
+                    <TestChallenges testToRender={testToRender} challenges={challenges}
+                    subscribeToNewChallenges={() =>
+                      subscribeToMore({
+                        document: NEW_CHALLENGE_SUBSCRIPTION,
+                        variables: {testId: test_id },
+                        updateQuery: (prev, { subscriptionData }) => {
+                          if (!subscriptionData.data) return prev
+                          let newChallenge = subscriptionData.data.newChallenge
+                          return {
+                            challenges:{
+                              challenges: [...prev.challenges.challenges, newChallenge],
+                              __typename: prev.challenges.__typename
+                          }
+                        }
+                      }
+                    })
+                    }
+                  />
                   )
                 }}
               </Query>

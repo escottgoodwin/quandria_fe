@@ -1,25 +1,27 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Form, Button, Select, Image } from 'semantic-ui-react'
+import { Form, Button, Select, Message } from 'semantic-ui-react'
 import {  DateTimeInput } from 'semantic-ui-calendar-react';
 import moment from 'moment'
+import {withRouter} from "react-router-dom"
 
-import { Mutation, Query } from "react-apollo";
-import Error from './Error'
-import Loading from './Loading'
-import gql from "graphql-tag"
+import { Mutation } from "react-apollo";
 
-import {PUBLISH_TEST_MUTATION, TEST_QUERY, PUBLISH_TEST_REFETCH_QUERY} from '../ApolloQueries'
+import {EDIT_PUBLISH_TEST_MUTATION, PUBLISH_TEST_REFETCH_QUERY} from '../ApolloQueries'
 
-import EditTestHeader from '../components/EditTestHeader'
+class EditPublishTestInput extends Component {
 
-class PublishTest extends Component {
+  state = {
+        test_id:this.props.id,
+        published:this.props.published,
+        startTime: this.props.startTime,
+        endDate:moment(this.props.endDate).format(),
+        endTime:this.props.endTime,
+        graphQLErrorL:false,
+        isVisibleGraph:false,
+        networkError:false,
+        isVisibleNet:false,
 
-
-    state = {
-          startHour:'',
-          endHour:'',
-          testEndDate:'',
         }
 
     handleChange = (event, {name, value}) => {
@@ -29,9 +31,15 @@ class PublishTest extends Component {
   }
 
     render() {
-      const { test_id } = this.props.location.state
-      const { startHour, endHour, testEndDate } = this.state
-      const testEndDate1 = moment(testEndDate).format()
+      const { test_id,
+              published,
+              startTime,
+              endTime,
+              endDate,
+              graphQLError,
+              networkError,
+              isVisibleNet,
+              isVisibleGraph  } = this.state
 
       const statStopNumbers = [
       {value:"6 AM",text:"6 AM"},
@@ -54,57 +62,46 @@ class PublishTest extends Component {
       {value:"11 PM",text:"11 PM"}
     ]
 
+
       return (
-        <div className="main">
-  <div className="dashboard">
-    <div className="signin">
+        <div >
 
-      <div style={{padding:"20px"}}>
-      <Query query={TEST_QUERY} variables={{ test_id: test_id }}>
-            {({ loading, error, data }) => {
-              if (loading) return <Loading />
-              if (error) return <Error/>
 
-              const test = data.test
 
-              return (
-                <EditTestHeader  {...test} />
-            )
-          }}
-        </Query>
-      </div>
-
-      <h2>Publish Test</h2>
+      <h2>Edit Published Test</h2>
       <Form size="big">
 
       <DateTimeInput
       label='Test End Date'
       dateFormat="MM-DD-YYYY"
       timeFormat="AMPM"
-          name="testEndDate"
-          placeholder="Test End Date"
-          value={this.state.testEndDate}
-          iconPosition="left"
-          onChange={this.handleChange} />
+      name="endDate"
+      placeholder="Test End Date"
+      value={this.state.endDate}
+      iconPosition="left"
+      onChange={this.handleChange} />
 
       <Form.Group widths='equal'>
 
       <Form.Field
-        id='startHour'
+        id='startTime'
         control={Select}
         options={statStopNumbers}
-        onChange={(event, {value}) => { this.setState({ startHour: value })}}
+        value={this.state.startTime}
+        onChange={(event, {value}) => { this.setState({ startTime: value })}}
         label='Start Time'
         fluid
         selection
         placeholder='Select Start Time'
       />
 
+
       <Form.Field
-        id='stopHour'
+        id='stopTime'
         control={Select}
         options={statStopNumbers}
-        onChange={(event, {value}) => { this.setState({ stopHour: value })}}
+        value={this.state.endTime}
+        onChange={(event, {value}) => { this.setState({ endTime: value })}}
         label='Stop Time'
         fluid
         selection
@@ -112,17 +109,17 @@ class PublishTest extends Component {
       />
       </Form.Group>
 
-
       <Mutation
-          mutation={PUBLISH_TEST_MUTATION}
+          mutation={EDIT_PUBLISH_TEST_MUTATION}
           variables={{
-            startHour:startHour,
-            endHour:endHour,
-            testEndDate:testEndDate1,
-            published: true,
+            startTime:startTime,
+            endTime:endTime,
+            endDate:endDate,
+            published: published,
             testId: test_id
           }}
           onCompleted={data => this._confirm(data)}
+          onError={error => this._error (error)}
           refetchQueries={() => {
              return [{
                 query: PUBLISH_TEST_REFETCH_QUERY,
@@ -135,15 +132,26 @@ class PublishTest extends Component {
           )}
         </Mutation>
 
+        {isVisibleGraph &&
+          <Message negative>
+            <p><b>{graphQLError}</b></p>
+          </Message>
+        }
+
+        {isVisibleNet &&
+          <Message negative>
+            <p><b>{networkError}</b></p>
+          </Message>
+        }
+
       </Form>
     </div>
-  </div>
-  </div>
+
 )
 }
 
 _confirm = async data => {
-  const { id } = data.publishTest
+  const { id } = data.editPublishTest
   this.props.history.push({
     pathname: `/test_dashboard`,
     state: { test_id: id  }
@@ -151,4 +159,4 @@ _confirm = async data => {
   }
 }
 
-export default PublishTest
+export default withRouter(EditPublishTestInput)

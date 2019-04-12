@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 export default class PanelCountButton extends Component {
 
   componentDidMount() {
-    this.props.subscribeToNewPanelCount()
+    //this.props.subscribeToNewPanelCount()
   }
 
   render(){
