@@ -139,6 +139,7 @@ query ChallengeTestQuery($testId:ID!){
       answer{
         id
         answer{
+          id
           choice
         }
         question{
@@ -1040,20 +1041,25 @@ query ChallengeQuery($challengeId:ID!){
         choice
         question{
           id
+          addedBy{
+            id
+            firstName
+            lastName
+          }
+          panel{
+            id
+            link
+          }
           test{
             id
           }
           question
           choices{
+            id
             choice
             correct
             }
           }
-          addedBy{
-            firstName
-            lastName
-          }
-
         }
       }
     }

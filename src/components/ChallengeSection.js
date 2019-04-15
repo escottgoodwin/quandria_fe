@@ -10,14 +10,26 @@ import {ADD_CHALLENGE_MESSAGE_MUTATION, CHALLENGE_DASHBOARD_QUERY} from '../Apol
 class ChallengeSection extends Component {
 
   state = {
+        challengeId: this.props.challengeId,
         challengeMessage:'',
         test_id: this.props.test_id,
       }
       handleSubmit = () => this.setState({ challengeMessage: ''})
 
   render() {
+      const { testId } = this.props
+      const { challengeId } = this.props.location.state
       const { challengeMessage, test_id } = this.state
+      console.log(challengeId)
     return (
+      <Query query={TEST_CHALLENGE_QUERY} variables={{ challengeId: challengeId }}>
+            {({ loading, error, data }) => {
+              if (loading) return <ChallengeLoading />
+              if (error) return <Error {...error}/>
+
+              const testToRender = data.test
+              console.log(this.state.challengeId)
+          return (
         <Tab.Pane key={this.props.id}>
 
         <Grid columns={2} >

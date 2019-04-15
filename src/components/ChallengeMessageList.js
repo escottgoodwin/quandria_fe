@@ -10,12 +10,12 @@ class ChallengeMessageList extends Component {
   messagesEnd = React.createRef()
 
   componentDidMount() {
-    this.scrollToBottom()
+    //this.scrollToBottom()
     this.props.subscribeToNewChallengeMessage();
   }
 
   componentDidUpdate () {
-    this.scrollToBottom()
+    //this.scrollToBottom()
   }
 
   scrollToBottom = () => {

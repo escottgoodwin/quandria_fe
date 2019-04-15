@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Image, Icon, Grid, Form, Input, Button } from 'semantic-ui-react'
+import { Image, Icon, Grid, Form, Input, Button, Segment } from 'semantic-ui-react'
 import ChallengeMessageList from './ChallengeMessageList'
 import ChatLoading from './ChatLoading'
 import Error from './Error'
@@ -16,13 +16,12 @@ class ChallengeSection extends Component {
 
   render() {
       const { challengeMessage } = this.state
-      const { challengeId }= this.props.location.state
-      console.log(challengeId)
+      const { challengeId } = this.props
     return (
 
       <Query query={CHALLENGE_SECTION_QUERY} variables={{ challengeId: challengeId }}>
             {({ loading, error, data }) => {
-              if (loading) return <div>Loading</div>
+              if (loading) return <ChatLoading />
               if (error) return <Error {...error}/>
 
               const challengeToRender= data.challenge
@@ -53,26 +52,26 @@ class ChallengeSection extends Component {
         <div style={{padding:'10px'}}>
 
         <div>
-        <b>Question:</b> {challengeToRender.answer.question.question}
+        <b>Question:</b> {challengeToRender.answer.answer.question.question}
         </div>
 
         <div>
         <ul>
         {
-          challengeToRender.answer.question.choices.map(choice => <li key={choice.choice}>{choice.choice} {choice.correct &&  <Icon  size='large' name='check square outline' color='teal' />} </li>)
+          challengeToRender.answer.answer.question.choices.map(choice => <li key={choice.choice}>{choice.choice} {choice.correct &&  <Icon  size='large' name='check square outline' color='teal' />} </li>)
         }
         </ul>
         </div>
 
         <div>
-        <b>By:</b>{challengeToRender.answer.question.addedBy.firstName} {challengeToRender.answer.question.addedBy.lastName}
+        <b>By:</b>{challengeToRender.answer.answer.question.addedBy.firstName} {challengeToRender.answer.answer.question.addedBy.lastName}
         </div>
 
         </div>
 
         <div>
-        {challengeToRender.answer.question.panel.link &&
-          <Image  src={challengeToRender.answer.question.panel.link} />
+        {challengeToRender.answer.answer.question.panel.link &&
+          <Image  src={challengeToRender.answer.answer.question.panel.link} />
         }
         </div>
 
@@ -83,7 +82,7 @@ class ChallengeSection extends Component {
         </Grid.Column>
 
         <Grid.Column centered='true'>
-
+        <Segment style={{ minHeight: 450, overflow: 'auto' }} attached>
         <Query query={CHALLENGE_MESSAGE_QUERY}
               variables={{ challengeId: challengeId }} >
           {({ loading, error, data, subscribeToMore }) => {
@@ -115,9 +114,9 @@ class ChallengeSection extends Component {
           )
        }}
      </Query>
-
+     </Segment>
         <Form onSubmit={() => this.setState({ challengeMessage: ''})}>
-        <div style={{margin:'40px'}}>
+        <div style={{marginTop:'20px'}}>
 
         <Form.Group>
 

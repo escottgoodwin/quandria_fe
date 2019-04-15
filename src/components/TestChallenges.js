@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 import ChallengeList from './ChallengeList'
-import { Segment } from 'semantic-ui-react'
+import { Segment,Table } from 'semantic-ui-react'
 
 class TestChallenges extends Component {
 
@@ -10,8 +10,12 @@ class TestChallenges extends Component {
       return (
 
       <div >
-        <Segment style={{ minHeight: 400 }} textAlign='left' attached>
+      <Segment style={{ maxHeight: 400, overflow: 'auto' }} textAlign='left' attached>
+      <Table celled >
+       <Table.Body>
           <ChallengeList {...this.props.challenges}/>
+        </Table.Body>
+        </Table>
         </Segment>
     </div>
 
