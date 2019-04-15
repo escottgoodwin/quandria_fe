@@ -14,7 +14,7 @@ class AddPanelList extends Component {
     const { test_id } = this.props
     return (
 
-      <Query query={TEST_PANEL_STATS_QUERY} variables={{ testId: test_id }} fetchPolicy="network-only">
+      <Query query={TEST_PANEL_STATS_QUERY} variables={{ testId: test_id }} fetchPolicy="cache-and-network">
             {({ loading, error, data, subscribeToMore }) => {
               if (loading) return <PlaceholderQ />
               if (error) return <Error error={error} />

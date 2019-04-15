@@ -14,9 +14,16 @@ class ChallengeSection extends Component {
 
   state = { challengeMessage:'' }
 
+  componentDidMount(){
+    this.props.changeChallenge(this.props.initialChallengeId)
+  }
+
   render() {
+
       const { challengeMessage } = this.state
       const { challengeId } = this.props
+      console.log(challengeId)
+
     return (
 
       <Query query={CHALLENGE_SECTION_QUERY} variables={{ challengeId: challengeId }}>
@@ -25,6 +32,7 @@ class ChallengeSection extends Component {
               if (error) return <Error {...error}/>
 
               const challengeToRender= data.challenge
+              console.log(challengeToRender)
 
           return (
 
@@ -127,7 +135,7 @@ class ChallengeSection extends Component {
                return [{
                   query: CHALLENGE_DASHBOARD_QUERY,
                   variables: { testId: challengeToRender.answer.answer.question.test.id, }
-              }];
+              }]
               }} >
             {mutation => (
 

@@ -32,7 +32,7 @@ class TestDashboard extends Component {
 
     return (
 
-      <Query query={TEST_QUERY} variables={{ test_id: test_id }} fetchPolicy="network-only">
+      <Query query={TEST_QUERY} variables={{ test_id: test_id }} fetchPolicy="cache-and-network">
             {({ loading, error, data }) => {
               if (loading) return <TestLoading />
               if (error) return <Error error={error} />

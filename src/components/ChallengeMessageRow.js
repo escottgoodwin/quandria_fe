@@ -12,7 +12,6 @@ const ChallengeMessageRow = (props) =>
         <div>{moment(props.addedDate).calendar()}</div>
       </Comment.Metadata>
       <Comment.Text ><div >{props.challengeMessage}</div></Comment.Text>
-
     </Comment.Content>
     </Comment>
 

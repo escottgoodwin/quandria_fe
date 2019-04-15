@@ -22,7 +22,7 @@ export default class TestRow extends Component {
     const { id } = this.props.test
     return (
 
-      <Query query={TEST_LIST_QUERY2} variables={{ testId: id }} >
+      <Query query={TEST_LIST_QUERY2} variables={{ testId: id }} fetchPolicy="cache-and-network">
             {({ loading, error, data, subscribeToMore }) => {
               if (loading) return <CoursePlaceholder />
               if (error) return <Error {...error}/>

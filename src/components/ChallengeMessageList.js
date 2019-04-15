@@ -24,11 +24,11 @@ class ChallengeMessageList extends Component {
 
 render() {
 
+
 return (
   <Comment.Group size='small' style={{ overflow: 'auto', height: 375, textAlign:"left", paddingLeft:'20px'}}>
     {this.props.challengeMessages.map(challengeMessage =>
-    <ChallengeMessageRow key={challengeMessage.id} {...challengeMessage} />)}
-    <div ref={this.messagesEnd} />
+      <ChallengeMessageRow key={challengeMessage.id} {...challengeMessage} />)}
   </Comment.Group>
 
 )

@@ -27,7 +27,7 @@ class CourseDashboard extends Component {
     const { graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
 
     return (
-    <Query query={NEW_COURSE_DASHBOARD_QUERY} variables={{ courseId: course_id }} fetchPolicy="network-only" >
+    <Query query={NEW_COURSE_DASHBOARD_QUERY} variables={{ courseId: course_id }} fetchPolicy="cache-and-network" >
           {({ loading, error, data }) => {
             if (loading) return <CoursePlaceholder />
             if (error) return <Error {...error}/>

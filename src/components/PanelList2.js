@@ -15,7 +15,7 @@ class PanelList extends Component {
       const { id } = this.props
       return (
 
-        <Query query={TEST_PANEL_STATS_QUERY} variables={{ testId: id }} fetchPolicy="network-only" >
+        <Query query={TEST_PANEL_STATS_QUERY} variables={{ testId: id }} fetchPolicy="cache-and-network" >
               {({ loading, error, data, subscribeToMore }) => {
                 if (loading) return <div>Loading...</div>
                 if (error) return <Error {...error}/>
