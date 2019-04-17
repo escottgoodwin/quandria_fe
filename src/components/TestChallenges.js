@@ -10,7 +10,7 @@ class TestChallenges extends Component {
       return (
 
       <div >
-      <Segment style={{ maxHeight: 400, overflow: 'auto' }} textAlign='left' attached>
+      <Segment style={{ height: 400, overflow: 'auto' }} textAlign='left' attached>
       <Table celled >
        <Table.Body>
           <ChallengeList {...this.props.challenges}/>

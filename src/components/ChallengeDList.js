@@ -1,20 +1,37 @@
-import React from 'react'
-import { Table } from 'semantic-ui-react'
+import React,{Component} from 'react'
+import { Table,Segment } from 'semantic-ui-react'
 
 import ChallengeNavRow from '../components/ChallengeNavRow'
 
-const ChallengeDList = props =>
+export default class ChallengeDList extends Component {
 
-    <Table celled selectable>
+  componentDidMount() {
+    //this.scrollToBottom()
+    this.props.subscribeToNewChallenges();
+  }
 
-      <Table.Body>
-        {
-          props.challenges.map(challenge =>
-          <ChallengeNavRow key={challenge.id}  changeChallenge={props.changeChallenge} {...challenge} test_id={props.test_id} />)
-        }
+  render(){
+    const {challenges} = this.props
+    return (
+      <>
+      <Segment  fluid="true"  secondary attached='top'>
+        {challenges.length} Challenges
+      </Segment>
 
-     </Table.Body>
+      <Segment style={{ maxHeight: 500, overflow: 'auto' }} attached>
+      <Table celled selectable>
 
-    </Table>
+        <Table.Body>
+          {
+            challenges.map(challenge =>
+            <ChallengeNavRow key={challenge.id}  changeChallenge={this.props.changeChallenge} {...challenge} test_id={this.props.test_id} />)
+          }
 
-export default ChallengeDList
+       </Table.Body>
+
+      </Table>
+      </Segment>
+      </>
+    )
+  }
+}

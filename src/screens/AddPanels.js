@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import '../css/App.css'
 
 import ChallengeHeader from '../components/ChallengeHeader'
-import DropZoneUpload from '../components/DropZoneUpload'
+import DropZoneUpload from '../components/DropZoneUpload2'
 import AddPanelList from '../components/AddPanelList'
 import Loading from '../screens/Loading'
 import Error from './Error'

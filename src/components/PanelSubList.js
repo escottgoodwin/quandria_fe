@@ -13,7 +13,6 @@ export default class PanelSubList extends Component{
   render(){
     return(
       <>
-      {console.log(this.props.panelStats)}
       <h5>{this.props.panelStats.length} Panels</h5>
       <div className="coursecontainer">
       <Card.Group centered>

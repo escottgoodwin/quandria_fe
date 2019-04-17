@@ -11,7 +11,7 @@ import { Query } from "react-apollo"
 import Error from './Error'
 import ChallengeLoading from './ChallengeLoading'
 
-import {TEST_CHALLENGE_QUERY,CHALLENGE_DASHBOARD2_QUERY} from '../ApolloQueries'
+import {TEST_CHALLENGE_QUERY,CHALLENGE_DASHBOARD2_QUERY,NEW_CHALLENGE_SUBSCRIPTION} from '../ApolloQueries'
 
 class ChallengeDashboard extends Component {
 
@@ -53,32 +53,43 @@ class ChallengeDashboard extends Component {
                 </Query>
 
                 <Query query={CHALLENGE_DASHBOARD2_QUERY} variables={{ testId: test_id }}>
-                      {({ loading, error, data }) => {
+                      {({ loading, error, data, subscribeToMore }) => {
                         if (loading) return <div>Loading...</div>
                         if (error) return <Error {...error} />
 
                         const challenges = data.challenges.challenges
                         const initialChallengeId = challenges[0].id
+
                     return (
 
                   <div className="coursecontainer">
 
-                  <h3>Challenges</h3>
-                  <hr/>
-
                   <Grid columns={2} >
                   <Grid.Row >
                   <Grid.Column width={6}>
-                  <Segment  fluid="true"  secondary attached='top'>
-                    Challenges
-                  </Segment>
 
-                  <Segment style={{ maxHeight: 500, overflow: 'auto' }} attached>
+                  <ChallengeDList
+                      challenges={challenges}
+                      changeChallenge={this.changeChallenge}
+                      test_id={test_id}
+                      subscribeToNewChallenges={() =>
+                        subscribeToMore({
+                          document: NEW_CHALLENGE_SUBSCRIPTION,
+                          variables: {testId: test_id },
+                          updateQuery: (prev, { subscriptionData }) => {
+                            if (!subscriptionData.data) return prev
+                            let newChallenge = subscriptionData.data.newChallenge.node
+                            return  Object.assign({}, prev, {
+                              challenges: {
+                                challenges: [...prev.challenges.challenges, newChallenge],
+                                __typename: prev.challenges.__typename
+                            }
+                            })
+                        }
+                      })
+                    }
+                  />
 
-
-                  <ChallengeDList challenges={challenges} changeChallenge={this.changeChallenge} test_id={test_id} />
-
-                  </Segment>
                   </Grid.Column >
 
                   <Grid.Column centered='true' width={10}>

@@ -48,19 +48,7 @@ class TestDashboard extends Component {
               <Grid columns={2} stackable className="fill-content">
                 <Grid.Row stretched>
                 <Grid.Column  >
-                <Segment  fluid="true"  secondary attached='top'>
 
-                    <Link  to={{
-                      pathname: "/challenge_dashboard",
-                      state:
-                      { course_id: testToRender.course.id,
-                        test_id: testToRender.id }
-                      }} >
-                      Challenges
-                    </Link>
-
-
-                </Segment>
                 <Query query={CHALLENGE_TEST_QUERY} variables={{ testId: test_id, courseId: testToRender.course.id }}>
                       {({ loading, error, data, subscribeToMore }) => {
                         if (loading) return <PlaceholderQ />
@@ -69,7 +57,22 @@ class TestDashboard extends Component {
                         const challenges = data.challenges.challenges
 
                     return (
+                      <>
+                      <Segment  fluid="true"  secondary attached='top'>
+                      {challenges.length>0 ?
 
+                          <Link  to={{
+                            pathname: "/challenge_dashboard",
+                            state:
+                            { course_id: testToRender.course.id,
+                              test_id: testToRender.id }
+                            }} >
+                            {challenges.length} Challenges
+                          </Link>
+                          :
+                          <div>0 Challenges</div>
+                        }
+                      </Segment>
                     <TestChallenges testToRender={testToRender} challenges={challenges}
                     subscribeToNewChallenges={() =>
                       subscribeToMore({
@@ -88,6 +91,7 @@ class TestDashboard extends Component {
                     })
                     }
                   />
+                  </>
                   )
                 }}
               </Query>

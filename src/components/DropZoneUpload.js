@@ -76,23 +76,22 @@ class DropZoneUpload extends Component {
       const fileSizes = acceptedFiles.map(file => file.size)
       const reducer = (accumulator, currentValue) => accumulator + currentValue
       const totalUploadSize = fileSizes.reduce(reducer)
-      console.log(totalUploadSize)
 
       acceptedFiles.map(file => {
 
-        const unsignedUploadPreset = process.env.REACT_APP_CLOUDINARY_PRESET;
-        var url = process.env.REACT_APP_CLOUDINARY_URL;
+        const unsignedUploadPreset = process.env.REACT_APP_CLOUDINARY_PRESET
+        var url = process.env.REACT_APP_CLOUDINARY_URL
 
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("tags", 'browser_upload');
-        formData.append("upload_preset", unsignedUploadPreset); // Replace the preset name with your own
+        const formData = new FormData()
+        formData.append("file", file)
+        formData.append("tags", 'browser_upload')
+        formData.append("upload_preset", unsignedUploadPreset)// Replace the preset name with your own
 
         const config = {
           headers: { "X-Requested-With": "XMLHttpRequest" },
         }
 
-        const that = this;
+        const that = this
          axios.post(url, formData, config)
          .then(response => {
           const data = response.data;
@@ -138,37 +137,6 @@ class DropZoneUpload extends Component {
         })
         return file
       })
-
-      axios({
-         url: process.env.REACT_APP_GRAPHQL_SERVER,
-         method: 'post',
-         headers: {
-           authorization: this.props.token ? `Bearer ${this.props.token}` : "",
-         },
-         data: {
-           query: TEST_PANEL_STATS_QUERY,
-             variables: {testId:this.props.id}
-           }
-       })
-       .catch((error) => {
-            // Error
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                // console.log(error.response.data);
-                // console.log(error.response.status);
-                // console.log(error.response.headers);
-            } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                console.log(error.request);
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
-            }
-            console.log(error.config);
-          })
     }
 
       render() {
@@ -207,7 +175,7 @@ class DropZoneUpload extends Component {
 
                    :
 
-                  <Segment placeholder  size='big'>
+                  <Segment placeholder  >
 
                     <Icon name='images outline'  size='big'/><br/>
                     Drop or Choose Files

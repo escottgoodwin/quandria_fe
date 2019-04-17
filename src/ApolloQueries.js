@@ -914,26 +914,57 @@ subscription AnswerStats($testId:ID!){
 export const NEW_CHALLENGE_SUBSCRIPTION = gql`
 subscription NewChallenge($testId:ID!){
   newChallenge(testId:$testId){
-    id
-    challenge
-    addedDate
-    addedBy{
-      firstName
-      lastName
-    }
-    answer{
-      question{
-        question
-        addedDate
-        addedBy{
-          firstName
-          lastName
+    node{
+      id
+      challenge
+      addedDate
+      addedBy{
+        id
+        firstName
+        lastName
+      }
+      answer{
+        id
+        answer{
+          id
+          choice
+        }
+        question{
+          id
+          question
+          addedDate
+          addedBy{
+            id
+            firstName
+            lastName
+          }
+          choices{
+            id
+            choice
+          }
+        }
+      }
+      answer{
+        id
+        question{
+          id
+          panel{
+            id
+            link
+          }
+          question
+          addedDate
+          addedBy{
+            id
+            firstName
+            lastName
+          }
         }
       }
     }
   }
 }
-`
+  `
 
 export const COURSE_STUDENT_QUERY = gql`
 query CourseStudentsQuery($courseId:ID!){
