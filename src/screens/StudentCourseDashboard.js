@@ -23,7 +23,6 @@ class StudentCourseDashboard extends Component {
             if (error) return <Error {...error} />
 
             const courseToRender = data.course
-            console.log(courseToRender)
             const tests1 = courseToRender.tests.filter(test => !test.deleted)
 
         return (

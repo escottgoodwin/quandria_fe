@@ -970,18 +970,13 @@ query CourseStudentsQuery($courseId:ID!){
     name
     courseNumber
     time
-    tests{
+    students{
       id
-      subject
-      testNumber
-      testDate
-      published
-      release
-      questions{
+      firstName
+      lastName
+      answers{
         id
-      }
-      panels{
-        id
+        answerCorrect
       }
     }
     }
