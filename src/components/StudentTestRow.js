@@ -40,7 +40,7 @@ const StudentTestRow = (props) =>
 
       <div><h6>
       Questions: <Link  to={{
-        pathname: "/student_performance",
+        pathname: "/student_test_performance",
         state:
           {
             course_id: props.courseId,
@@ -52,35 +52,8 @@ const StudentTestRow = (props) =>
       </div>
 
       <div>
-      <h6>
-        Answered: { props.test.questions.filter(q => q.questionAnswers.length).length  }
-        </h6>
-      </div>
-
-      <div>
-      <h6>
-        Accuracy: { props.test.questions.map(q => q.questionAnswers.filter(a => a.answer.correct)).filter(qa => qa.length).length / props.test.questions.filter(q => q.questionAnswers.length).length > 0 ?
-                    Math.round(props.test.questions.map(q => q.questionAnswers.filter(a => a.answer.correct)).filter(qa => qa.length).length / props.test.questions.filter(q => q.questionAnswers.length).length * 100) :
-                    0
-         }%
-        </h6>
-      </div>
-
-      <div>
-      <h6>Challenges: <Link  to={{
-        pathname: "/challenge_dashboard",
-        state:
-          {
-            test_id: props.test.id }
-        }} >
-         0
-      </Link>
-      </h6>
-      </div>
-
-      <div>
       <h6>Panels: <Link  to={{
-        pathname: "/test_panels",
+        pathname: "/student_test_panels",
         state:
           {
             test_id: props.test.id }

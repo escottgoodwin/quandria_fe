@@ -9,6 +9,7 @@ const ChallengeRow = (props) =>
 <Table.Row>
 <Table.Cell>
   <div>
+  <div>
     <b>Challenge: </b>
     {props.challenge}
   </div>
@@ -30,6 +31,7 @@ const ChallengeRow = (props) =>
 
   <div style={{fontSize: '12px',color:'#C0C0C0'}}>
     {moment(props.addedDate).format("dddd, MMMM Do YYYY, h:mm a")}
+  </div>
   </div>
   </Table.Cell>
   </Table.Row>

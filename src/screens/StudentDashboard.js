@@ -38,17 +38,17 @@ class StudentDashboard extends Component {
                     </div>
 
                     <div className="coursecontainer">
+                    {userToRender.invitesSentTo.length>0 &&
+                      <div>
+                      <div><h4>Course Inivitations</h4></div>
+
+                      <InvitationList userid={userToRender.id} invites={userToRender.invitesSentTo}/>
+                      </div>
+                    }
 
                       <StudentCourseList  {...studentCourses} />
 
                     </div>
-                    {userToRender.invitesSentTo.length>0 &&
-                      <div>
-                    <div><h4>Course Inivitations</h4></div>
-
-                    <InvitationList userid={userToRender.id} invites={userToRender.invitesSentTo}/>
-                    </div>
-                    }
 
                     </div>
 

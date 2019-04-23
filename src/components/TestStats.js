@@ -5,7 +5,6 @@ import { Query } from "react-apollo"
 import { Loader } from 'semantic-ui-react'
 
 import Error from './Error'
-import PlaceholderQ from '../components/Placeholder'
 
 import {TEST_STATS_PERFORMANCE_QUERY} from '../ApolloQueries'
 

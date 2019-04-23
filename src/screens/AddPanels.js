@@ -35,7 +35,9 @@ class AddPanels extends Component {
               <div style={{padding:"15px"}}>
               </div>
 
+
               <DropZoneUpload token={auth_token} {...testToRender} />
+
 
               <AddPanelList test_id={test_id}/>
             </div>

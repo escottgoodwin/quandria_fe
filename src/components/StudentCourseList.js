@@ -1,80 +1,18 @@
-import _ from 'lodash'
+import React from 'react';
 import '../css/App.css';
-import React, { Component } from 'react'
-import { Segment, Table } from 'semantic-ui-react'
 
-class StudentCourseList extends Component {
-  state = {
-    column: null,
-    data: this.props.students,
-    direction: null,
-  }
+import StudentCourseRow from './StudentCourseRow'
 
-  handleSort = clickedColumn => () => {
-    const { column, data, direction } = this.state
+const StudentCourseList = (props) =>
+<div>
 
-    if (column !== clickedColumn) {
-      this.setState({
-        column: clickedColumn,
-        data: _.sortBy(data, [clickedColumn]),
-        direction: 'ascending',
-      })
+  <h5>Total Courses: {props[0].length}</h5>
 
-      return
-    }
-
-    this.setState({
-      data: data.reverse(),
-      direction: direction === 'ascending' ? 'descending' : 'ascending',
-    })
-  }
-
-  render() {
-    const { column, data, direction } = this.state
-
-    return (
-    <Segment style={{ minHeight: 400, overflow: 'auto' }} attached>
-      <h4>Enrolled Students</h4>
-    <Table sortable celled fixed  >
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell
-              sorted={column === 'name' ? direction : null}
-              onClick={this.handleSort('firstName')}
-            >
-              First Name
-            </Table.HeaderCell>
-
-            <Table.HeaderCell
-              sorted={column === 'name' ? direction : null}
-              onClick={this.handleSort('lastName')}
-            >
-              Last Name
-            </Table.HeaderCell>
-
-            <Table.HeaderCell
-              sorted={column === 'percentCorrect' ? direction : null}
-              onClick={this.handleSort('percentCorrect')}
-            >
-              Percent Correct
-            </Table.HeaderCell>
-
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          {_.map(data, ({ id, firstName, lastName, percentCorrect }) => (
-            <Table.Row key={id}>
-              <Table.Cell>{firstName}</Table.Cell>
-              <Table.Cell>{lastName}</Table.Cell>
-              <Table.Cell>{Math.round(percentCorrect*100)}%</Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    </Segment>
-    )
-  }
-}
+  <div className="coursecontainer">
+    {props[0].map(course =>
+      <StudentCourseRow key={course.id} {...course} />
+    )}
+  </div>
+    </div>
 
 export default StudentCourseList

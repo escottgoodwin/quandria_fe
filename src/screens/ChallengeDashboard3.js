@@ -28,7 +28,6 @@ class ChallengeDashboard extends Component {
 
     const {challengeId,test_id} = this.state
 
-    console.log(challengeId)
       return (
 
 

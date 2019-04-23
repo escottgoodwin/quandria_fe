@@ -7,7 +7,7 @@ const ChallengeList = (props) =>
 
   <div >
   {
-  Object.values(props).slice(0,4).map(challenge => <ChallengeRow key={challenge.id} {...challenge} /> )
+  Object.values(props).map(challenge => <ChallengeRow key={challenge.id} {...challenge} /> )
   }
   </div>
 export default ChallengeList

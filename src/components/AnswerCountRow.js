@@ -13,7 +13,7 @@ export default class AnswerCountRow extends Component {
       <>
       <div>
       <h6>
-        Answered: { answersCount  }
+        Answers: { answersCount  }
       </h6>
       </div>
 

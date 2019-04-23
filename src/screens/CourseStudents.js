@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import '../css/App.css'
 import CourseHeader from '../components/CourseHeader'
-import StudentCourseList from '../components/StudentCourseList'
+import CourseStudentList from '../components/CourseStudentList'
 import { Query } from "react-apollo"
 import Error from './Error'
 
@@ -16,7 +16,7 @@ export default class CourseStudents extends Component {
     const { course_id }= this.props.location.state
 
     return (
-    <Query query={COURSE_STUDENT_QUERY} variables={{ courseId: course_id }}>
+    <Query query={COURSE_STUDENT_QUERY} variables={{ courseId: course_id }} fetchPolicy="cache-and-network">
           {({ loading, error, data }) => {
             if (loading) return <CoursePlaceholder />
             if (error) return <Error {...error}/>
@@ -39,7 +39,7 @@ export default class CourseStudents extends Component {
       <div className="main">
         <div className="container">
           <CourseHeader {...courseToRender} />
-          <StudentCourseList students={students} courseId={course_id} />
+          <CourseStudentList students={students} courseId={course_id} />
           <div >
           </div>
         </div>

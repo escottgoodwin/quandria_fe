@@ -449,6 +449,7 @@ query UserQuery($userid: ID!) {
 }
 `
 
+
 export const STUDENT_COURSE_QUERY = gql`
 query UserQuery($userid: ID!) {
   user(id: $userid){
@@ -587,6 +588,7 @@ export const CONFIRMATION_MUTATION = gql`
   }
   `
 
+
 export const PANEL_QUERY = gql`
 query TestChallenges($test_id:ID!){
   test(id:$test_id){
@@ -683,13 +685,8 @@ export const ADD_PANEL_MUTATION = gql`
 mutation AddPanel($testId:ID!, $link:String!){
   addPanel(link:$link, testId:$testId){
     link
+    label
     id
-    test{
-      panels{
-        id
-        link
-      }
-    }
   }
 }
   `
@@ -973,14 +970,20 @@ query CourseStudentsQuery($courseId:ID!){
     name
     courseNumber
     time
-    students{
+    tests{
       id
-      firstName
-      lastName
-      answers{
-        answerCorrect
-        }
+      subject
+      testNumber
+      testDate
+      published
+      release
+      questions{
+        id
       }
+      panels{
+        id
+      }
+    }
     }
   }
 `

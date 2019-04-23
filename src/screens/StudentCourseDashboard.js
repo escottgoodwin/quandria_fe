@@ -1,14 +1,14 @@
 import React,{Component} from 'react'
 import '../css/App.css'
 
-import CourseHeader from '../components/CourseHeader'
+import StudentCourseHeader from '../components/StudentCourseHeader'
 import StudentTestList from '../components/StudentTestList'
 import { Query } from "react-apollo"
 
 import Error from './Error'
 import CoursePlaceholder from './CoursePlaceholder'
 
-import {STUDENT_COURSE_QUERY} from '../ApolloQueries'
+import {COURSE_STUDENT_QUERY} from '../ApolloQueries'
 
 class StudentCourseDashboard extends Component {
 
@@ -17,12 +17,13 @@ class StudentCourseDashboard extends Component {
     const { course_id }= this.props.location.state
 
     return (
-    <Query query={STUDENT_COURSE_QUERY} variables={{ courseid: course_id }}>
+    <Query query={COURSE_STUDENT_QUERY} variables={{ courseId: course_id }}>
           {({ loading, error, data }) => {
             if (loading) return <CoursePlaceholder />
             if (error) return <Error {...error} />
 
             const courseToRender = data.course
+            console.log(courseToRender)
             const tests1 = courseToRender.tests.filter(test => !test.deleted)
 
         return (
@@ -30,7 +31,7 @@ class StudentCourseDashboard extends Component {
       <div className="main">
         <div className="container">
 
-              <CourseHeader {...courseToRender} />
+              <StudentCourseHeader {...courseToRender} />
               <StudentTestList tests={tests1} courseId={course_id} />
               <div >
 

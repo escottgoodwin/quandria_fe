@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React,{Component} from 'react'
 
 import '../css/App.css';
 import classNames from 'classnames'
@@ -78,7 +78,11 @@ class DropZoneUpload extends Component {
 
       const file_total = acceptedFiles.length
       let uploadFiles = 0
+      const fileSizes = acceptedFiles.map(file => file.size)
+      const reducer = (accumulator, currentValue) => accumulator + currentValue
+      const totalUploadSize = fileSizes.reduce(reducer)
 
+      let newLinks = []
       acceptedFiles.map(file => {
 
         const unsignedUploadPreset = process.env.REACT_APP_CLOUDINARY_PRESET
@@ -115,6 +119,7 @@ class DropZoneUpload extends Component {
             uploadFiles += 1
             let percent = (uploadFiles / file_total)*100
             that.setState({percent})
+            newLinks.push(result.data.data.addPanel)
           })
           .catch((error) => {
                // Error
@@ -143,6 +148,10 @@ class DropZoneUpload extends Component {
         })
         return file
       })
+
+      console.log(newLinks)
+
+
     }
 
       render() {

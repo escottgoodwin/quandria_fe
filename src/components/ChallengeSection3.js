@@ -22,7 +22,6 @@ class ChallengeSection extends Component {
 
       const { challengeMessage } = this.state
       const { challengeId } = this.props
-      console.log(challengeId)
 
     return (
 
@@ -32,7 +31,6 @@ class ChallengeSection extends Component {
               if (error) return <Error {...error}/>
 
               const challengeToRender= data.challenge
-              console.log(challengeToRender)
 
           return (
 
