@@ -60,27 +60,27 @@ class PublishTest extends Component {
               isVisibleNet,
               isVisibleGraph } = this.state
 
-      const statStopNumbers = [
-      {value:"6 AM",text:"6 AM"},
-      {value:"7 AM",text:"7 AM"},
-      {value:"8 AM",text:"8 AM"},
-      {value:"9 AM",text:"9 AM"},
-      {value:"10 AM",text:"10 AM"},
-      {value:"11 AM",text:"11 AM"},
-      {value:"12 PM",text:"12 PM"},
-      {value:"1 PM",text:"1 PM"},
-      {value:"2 PM",text:"2 PM"},
-      {value:"3 PM",text:"3 PM"},
-      {value:"4 PM",text:"4 PM"},
-      {value:"5 PM",text:"5 PM"},
-      {value:"6 PM",text:"6 PM"},
-      {value:"7 PM",text:"7 PM"},
-      {value:"8 PM",text:"8 PM"},
-      {value:"9 PM",text:"9 PM"},
-      {value:"10 PM",text:"10 PM"},
-      {value:"11 PM",text:"11 PM"}
-    ]
-    console.log(this.state)
+              const statStopNumbers = [
+              {value:"6",text:"6 AM"},
+              {value:"7",text:"7 AM"},
+              {value:"8",text:"8 AM"},
+              {value:"9",text:"9 AM"},
+              {value:"10",text:"10 AM"},
+              {value:"11",text:"11 AM"},
+              {value:"12",text:"12 PM"},
+              {value:"13",text:"1 PM"},
+              {value:"14",text:"2 PM"},
+              {value:"15",text:"3 PM"},
+              {value:"16",text:"4 PM"},
+              {value:"17",text:"5 PM"},
+              {value:"18",text:"6 PM"},
+              {value:"19",text:"7 PM"},
+              {value:"20",text:"8 PM"},
+              {value:"21",text:"9 PM"},
+              {value:"22",text:"10 PM"},
+              {value:"23",text:"11 PM"}
+            ]
+
       return (
         <div className="main">
         <div className="container">
