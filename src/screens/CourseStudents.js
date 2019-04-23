@@ -29,7 +29,7 @@ export default class CourseStudents extends Component {
                 id: element.id,
                 firstName:element.firstName,
                 lastName:element.lastName,
-                percentCorrect: element.answers.filter(a => a.answerCorrect).length / element.answers.length > 0 ? Math.round(element.answers.filter(a => a.answerCorrect).length / element.answers.length *100) : 0.0
+                percentCorrect: element.answers.filter(a => a.answerCorrect).length / element.answers.length > 0 ? element.answers.filter(a => a.answerCorrect).length / element.answers.length : 0.0
               }
               students.push(item)
             });
