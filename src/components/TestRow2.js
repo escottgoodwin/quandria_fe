@@ -27,7 +27,7 @@ export default class TestRow extends Component {
               if (loading) return <CoursePlaceholder />
               if (error) return <Error {...error}/>
 
-              const { id, testNumber, subject, testDate, published, release, questionsCount, panelsCount, answersCount, accuracy, challengeCount }  = data.testList
+              const { id, testNumber, subject, testDate, testType, published, release, questionsCount, panelsCount, answersCount, accuracy, challengeCount }  = data.testList
 
 
           return (
@@ -48,6 +48,17 @@ export default class TestRow extends Component {
         </Link>
         </div>
         <div>
+        {testType === 'CLASS'
+          <Button basic disabled color="purple" size="small">Lecture</Button>
+        }
+
+        {testType === 'LAB'
+          <Button basic disabled color="orange" size="small">Lab</Button>
+        }
+
+        {published &&
+          <Button basic disabled color="green" size="small">Test Published</Button>
+        }
         {published &&
           <Button basic disabled color="green" size="small">Test Published</Button>
         }

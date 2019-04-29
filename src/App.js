@@ -5,7 +5,7 @@ import './css/App.css';
 import TeacherDashboard from './screens/TeacherDashboard'
 import StudentDashboard from './screens/StudentDashboard'
 import AdminDashboard from './screens/AdminDashboard'
-import QuandriaDashboard from './screens/QuandriaDashboard'
+import QuandrioDashboard from './screens/QuandrioDashboard'
 import SignIn from './screens/SignIn'
 import SignOut from './screens/SignOut'
 import SignUp from './screens/SignUp'
@@ -28,6 +28,14 @@ import Main from './screens/Main'
 import StudentPerformance from './screens/StudentPerformance'
 import ChallengeDashboard2 from './screens/ChallengeDashboard3'
 import CourseStudents from './screens/CourseStudents'
+import AddInstitution from './screens/AddInstitution'
+import InstitutionDashboard from './screens/InstitutionDashboard'
+import AddAdministrator from './screens/AddAdministrator'
+import AddTeacherQuandrio from './screens/AddTeacherQuandrio'
+import EditInstitution from './screens/EditInstitution'
+import EditAdministrator from './screens/EditAdministrator'
+import PersonnelDashboard from './screens/PersonnelDashboard'
+import InstitutionCourse from './screens/InstitutionCourse'
 
 //import CourseDashboard from './screens/CourseDashboard2'
 
@@ -52,7 +60,7 @@ class App extends Component {
           <Route path="/teacher_dashboard" component={TeacherDashboard}/>
           <Route path="/student_dashboard" component={StudentDashboard}/>
           <Route path="/admin_dashboard" component={AdminDashboard}/>
-          <Route path="/quandria_dashboard" component={QuandriaDashboard}/>
+          <Route path="/quandria_dashboard" component={QuandrioDashboard}/>
           <Route path="/course_dashboard" component={CourseDashboard}/>
           <Route path="/student_course_dashboard" component={StudentCourseDashboard}/>
           <Route path="/add_course" component={AddCourse}/>
@@ -69,6 +77,14 @@ class App extends Component {
           <Route path="/publish_test" component={PublishTest}/>
           <Route path="/edit_publish_test" component={EditPublishTest}/>
           <Route path="/course_students" component={CourseStudents}/>
+          <Route path="/add_institution" component={AddInstitution}/>
+          <Route path="/institution_dashboard" component={InstitutionDashboard}/>
+          <Route path="/add_admin" component={AddAdministrator}/>
+          <Route path="/add_teacher" component={AddTeacherQuandrio}/>
+          <Route path="/edit_admin" component={EditAdministrator}/>
+          <Route path="/edit_institution" component={EditInstitution}/>
+          <Route path="/personnel_dashboard" component={PersonnelDashboard}/>
+          <Route path="/institution_course" component={InstitutionCourse}/>
 
         </Switch>
         <Footer />

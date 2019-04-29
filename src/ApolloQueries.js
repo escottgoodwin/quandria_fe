@@ -289,32 +289,52 @@ export const TEST_COURSE_QUERY = gql`
   }
   `
 export const COURSE_QUERY = gql`
-  query CourseQuery($courseid:ID!){
-    course(id:$courseid){
+query CourseQuery($courseid:ID!){
+  course(id:$courseid){
+    id
+    name
+    courseNumber
+    time
+    institution{
       id
       name
-      courseNumber
-      time
-      institution{
+    }
+    tests{
+      id
+      subject
+    }
+    students{
+      id
+      firstName
+      lastName
+      email
+    }
+    teachers{
+      id
+      firstName
+      lastName
+      email
+    }
+    tests{
+      id
+      subject
+      deleted
+      testNumber
+      release
+      testDate
+      questions{
         id
-        name
+        questionAnswers{
+          id
+          answerCorrect
+        }
       }
-      tests{
+      panels{
         id
-        subject
-        deleted
-        testNumber
-        release
-        testDate
-        questions{
-          id
-        }
-        panels{
-          id
-        }
       }
     }
   }
+}
 `
 
 export const EDIT_COURSE_MUTATION = gql`
@@ -440,6 +460,7 @@ query UserQuery($userid: ID!) {
       }
       tests{
         id
+        testType
         panels{
           id
         }
@@ -1203,3 +1224,286 @@ mutation EditPublishTest(
       }
     }
     `
+
+export const INSTITUTIONS_QUERY = gql`
+query InstitutionsQuery{
+  institutions{
+    count
+    institutions{
+      id
+      name
+      type
+      admins{
+        id
+        firstName
+        lastName
+      }
+      courses{
+        id
+        name
+        deleted
+      }
+      teachers{
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+}
+`
+
+export const ADD_INSTITUTION_MUTATION = gql`
+  mutation AddInstitution($name:String!,$type:String,$address1:String,$address2:String,$city:String,$state: String, $zip: String, $phone: String, $email: String){
+    addInstitution(name:$name,type:$type,address1:$address1, address2: $address2, city: $city, state: $state, zip: $zip, phone: $phone, email: $email){
+      id
+      name
+      type
+    }
+  }
+  `
+
+export const INSTITUTION_QUERY = gql`
+query InstitutionQuery($institutionId:ID!){
+  institution(id:$institutionId){
+    id
+    type
+    name
+    address1
+    address2
+    city
+    state
+    zip
+    phone
+    email
+    admins{
+      id
+      firstName
+      lastName
+      email
+      teacherCourses{
+        id
+        deleted
+      }
+    }
+    courses{
+      id
+      name
+      deleted
+      students{
+        id
+      }
+    }
+    teachers{
+      id
+      firstName
+      lastName
+      email
+      teacherCourses{
+        id
+        deleted
+      }
+    }
+  }
+}
+`
+
+export const EDIT_INSTITUTION_MUTATION = gql`
+mutation EditInstitution(
+  $id:ID!,
+  $name:String,
+  $address1:String,
+  $address2:String,
+  $city:String,
+  $state:String,
+  $zip:String,
+  $email:String,
+  $phone:String
+){
+  updateInstitution(id:$id,
+  name:$name,
+  address1:$address1,
+  address2:$address2,
+  city:$city,
+  state:$state,
+  zip:$zip,
+  email:$email,
+  phone:$phone,
+  ){
+    id
+    name
+    address1
+    address2
+    city
+    state
+    zip
+    email
+    phone
+  }
+}
+`
+
+export const DELETE_INSTITUTION_MUTATION = gql`
+mutation DeleteInstitution($institutionId:ID!){
+  deleteInstitution(id:$institutionId){
+    id
+  }
+}
+`
+
+export const SIGNUP_MUTATION = gql`
+  mutation Signup($firstName: String!,$lastName:String!,$email: String!,$password: String!,$role: String!){
+    signup(firstName:$firstName,lastName:$lastName,
+    email:$email, password:$password, role: $role){
+      authMsg
+      user{
+        firstName
+        lastName
+      }
+    }
+  }
+  `
+
+export const SIGNUP_ADMIN_MUTATION = gql`
+  mutation SignUpAdmin($email:String!,
+    $password:String!,
+    $firstName:String!,
+    $lastName:String!,
+    $title: String,
+    $address1:String,
+    $address2:String,
+    $city:String,
+    $state: String,
+    $zip: String,
+    $phone: String,
+    $role:String!,
+    $institutionId:ID!){
+  signupAdmin(email:$email,
+    password:$password,
+    firstName:$firstName,
+    lastName:$lastName,
+    title: $title,
+    address1:$address1,
+    address2: $address2,
+    city: $city,
+    state: $state,
+    zip: $zip,
+    phone: $phone,
+    role:$role,
+    institutionId:$institutionId){
+      user{
+        firstName
+        lastName
+        adminInstitutions{
+          name
+        }
+      }
+    }
+  }
+  `
+  export const SIGNUP_TEACHER_MUTATION = gql`
+    mutation SignUpTeacher($email:String!,
+      $password:String!,
+      $firstName:String!,
+      $lastName:String!,
+      $title: String,
+      $address1:String,
+      $address2:String,
+      $city:String,
+      $state: String,
+      $zip: String,
+      $phone: String,
+      $role:String!,
+      $institutionId:ID!){
+    signupTeacher(email:$email,
+      password:$password,
+      firstName:$firstName,
+      lastName:$lastName,
+      title: $title,
+      address1:$address1,
+      address2: $address2,
+      city: $city,
+      state: $state,
+      zip: $zip,
+      phone: $phone,
+      role:$role,
+      institutionId:$institutionId){
+        user{
+          firstName
+          lastName
+          teacherInstitutions{
+            name
+          }
+        }
+      }
+    }
+    `
+
+export const PERSONNEL_QUERY = gql`
+query PersonnelQuery($userId:ID!){
+  user(id:$userId){
+    id
+    firstName
+    lastName
+    email
+    phone
+    title
+    department
+    address1
+    address2
+    city
+    state
+    zip
+    role
+    teacherCourses{
+      id
+      name
+      courseNumber
+      deleted
+      students{
+        id
+      }
+    }
+    studentCourses{
+      id
+      name
+      courseNumber
+      deleted
+      students{
+        id
+      }
+    }
+  }
+}
+`
+
+export const EDIT_PERSONNEL_MUTATION = gql`
+mutation EditPersonnel($userId: ID!,
+  	$email:String!,
+    $firstName:String!,
+    $lastName:String!,
+    $title: String,
+    $department: String,
+    $address1:String,
+    $address2:String,
+    $city:String,
+    $state: String,
+    $zip: String,
+    $phone: String){
+  updatePersonnel(
+    userId:$userId,
+    email:$email,
+    firstName:$firstName,
+    lastName:$lastName,
+    title: $title,
+    department: $department,
+    address1:$address1,
+    address2: $address2,
+    city: $city,
+    state: $state,
+    zip: $zip,
+    phone: $phone){
+      	id
+      }
+    }
+  `

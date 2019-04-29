@@ -2,20 +2,10 @@ import React,{Component} from 'react';
 import '../css/App.css';
 import { Form, Input, Button } from 'semantic-ui-react'
 import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
 
-const SIGNUP_MUTATION = gql`
-  mutation Signup($firstName: String!,$lastName:String!,$email: String!,$password: String!){
-    signup(firstName:$firstName,lastName:$lastName,
-    email:$email, password:$password){
-      authMsg
-      user{
-        firstName
-        lastName
-      }
-    }
-  }
-  `
+
+import {SIGNUP_MUTATION} from '../ApolloQueries'
+
 
 class SignUp extends Component {
     state = {
@@ -32,8 +22,8 @@ class SignUp extends Component {
         <div className="main">
       <div className="dashboard">
       <div className="signin">
+
       <h2>Sign Up</h2>
-      <div>{this.props.login_message}</div>
 
       <Form size="big">
 
@@ -72,7 +62,7 @@ class SignUp extends Component {
 
         <Mutation
             mutation={SIGNUP_MUTATION}
-            variables={{ email:email, password:password, firstName: firstName, lastName: lastName }}
+            variables={{ email:email, password:password, firstName: firstName, lastName: lastName, role: 'STUDENT' }}
             onCompleted={data => this._confirm(data)}
           >
             {mutation => (
