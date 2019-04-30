@@ -19,6 +19,7 @@ import EditCourse from './screens/EditCourse'
 import TestDashboard from './screens/TestDashboard'
 import StudentTestDashboard from './screens/StudentTestDashboard'
 import TestPanels from './screens/TestPanels'
+import StudentTestPanels from './screens/StudentTestPanels'
 import AddTest from './screens/AddTest'
 import EditTest from './screens/EditTest'
 import PublishTest from './screens/PublishTest1'
@@ -26,6 +27,7 @@ import EditPublishTest from './screens/EditPublishTest'
 import AddPanels from './screens/AddPanels'
 import Main from './screens/Main'
 import StudentPerformance from './screens/StudentPerformance'
+import StudentTestPerformance from './screens/StudentTestPerformance'
 import ChallengeDashboard2 from './screens/ChallengeDashboard3'
 import CourseStudents from './screens/CourseStudents'
 import AddInstitution from './screens/AddInstitution'
@@ -72,7 +74,9 @@ class App extends Component {
           <Route path="/edit_test/" component={EditTest}/>
           <Route path="/add_panels" component={AddPanels}/>
           <Route path="/test_panels" component={TestPanels}/>
+          <Route path="/student_test_panels" component={StudentTestPanels}/>
           <Route path="/student_performance/" component={StudentPerformance}/>
+          <Route path="/student_test_performance/" component={StudentTestPerformance}/>
           <Route path="/challenge_dashboard" component={ChallengeDashboard2}/>
           <Route path="/publish_test" component={PublishTest}/>
           <Route path="/edit_publish_test" component={EditPublishTest}/>

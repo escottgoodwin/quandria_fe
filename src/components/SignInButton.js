@@ -38,6 +38,7 @@ class SignInButton extends Component {
       const { authMsg } = data.logout
       sessionStorage.removeItem('userid')
       sessionStorage.removeItem('auth_token')
+      sessionStorage.removeItem('user')
       sessionStorage.setItem('online', false)
 
       Cookies.remove('userid')

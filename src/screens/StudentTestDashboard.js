@@ -1,18 +1,15 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Query,Mutation } from "react-apollo";
-import { Button, Grid, Segment } from 'semantic-ui-react'
+import { Query } from "react-apollo";
+import { Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import TestHeaderStudent from '../components/TestHeaderStudent'
-import TestChallenges from '../components/TestChallenges'
-import TestPerformance from '../components/TestPerformance'
+import TestStats from '../components/TestStats'
+import TestQuestionStats from '../components/TestQuestionStats'
 
 import Error from './Error'
-import PlaceholderQ from '../components/Placeholder'
 import TestLoading from '../components/TestLoading'
-import {TEST_QUERY,DELETE_TEST_MUTATION,CHALLENGE_TEST_QUERY,TEST_STATS_QUERY} from '../ApolloQueries';
-
-const uuidv4 = require('uuid/v4');
+import {TEST_QUERY} from '../ApolloQueries';
 
 class StudentTestDashboard extends Component {
 
@@ -35,73 +32,26 @@ class StudentTestDashboard extends Component {
             <div className="container">
               <TestHeaderStudent  {...testToRender} />
 
-              <Grid columns={2} stackable className="fill-content">
-                <Grid.Row stretched>
-                <Grid.Column  >
-                
-                </Grid.Column>
+              <div className="coursecontainer">
 
-                <Grid.Column >
-                <div>
-
-
-                <Segment secondary attached='top'>
-                <Link  to={{
-                pathname: "/student_performance",
+              <Link  to={{
+                pathname: "/student_test_panels",
                 state:
-                { course_id: testToRender.course.id,
-                  test_id: testToRender.id }
+                  {
+                    test_id: test_id }
                 }} >
-                Questions
-                </Link>
+                <Button color="blue" >{testToRender.panels.length} Panels</Button>
+              </Link>
 
-                </Segment>
+              <div className="coursecontainer">
 
-                <Query query={TEST_STATS_QUERY} variables={{ testId: test_id, courseId: testToRender.course.id }}>
-                      {({ loading, error, data }) => {
-                        if (loading) return <PlaceholderQ />
-                        if (error) return <div>Error</div >
+              <TestStats test_id={test_id} />
 
-                        const stats = []
-                        data.userTestStats.forEach(function(element) {
-                        const id = uuidv4()
-                          const item =  {
-                            id: id,
-                            name: element.name,
-                            total: element.total,
-                            totalCorrect: element.totalCorrect,
-                            percentCorrect: element.percentCorrect
-                          }
-                          stats.push(item)
-                        });
+              <TestQuestionStats test_id={test_id} />
 
-                    return (
+              </div>
+            </div>
 
-                    <TestPerformance testId={testToRender.id} stats={stats}  />
-                    )
-                  }}
-                </Query>
-
-                </div>
-
-
-                </Grid.Column>
-              </Grid.Row>
-              </Grid>
-
-
-              <div style={{padding:"15px"}} >
-
-              <Mutation
-                  mutation={DELETE_TEST_MUTATION}
-                  variables={{ test_id: test_id }}
-                  onCompleted={data => this._confirm(data)}
-                >
-                  {mutation => (
-                    <Button  color='red' onClick={mutation}>Delete Test</Button>
-                  )}
-                </Mutation>
-                </div>
               </div>
 </div>
 
@@ -111,12 +61,6 @@ class StudentTestDashboard extends Component {
         }}
       </Query>
       )
-    }
-
-    _confirm = async data => {
-      this.props.history.push({pathname: "/course_dashboard",
-      state:
-        { course_id: data.updateTest.course.id }})
     }
   }
 

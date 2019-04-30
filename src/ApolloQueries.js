@@ -321,6 +321,7 @@ query CourseQuery($courseid:ID!){
       deleted
       testNumber
       release
+      published
       testDate
       questions{
         id

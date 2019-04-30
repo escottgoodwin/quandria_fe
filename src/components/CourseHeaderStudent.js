@@ -8,16 +8,16 @@ const CourseHeaderStudent = (props) =>
 
   <div style={{padding:'20px'}}>
 
+  <Link  to={{
+    pathname: "/student_course_dashboard",
+    state:
+      { course_id: props.id }
+    }} >
     <h2>{props.name} - {props.courseNumber}</h2>
+    </Link>
 
     <h5>Time: {props.time}</h5>
-
-   <div style={{display:'inline-block',padding:5}}>
-
-        <Button color="blue" >Edit Course</Button>
-
-    </div>
-
+    
   </div>
 
 

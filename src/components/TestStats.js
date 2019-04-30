@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import '../css/App.css'
 import { Query } from "react-apollo"
 
-import { Loader } from 'semantic-ui-react'
+import { Loader,Segment,Grid } from 'semantic-ui-react'
 
 import Error from './Error'
 
@@ -21,11 +21,29 @@ class TestStats extends Component {
               const stats = data.testStats
 
           return (
+            <Segment>
 
-            <div >
-              <div><h4><b>Percent Correct:</b> { stats.totalCorrect/stats.total >0 ? Math.round(stats.totalCorrect/stats.total*100) : 0 }% </h4></div>
-              <div><h4><b>Total Correct:</b> {stats.totalCorrect}  <b>Total:</b> {stats.total}</h4></div>
-            </div>
+            <Grid celled columns={3} >
+
+            <Grid.Row>
+
+            <Grid.Column>
+              <h5><b>Answers:</b> {stats.total}</h5>
+            </Grid.Column>
+
+            <Grid.Column>
+              <h5><b>Correct:</b> {stats.totalCorrect}  </h5>
+            </Grid.Column>
+
+            <Grid.Column>
+              <h5><b>Percent Correct:</b> { stats.totalCorrect/stats.total >0 ? Math.round(stats.totalCorrect/stats.total*100) : 0 }% </h5>
+            </Grid.Column>
+
+            </Grid.Row>
+
+            </Grid>
+
+            </Segment>
             )
           }}
           </Query>

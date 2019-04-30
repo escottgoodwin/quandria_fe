@@ -4,13 +4,12 @@ import { Query } from "react-apollo"
 
 import {PANEL_QUERY} from '../ApolloQueries'
 
-import ChallengeHeader from '../components/ChallengeHeader'
+import TestHeaderStudent from '../components/TestHeaderStudent'
 import PanelList from '../components/PanelList2'
-import AddPanelButton from '../components/AddPanelButton'
 import Error from '../components/Error'
 import Loading from './Loading'
 
-class TestPanels extends Component {
+class StudentTestPanels extends Component {
 
   render() {
 
@@ -31,11 +30,9 @@ class TestPanels extends Component {
       <div className="container">
       <div className="coursecontainer">
 
-      <ChallengeHeader {...testToRender}/>
+      <TestHeaderStudent {...testToRender}/>
 
       <div style={{padding:'15px'}}>
-
-      <AddPanelButton {...testToRender}/>
 
       <div className="coursecontainer">
 
@@ -61,4 +58,4 @@ class TestPanels extends Component {
 
 
 
-export default TestPanels
+export default StudentTestPanels

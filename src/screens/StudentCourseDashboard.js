@@ -17,13 +17,13 @@ class StudentCourseDashboard extends Component {
     const { course_id }= this.props.location.state
 
     return (
-    <Query query={COURSE_QUERY} variables={{ courseid: course_id }}>
+    <Query query={COURSE_QUERY} variables={{ courseid: course_id }} fetchPolicy="cache-and-network">
           {({ loading, error, data }) => {
             if (loading) return <CoursePlaceholder />
             if (error) return <Error {...error} />
 
             const courseToRender = data.course
-            const tests1 = courseToRender.tests.filter(test => !test.deleted)
+            const tests1 = courseToRender.tests.filter(test => !test.deleted && test.published)
 
         return (
 

@@ -51,7 +51,7 @@ class TestQuestionPerformance extends Component {
                   sorted={column === 'total' ? direction : null}
                   onClick={this.handleSort('total')}
                 >
-                  Total
+                  Answered
                 </Table.HeaderCell>
 
                 <Table.HeaderCell
