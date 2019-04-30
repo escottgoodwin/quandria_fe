@@ -5,7 +5,7 @@ import { Grid } from 'semantic-ui-react'
 import { Query } from "react-apollo"
 import {TEST_QUERY} from '../ApolloQueries'
 
-import ChallengeHeader from '../components/ChallengeHeader'
+import TestHeaderStudent from '../components/TestHeaderStudent'
 import TestStats from '../components/TestStats'
 import UserTestStats from '../components/UserTestStats'
 import TestQuestionStats from '../components/TestQuestionStats'
@@ -36,7 +36,7 @@ class StudentPerformance extends Component {
 
           return (
 
-      <ChallengeHeader  {...testToRender} />
+      <TestHeaderStudent  {...testToRender} />
 
       )
     }

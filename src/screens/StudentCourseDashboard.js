@@ -8,7 +8,7 @@ import { Query } from "react-apollo"
 import Error from './Error'
 import CoursePlaceholder from './CoursePlaceholder'
 
-import {COURSE_STUDENT_QUERY} from '../ApolloQueries'
+import {COURSE_QUERY} from '../ApolloQueries'
 
 class StudentCourseDashboard extends Component {
 
@@ -17,7 +17,7 @@ class StudentCourseDashboard extends Component {
     const { course_id }= this.props.location.state
 
     return (
-    <Query query={COURSE_STUDENT_QUERY} variables={{ courseId: course_id }}>
+    <Query query={COURSE_QUERY} variables={{ courseid: course_id }}>
           {({ loading, error, data }) => {
             if (loading) return <CoursePlaceholder />
             if (error) return <Error {...error} />

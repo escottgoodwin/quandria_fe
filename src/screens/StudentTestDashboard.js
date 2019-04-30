@@ -3,7 +3,7 @@ import '../css/App.css';
 import { Query,Mutation } from "react-apollo";
 import { Button, Grid, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import TestHeader from '../components/TestHeader'
+import TestHeaderStudent from '../components/TestHeaderStudent'
 import TestChallenges from '../components/TestChallenges'
 import TestPerformance from '../components/TestPerformance'
 
@@ -33,38 +33,12 @@ class StudentTestDashboard extends Component {
 
             <div className="main">
             <div className="container">
-              <TestHeader  {...testToRender} />
+              <TestHeaderStudent  {...testToRender} />
 
               <Grid columns={2} stackable className="fill-content">
                 <Grid.Row stretched>
                 <Grid.Column  >
-                <Segment  fluid="true"  secondary attached='top'>
-
-                    <Link  to={{
-                      pathname: "/challenge_dashboard",
-                      state:
-                      { course_id: testToRender.course.id,
-                        test_id: testToRender.id }
-                      }} >
-                      Challenges
-                    </Link>
-
-                </Segment>
-                <Query query={CHALLENGE_TEST_QUERY} variables={{ testId: test_id, courseId: testToRender.course.id }}>
-                      {({ loading, error, data }) => {
-                        if (loading) return <PlaceholderQ />
-                        if (error) return <div>Error</div >
-
-                        const challenges = data.challenges.challenges
-
-                    return (
-
-                    <TestChallenges testToRender={testToRender} challenges={challenges} />
-
-                  )
-                }}
-              </Query>
-
+                
                 </Grid.Column>
 
                 <Grid.Column >
