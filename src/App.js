@@ -38,6 +38,8 @@ import EditInstitution from './screens/EditInstitution'
 import EditAdministrator from './screens/EditAdministrator'
 import PersonnelDashboard from './screens/PersonnelDashboard'
 import InstitutionCourse from './screens/InstitutionCourse'
+import InstitutionStudents from './screens/InstitutionStudents'
+
 
 //import CourseDashboard from './screens/CourseDashboard2'
 
@@ -89,6 +91,8 @@ class App extends Component {
           <Route path="/edit_institution" component={EditInstitution}/>
           <Route path="/personnel_dashboard" component={PersonnelDashboard}/>
           <Route path="/institution_course" component={InstitutionCourse}/>
+          <Route path="/institution_students" component={InstitutionStudents}/>
+
 
         </Switch>
         <Footer />

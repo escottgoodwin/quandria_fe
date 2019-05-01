@@ -93,7 +93,8 @@ _error = async error => {
 }
 
   _confirm = async data => {
-    const { token, user } = data.login
+    const { token } = data.login
+    const user = data.login.user
     this._saveUserData(token, user)
 
     if (user.role === "TEACHER") {
@@ -119,10 +120,20 @@ _error = async error => {
     sessionStorage.setItem('user', JSON.stringify(user))
     sessionStorage.setItem('userid', user.id)
     sessionStorage.setItem('online', user.online)
+    if (user.role === "ADMIN") {
+      sessionStorage.setItem('institutionId', user.adminInstitutions[0].id)
+
+    }
+
     Cookies.set('auth_token', token)
     Cookies.set('user', JSON.stringify(user))
     Cookies.set('userid', user.id)
     Cookies.set('online', user.online)
+    if (user.role === "ADMIN") {
+      Cookies.set('institutionId', user.adminInstitutions[0].id)
+
+    }
+
 
 
   }

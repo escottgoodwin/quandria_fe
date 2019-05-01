@@ -24,6 +24,8 @@ render() {
 
       <div className="container">
 
+      <InstitutionHeader institutionId={institutionId} />
+
       <Query query={INSTITUTION_QUERY} variables={{ institutionId: institutionId }} fetchPolicy="cache-and-network" >
             {({ loading, error, data }) => {
               if (loading) return <CoursePlaceholder />
@@ -31,7 +33,7 @@ render() {
 
           return (
             <>
-            <InstitutionHeader {...data.institution} />
+
             <EditInstitutionInput {...data.institution} />
             </>
           )

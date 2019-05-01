@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import '../css/App.css'
 import {withRouter} from "react-router-dom"
-import { Form, Input, Button, Message } from 'semantic-ui-react'
+import { Form, Input, Button, Message, Select } from 'semantic-ui-react'
 
 import { Mutation } from "react-apollo"
 
@@ -21,6 +21,7 @@ class EditAdministratorInput extends Component {
     state: this.props.state,
     zip: this.props.zip,
     phone: this.props.phone,
+    role: this.props.role,
     graphQLError: '',
     isVisibleGraph:false,
     networkError:'',
@@ -29,12 +30,17 @@ class EditAdministratorInput extends Component {
 
   render() {
 
-    const { email, firstName,lastName, title, department, address1,    address2,    city,    state,  zip,    phone, graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
+    const { email, firstName,lastName, title, department, address1,    address2,    city,    state,  zip,    phone, role, graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
+
+    const roleTypes = [{value:"ADMIN",text:"Administrator"},
+                              {value:"TEACHER",text:"Teacher"}]
 
     return (
 
               <>
               <Form size="big">
+
+              <Form.Group >
 
               <Form.Field required
                 control={Input}
@@ -42,6 +48,7 @@ class EditAdministratorInput extends Component {
                 value={firstName}
                 onChange={e => this.setState({ firstName: e.target.value })}
                 placeholder='First Name'
+                width={8}
               />
 
               <Form.Field required
@@ -50,9 +57,12 @@ class EditAdministratorInput extends Component {
                 value={lastName}
                 onChange={e => this.setState({ lastName: e.target.value })}
                 placeholder='Last Name'
+                width={8}
               />
 
-              <Form.Group>
+              </Form.Group >
+
+              <Form.Group >
 
               <Form.Field
                 control={Input}
@@ -60,6 +70,7 @@ class EditAdministratorInput extends Component {
                 value={title}
                 onChange={e => this.setState({ title: e.target.value })}
                 placeholder='Title'
+                width={4}
               />
 
               <Form.Field
@@ -68,7 +79,10 @@ class EditAdministratorInput extends Component {
                 value={department}
                 onChange={e => this.setState({ department: e.target.value })}
                 placeholder='Department'
+                width={4}
               />
+
+
 
               <Form.Field
                 id='phone'
@@ -77,7 +91,20 @@ class EditAdministratorInput extends Component {
                 value={phone}
                 onChange={e => this.setState({ phone: e.target.value })}
                 placeholder='Phone'
-                width={6}
+                width={4}
+              />
+
+              <Form.Field required
+                id='roleType'
+                control={Select}
+                options={roleTypes}
+                value={role}
+                onChange={(event, {value}) => { this.setState({ role: value })}}
+                label='Role'
+                fluid
+                selection
+                placeholder='Role'
+                width={4}
               />
 
               </Form.Group>

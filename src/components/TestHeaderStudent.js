@@ -10,7 +10,7 @@ class TestHeaderStudent  extends Component {
   render() {
 
     const { subject, testNumber, course, testDate, id } = this.props
-    //console.log(this.props)
+
     return (
 
   <div style={{padding:'20px'}}>

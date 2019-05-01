@@ -11,7 +11,7 @@ import Error from './Error'
 
 import CoursePlaceholder from './CoursePlaceholder'
 
-import {INSTITUTION_QUERY, COURSE_QUERY} from '../ApolloQueries'
+import { COURSE_QUERY } from '../ApolloQueries'
 
 class InstitutionCourse extends Component {
 
@@ -20,17 +20,11 @@ class InstitutionCourse extends Component {
     const { institutionId, courseId }= this.props.location.state
 
     return (
-    <Query query={INSTITUTION_QUERY} variables={{ institutionId: institutionId }} fetchPolicy="cache-and-network" >
-          {({ loading, error, data }) => {
-            if (loading) return <CoursePlaceholder />
-            if (error) return <Error {...error}/>
-
-      return (
 
       <div className="main">
 
 
-              <InstitutionHeader {...data.institution} />
+              <InstitutionHeader institutionId={institutionId} />
 
               <Query query={COURSE_QUERY} variables={{ courseid: courseId }} fetchPolicy="cache-and-network" >
                     {({ loading, error, data }) => {
@@ -125,13 +119,7 @@ class InstitutionCourse extends Component {
               )
             }}
           </Query>
-
-
             </div>
-
-        )
-      }}
-    </Query>
     )
   }
 

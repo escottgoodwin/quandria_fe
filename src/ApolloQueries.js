@@ -593,9 +593,9 @@ mutation LoginMutation($email: String!, $password: String!) {
         id
         name
       }
-      institution{
-        name
+      adminInstitutions{
         id
+        name
       }
     }
   }
@@ -1291,8 +1291,22 @@ query InstitutionQuery($institutionId:ID!){
       id
       name
       deleted
+      institution{
+        id
+        name
+      }
       students{
         id
+      }
+    }
+    students{
+      id
+      firstName
+      lastName
+      email
+      studentCourses{
+        id
+        deleted
       }
     }
     teachers{
@@ -1460,6 +1474,10 @@ query PersonnelQuery($userId:ID!){
       id
       name
       courseNumber
+      institution{
+        id
+        name
+      }
       deleted
       students{
         id
@@ -1470,6 +1488,10 @@ query PersonnelQuery($userId:ID!){
       name
       courseNumber
       deleted
+      institution{
+        id
+        name
+      }
       students{
         id
       }

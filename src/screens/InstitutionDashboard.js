@@ -30,6 +30,10 @@ class InstitutionDashboard extends Component {
     const { graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
 
     return (
+      <div className="main">
+
+      <InstitutionHeader institutionId={institutionId} />
+
     <Query query={INSTITUTION_QUERY} variables={{ institutionId: institutionId }} fetchPolicy="cache-and-network" >
           {({ loading, error, data }) => {
             if (loading) return <CoursePlaceholder />
@@ -39,12 +43,7 @@ class InstitutionDashboard extends Component {
             const coursesActive = courses.filter(course => !course.deleted)
 
         return (
-
-      <div className="main">
-
-
-              <InstitutionHeader {...data.institution} />
-
+            <>
               <div style={{margin:25}}>
 
               <Grid columns={3} stackable className="fill-content">
@@ -118,13 +117,11 @@ class InstitutionDashboard extends Component {
                     <p><b>{networkError}</b></p>
                   </Message>
                 }
-
-
-            </div>
-
+                </>
         )
       }}
     </Query>
+    </div>
     )
   }
 

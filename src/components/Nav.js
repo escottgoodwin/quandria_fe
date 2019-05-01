@@ -6,6 +6,7 @@ import { Button } from 'semantic-ui-react'
 
 import {Link} from 'react-router-dom'
 
+
 const Nav = (props) =>
 
   <div className="header">

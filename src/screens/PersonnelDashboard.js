@@ -2,15 +2,14 @@ import React,{Component} from 'react'
 import '../css/App.css'
 import { Button, Grid, Segment, Card } from 'semantic-ui-react'
 import InstitutionHeader from '../components/InstitutionHeader'
-import InstitutionCourses from '../components/InstitutionCourses'
+import InstitutionCoursesPersonnel from '../components/InstitutionCoursesPersonnel'
 
 
 import { Query } from "react-apollo"
-import Error from './Error'
 
 import CoursePlaceholder from './CoursePlaceholder'
 
-import {INSTITUTION_QUERY, PERSONNEL_QUERY} from '../ApolloQueries'
+import { PERSONNEL_QUERY } from '../ApolloQueries'
 
 class PersonnelDashboard extends Component {
 
@@ -28,17 +27,8 @@ class PersonnelDashboard extends Component {
 
     return (
     <div className="main">
-    <Query query={INSTITUTION_QUERY} variables={{ institutionId: institutionId }} fetchPolicy="cache-and-network" >
-          {({ loading, error, data }) => {
-            if (loading) return <CoursePlaceholder />
-            if (error) return <Error {...error} />
 
-        return (
-
-              <InstitutionHeader {...data.institution} />
-            )
-          }}
-        </Query>
+        <InstitutionHeader institutionId={institutionId} />
 
         <Query query={PERSONNEL_QUERY} variables={{ userId: userId }} fetchPolicy="cache-and-network" >
               {({ loading, error, data }) => {
@@ -120,7 +110,7 @@ class PersonnelDashboard extends Component {
               {coursesActive.length} Courses
               </Segment>
 
-                <InstitutionCourses institutionId={institutionId} courses={coursesActive} />
+                <InstitutionCoursesPersonnel institutionId={institutionId} courses={coursesActive} />
 
               </Grid.Column>
               </Grid.Row>

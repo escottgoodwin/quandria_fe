@@ -37,6 +37,10 @@ class AddTeacherQuandrio extends Component {
     const { email, password,firstName,lastName, title, department, address1,    address2,    city,    state,  zip,    phone, graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
 
     return (
+      <div className="main">
+
+      <InstitutionHeader institutionId={institutionId} />
+
     <Query query={INSTITUTION_QUERY} variables={{ institutionId: institutionId }} fetchPolicy="cache-and-network" >
           {({ loading, error, data }) => {
             if (loading) return <CoursePlaceholder />
@@ -45,15 +49,13 @@ class AddTeacherQuandrio extends Component {
             const {id } = data.institution
 
         return (
-
-      <div className="main">
-
-              <InstitutionHeader {...data.institution} />
               <div style={{marginRight:'250px',marginTop:'25px',marginLeft:'250px'}} >
 
               <h2>Add Teacher</h2>
 
               <Form size="big">
+
+              <Form.Group >
 
               <Form.Field required
                 control={Input}
@@ -61,6 +63,7 @@ class AddTeacherQuandrio extends Component {
                 value={firstName}
                 onChange={e => this.setState({ firstName: e.target.value })}
                 placeholder='First Name'
+                width={8}
               />
 
               <Form.Field required
@@ -69,19 +72,29 @@ class AddTeacherQuandrio extends Component {
                 value={lastName}
                 onChange={e => this.setState({ lastName: e.target.value })}
                 placeholder='Last Name'
+                width={8}
               />
 
+              </Form.Group >
 
+              <Form.Group >
 
-              <Form.Group>
-
-              <Form.Field required
+              <Form.Field
                 control={Input}
-                label='Email'
-                value={email}
-                onChange={e => this.setState({ email: e.target.value })}
-                placeholder='Login email'
-                width={10}
+                label='Title'
+                value={title}
+                onChange={e => this.setState({ title: e.target.value })}
+                placeholder='Title'
+                width={6}
+              />
+
+              <Form.Field
+                control={Input}
+                label='Department'
+                value={department}
+                onChange={e => this.setState({ department: e.target.value })}
+                placeholder='Department'
+                width={6}
               />
 
               <Form.Field
@@ -91,35 +104,10 @@ class AddTeacherQuandrio extends Component {
                 value={phone}
                 onChange={e => this.setState({ phone: e.target.value })}
                 placeholder='Phone'
-                width={6}
+                width={4}
               />
 
               </Form.Group>
-
-              <Form.Field required
-                control={Input}
-                label='Password'
-                value={password}
-                type='password'
-                onChange={e => this.setState({ password: e.target.value })}
-                placeholder='Login password'
-              />
-
-              <Form.Field
-                control={Input}
-                label='Title'
-                value={title}
-                onChange={e => this.setState({ title: e.target.value })}
-                placeholder='Title'
-              />
-
-              <Form.Field
-                control={Input}
-                label='Department'
-                value={department}
-                onChange={e => this.setState({ department: e.target.value })}
-                placeholder='Department'
-              />
 
               <Form.Field
                 id='address1'
@@ -209,11 +197,12 @@ class AddTeacherQuandrio extends Component {
                 }
 
                   </div>
-            </div>
+
 
         )
       }}
     </Query>
+      </div>
     )
   }
 

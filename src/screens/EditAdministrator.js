@@ -9,7 +9,7 @@ import Error from './Error'
 
 import CoursePlaceholder from './CoursePlaceholder'
 
-import {INSTITUTION_QUERY, PERSONNEL_QUERY} from '../ApolloQueries'
+import { PERSONNEL_QUERY } from '../ApolloQueries'
 
 class EditAdministrator extends Component {
 
@@ -19,17 +19,7 @@ class EditAdministrator extends Component {
 
     return (
       <div className="main">
-    <Query query={INSTITUTION_QUERY} variables={{ institutionId: institutionId }} fetchPolicy="cache-and-network" >
-          {({ loading, error, data }) => {
-            if (loading) return <CoursePlaceholder />
-            if (error) return <Error {...error}/>
-
-        return (
-
-              <InstitutionHeader {...data.institution} />
-            )
-          }}
-        </Query>
+      <InstitutionHeader institutionId={institutionId} />
 
         <Query query={PERSONNEL_QUERY} variables={{ userId: userId }} fetchPolicy="cache-and-network" >
               {({ loading, error, data }) => {

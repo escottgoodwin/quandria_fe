@@ -18,15 +18,15 @@ class DashboardButton extends Component {
         case 'QUANDRIA':
             return <Link to="/quandria_dashboard"> <Button size='large' basic color='blue'>Dashboard</Button></Link>
         default:
-          return <Link to="/sign_up"><Button basic color='blue'>Sign Up</Button></Link>
+          return <Link to="/sign_up"><Button basic size='large' color='blue'>Sign Up</Button></Link>
       }
   } else {
-    return <Link to="/sign_up"><Button basic color='blue'>Sign Up</Button></Link>
+    return <Link to="/sign_up"><Button basic size='large' color='blue'>Sign Up</Button></Link>
   }
 }
 
   render() {
-    
+
     return (
       <>
       {this.navSwitch(JSON.parse(sessionStorage.getItem('user')))}

@@ -24,12 +24,12 @@ class SignInButton extends Component {
           onCompleted={data => this._confirm(data)}
         >
           {mutation => (
-            <Button basic color='blue' onClick={mutation}>Sign Out</Button>
+            <Button basic color='blue' size='large' onClick={mutation}>Sign Out</Button>
           )}
         </Mutation>
 
           :
-          <Link to="/sign_in"><Button basic color='blue'>Sign In</Button></Link>
+          <Link to="/sign_in"><Button size='large' basic color='blue'>Sign In</Button></Link>
         )
 
     }
