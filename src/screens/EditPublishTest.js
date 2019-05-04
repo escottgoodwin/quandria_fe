@@ -13,13 +13,15 @@ class EditPublishTest extends Component {
 
 
     render() {
-
+      const { test_id } = this.props.location.state
       return (
         <div className="main">
         <div className="container">
+        <div style={{padding:"20px"}}>
+        <TestHeader  testId={test_id} />
+        </div>
 
-
-      <Query query={TEST_QUERY} variables={{ test_id: this.props.location.state.test_id }}>
+      <Query query={TEST_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
               if (loading) return <Loading />
               if (error) return <Error/>
@@ -28,9 +30,7 @@ class EditPublishTest extends Component {
 
               return (
                 <>
-                <div style={{padding:"20px"}}>
-                <TestHeader  {...test} />
-                </div>
+
                 <div style={{paddingRight:'14em',paddingLeft:'14em'}}>
                 <EditPublishTestInput {...test} />
                 </div>

@@ -10,8 +10,7 @@ import InstitutionCourses from '../components/InstitutionCourses'
 
 import { Query, Mutation } from "react-apollo"
 import Error from './Error'
-
-import CoursePlaceholder from './CoursePlaceholder'
+import Loading from './Loading'
 
 import {INSTITUTION_QUERY, DELETE_INSTITUTION_MUTATION, INSTITUTIONS_QUERY} from '../ApolloQueries'
 
@@ -41,7 +40,7 @@ class AdminDashboard extends Component {
 
     <Query query={INSTITUTION_QUERY} variables={{ institutionId: institutionId }} fetchPolicy="cache-and-network" >
           {({ loading, error, data }) => {
-            if (loading) return <CoursePlaceholder />
+            if (loading) return <Loading />
             if (error) return <Error {...error}/>
 
             const {id, address1, address2, city, state, zip, phone, email, courses, teachers, admins } = data.institution

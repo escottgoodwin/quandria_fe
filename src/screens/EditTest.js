@@ -19,7 +19,7 @@ render() {
     <div className="main">
     <div className="container">
 
-
+    <TestHeader  testId={this.props.location.state.test_id} />
     <Query query={TEST_QUERY} variables={{ test_id: this.props.location.state.test_id }}>
           {({ loading, error, data }) => {
             if (loading) return <Loading/>
@@ -30,7 +30,7 @@ render() {
         return (
             <div>
             <div style={{padding:"20px"}}>
-            <TestHeader  {...testToRender} />
+
             <h2>Edit Test</h2>
             </div>
             <div style={{paddingRight:'14em',paddingLeft:'14em'}}>

@@ -7,7 +7,7 @@ import { Query, Mutation } from "react-apollo"
 import { Button, Message } from 'semantic-ui-react'
 import Error from './Error'
 
-import CoursePlaceholder from './CoursePlaceholder'
+import Loading from './Loading'
 
 import {NEW_COURSE_DASHBOARD_QUERY, DELETE_COURSE_MUTATION, TEACHER_DASHBOARD_QUERY} from '../ApolloQueries'
 
@@ -29,7 +29,7 @@ class CourseDashboard extends Component {
     return (
     <Query query={NEW_COURSE_DASHBOARD_QUERY} variables={{ courseId: course_id }} fetchPolicy="cache-and-network" >
           {({ loading, error, data }) => {
-            if (loading) return <CoursePlaceholder />
+            if (loading) return <Loading />
             if (error) return <Error {...error}/>
 
 

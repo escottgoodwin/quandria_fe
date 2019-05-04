@@ -28,7 +28,7 @@ class CourseInvitation extends Component {
     return (
     <Query query={COURSE_DASHBOARD_QUERY} variables={{ courseid: course_id }}>
           {({ loading, error, data }) => {
-            if (loading) return <Loading />
+            if (loading) return <Loading/>
             if (error) return <Error {...error}/>
 
             const courseToRender = data.course

@@ -7,7 +7,7 @@ import moment from 'moment'
 import { Mutation, Query } from "react-apollo";
 import Error from './Error'
 import Loading from './Loading'
-import gql from "graphql-tag"
+
 
 import {PUBLISH_TEST_MUTATION, TEST_QUERY, PUBLISH_TEST_REFETCH_QUERY} from '../ApolloQueries'
 

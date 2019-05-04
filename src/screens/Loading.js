@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
 import '../css/App.css';
+import { Loader } from 'semantic-ui-react'
+
 
 class Loading extends Component {
 
@@ -9,7 +11,7 @@ class Loading extends Component {
         <div className="main">
         <div className="dashboard">
           <div className="signin">
-      <h2>Loading...</h2>
+          <Loader  active/>
       <div>
       </div>
       </div>

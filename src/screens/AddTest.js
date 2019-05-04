@@ -10,7 +10,7 @@ import Loading from './Loading'
 
 import {ADD_TEST_MUTATION, TEST_COURSE_QUERY, COURSE_QUERY} from '../ApolloQueries'
 
-import AddTestHeader from '../components/AddTestHeader'
+import EditCourseHeader from '../components/EditCourseHeader'
 
 class AddTest extends Component {
 
@@ -19,6 +19,7 @@ class AddTest extends Component {
           testNumber:'',
           subject:'',
           testDate:'',
+          testType:'',
           graphQLError: '',
           isVisibleGraph:false,
           networkError:false,
@@ -33,27 +34,19 @@ class AddTest extends Component {
 
     render() {
       const { course_id } = this.props.location.state
-      const { testNumber, subject, testDate, graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
+      const { testNumber, subject, testDate, testType, graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
       const testDate1 = moment(testDate).format()
       const testnumbers = [{value:"Test 1",text:"Test 1"}, {value:"Test 2",text:"Test 2"}, {value:"Test 3",text:"Test 3"}, {value:"Test 4",text:"Test 4"}, {value:"Test 5",text:"Test 5"}, {value:"Test 6",text:"Test 6"}]
+      const testTypes = [{value:"CLASS",text:"CLASS"},{value:"LAB",text:"LAB"}]
+
       return (
         <div className="main">
         <div className="dashboard">
-          <div className="signin">
-            <h2>Add Test</h2>
+          <div styles={{width:800}}>
 
-      <Query query={TEST_COURSE_QUERY} variables={{ course_id: course_id }}>
-            {({ loading, error, data }) => {
-              if (loading) return <Loading />
-              if (error) return <Error {...error}/>
+                <EditCourseHeader course_id={course_id} />
 
-              const course = data.course
-
-              return (
-                <AddTestHeader  {...course} />
-            )
-          }}
-        </Query>
+        <h2>Add Test</h2>
 
       <Form size="big">
 
@@ -67,6 +60,7 @@ class AddTest extends Component {
       <Form.Group widths='equal'>
 
       <DateTimeInput
+      width={8}
       label='Test Date'
       dateFormat="MM-DD-YYYY"
       timeFormat="AMPM"
@@ -77,6 +71,7 @@ class AddTest extends Component {
           onChange={this.handleChange} />
 
       <Form.Field
+      width={4}
         id='institutionId'
         control={Select}
         options={testnumbers}
@@ -85,6 +80,18 @@ class AddTest extends Component {
         fluid
         selection
         placeholder='Select Test Number'
+      />
+
+      <Form.Field
+      width={4}
+        id='type'
+        control={Select}
+        options={testTypes}
+        onChange={(event, {value}) => { this.setState({ testType: value })}}
+        label='Test Type'
+        fluid
+        selection
+        placeholder='Select Test Type'
       />
       </Form.Group>
 
@@ -96,10 +103,9 @@ class AddTest extends Component {
             testNumber: testNumber,
             published: false,
             release:false,
-            courseId: course_id
+            courseId: course_id,
+            testType: testType
           }}
-
-          refetchQueries={() => { return [{ query: COURSE_QUERY, variables: { courseid: course_id }}] }}
           onCompleted={data => this._confirm(data)}
         >
           {mutation => (

@@ -1,23 +1,27 @@
 import React,{Component} from 'react';
 import '../css/App.css';
+import { Grid } from 'semantic-ui-react'
 
 import { Query } from "react-apollo"
 import {TEST_QUERY} from '../ApolloQueries'
 
 import TestHeaderStudent from '../components/TestHeaderStudent'
 import TestStats from '../components/TestStats'
+import UserTestStats from '../components/UserTestStats'
 import TestQuestionStats from '../components/TestQuestionStats'
+import StudentPerformanceLoading from './StudentPerformanceLoading'
 import Error from './Error'
 import Loading from './Loading'
 
-class StudentTestPerformance extends Component {
+
+class PerformanceStudent extends Component {
 
   state = {
     courseId: '',
   }
 
   render() {
-    const { test_id } = this.props.location.state
+    const { test_id, course_id } = this.props.location.state
 
       return (
 
@@ -46,8 +50,22 @@ class StudentTestPerformance extends Component {
       <TestStats test_id={test_id} />
 
       <div className="coursecontainer">
+      <Grid columns={2} stackable className="fill-content">
+        <Grid.Row stretched>
+        <Grid.Column  >
+
+        <UserTestStats test_id={test_id} course_id={course_id} />
+
+        </Grid.Column  >
+
+        <Grid.Column  >
 
         <TestQuestionStats test_id={test_id} />
+
+      </Grid.Column  >
+
+      </Grid.Row>
+      </Grid>
 
       </div>
     </div>
@@ -58,4 +76,4 @@ class StudentTestPerformance extends Component {
 }
 }
 
-export default StudentTestPerformance
+export default PerformanceStudent ;

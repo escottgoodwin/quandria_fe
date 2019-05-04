@@ -1,9 +1,10 @@
 import React,{Component} from 'react';
 import '../css/App.css';
 import { Query } from "react-apollo";
+import { Loader } from 'semantic-ui-react'
+
 
 import Error from './Error'
-import PlaceholderQ from '../components/Placeholder'
 import TestQuestionPerformance from '../components/TestQuestionPerformance'
 
 import {TEST_QUESTION_STATS_QUERY} from '../ApolloQueries'
@@ -17,7 +18,7 @@ class TestQuestionStats extends Component {
 
       <Query query={TEST_QUESTION_STATS_QUERY} variables={{ testId: this.props.test_id }}>
             {({ loading, error, data }) => {
-              if (loading) return <PlaceholderQ />
+              if (loading) return <Loader />
               if (error) return <Error error={error} />
 
               const stats = []

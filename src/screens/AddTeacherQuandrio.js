@@ -5,8 +5,7 @@ import InstitutionHeader from '../components/InstitutionHeader'
 
 import { Query, Mutation } from "react-apollo"
 import Error from './Error'
-
-import CoursePlaceholder from './CoursePlaceholder'
+import Loading from './Loading'
 
 import {INSTITUTION_QUERY, SIGNUP_TEACHER_MUTATION} from '../ApolloQueries'
 
@@ -43,7 +42,7 @@ class AddTeacherQuandrio extends Component {
 
     <Query query={INSTITUTION_QUERY} variables={{ institutionId: institutionId }} fetchPolicy="cache-and-network" >
           {({ loading, error, data }) => {
-            if (loading) return <CoursePlaceholder />
+            if (loading) return <Loading />
             if (error) return <Error {...error}/>
 
             const {id } = data.institution

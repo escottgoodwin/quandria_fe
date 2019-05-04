@@ -2,11 +2,9 @@ import React,{Component} from 'react'
 import '../css/App.css'
 import { Form, Input, Button, Message } from 'semantic-ui-react'
 import InstitutionHeader from '../components/InstitutionHeader'
-
+import Loading from './Loading'
 import { Query, Mutation } from "react-apollo"
 import Error from './Error'
-
-import CoursePlaceholder from './CoursePlaceholder'
 
 import {INSTITUTION_QUERY, SIGNUP_ADMIN_MUTATION} from '../ApolloQueries'
 
@@ -44,7 +42,7 @@ class AddAdministrator extends Component {
 
     <Query query={INSTITUTION_QUERY} variables={{ institutionId: institutionId }} fetchPolicy="cache-and-network" >
           {({ loading, error, data }) => {
-            if (loading) return <CoursePlaceholder />
+            if (loading) return <Loading />
             if (error) return <Error {...error}/>
 
             const {id } = data.institution

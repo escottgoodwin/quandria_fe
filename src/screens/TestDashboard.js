@@ -1,15 +1,16 @@
 import React,{Component} from 'react';
 import '../css/App.css';
+import moment from 'moment'
 import { Query,Mutation } from "react-apollo";
-import { Button, Grid, Segment, Message } from 'semantic-ui-react'
+import { Button, Grid, Segment, Message, Loader } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import TestHeader from '../components/TestHeader'
 import TestChallenges from '../components/TestChallenges'
 import TestPerformance from '../components/TestPerformance'
 
 import Error from './Error'
-import PlaceholderQ from '../components/Placeholder'
-import TestLoading from '../components/TestLoading'
+import Loading from './Loading'
+
 import {TEST_QUERY,NEW_CHALLENGE_SUBSCRIPTION,DELETE_TEST_MUTATION,CHALLENGE_TEST_QUERY,TEST_STATS_QUERY, TEACHER_DASHBOARD_QUERY} from '../ApolloQueries';
 
 const uuidv4 = require('uuid/v4');
@@ -32,26 +33,77 @@ class TestDashboard extends Component {
 
     return (
 
-      <Query query={TEST_QUERY} variables={{ test_id: test_id }} fetchPolicy="cache-and-network">
-            {({ loading, error, data }) => {
-              if (loading) return <TestLoading />
-              if (error) return <Error error={error} />
 
-              const testToRender = data.test
-
-          return (
 
             <div className="main">
             <div className="container">
-              <TestHeader  {...testToRender} />
+              <TestHeader testId={test_id} />
+              <Query query={TEST_QUERY} variables={{ test_id: test_id }} fetchPolicy="cache-and-network">
+                    {({ loading, error, data }) => {
+                      if (loading) return <Loading />
+                      if (error) return <Error {...error} />
 
-              <Grid columns={2} stackable className="fill-content">
+                      const testToRender = data.test
+
+                      const { published, publishDate, release, testType, releaseDate, endDate, startTime, endTime } = testToRender
+
+                  return (
+
+              <Grid stackable className="fill-content">
+
+              <Grid.Row stretched>
+              <Grid.Column  width={16}>
+
+              <div>
+
+                <Segment>
+                <Grid>
+                <Grid.Row >
+                <Grid.Column  width={4}>
+
+                {testType==='LAB' ?
+                <Button basic disabled color="orange" size="small">Lab Test</Button>
+                :
+                <Button basic disabled color="purple" size="small">Lecture Test</Button>
+                }
+                </Grid.Column  >
+
+
+                <Grid.Column  width={8}>
+                {published &&
+                <Button disabled size="small" color='green' basic>
+                  <b>Published: </b> {moment(publishDate).format("MMMM Do YYYY")} <b>End: </b> {moment(endDate).format("MMMM Do YYYY")} <b>Hours: </b> {startTime} - {endTime}
+                  </Button>
+                }
+
+                </Grid.Column  >
+
+
+                <Grid.Column  width={4}>
+
+              {release &&
+                <Button disabled size="small" color='teal' basic>
+              <b>Questions Released: </b> {moment(releaseDate).format("MMMM Do YYYY")}
+              </Button>
+              }
+              </Grid.Column  >
+
+              </Grid.Row >
+              
+              </Grid>
+
+              </Segment>
+              </div>
+
+              </Grid.Column  >
+              </Grid.Row >
+
                 <Grid.Row stretched>
-                <Grid.Column  >
+                <Grid.Column  width={8}>
 
                 <Query query={CHALLENGE_TEST_QUERY} variables={{ testId: test_id, courseId: testToRender.course.id }}>
                       {({ loading, error, data, subscribeToMore }) => {
-                        if (loading) return <PlaceholderQ />
+                        if (loading) return <Loading />
                         if (error) return <Error error={error} />
 
                         const challenges = data.challenges.challenges
@@ -65,7 +117,7 @@ class TestDashboard extends Component {
                             pathname: "/challenge_dashboard",
                             state:
                             { course_id: testToRender.course.id,
-                              test_id: testToRender.id }
+                              test_id: test_id }
                             }} >
                             {challenges.length} Challenges
                           </Link>
@@ -73,6 +125,7 @@ class TestDashboard extends Component {
                           <div>0 Challenges</div>
                         }
                       </Segment>
+
                     <TestChallenges testToRender={testToRender} challenges={challenges}
                     subscribeToNewChallenges={() =>
                       subscribeToMore({
@@ -98,25 +151,12 @@ class TestDashboard extends Component {
 
                 </Grid.Column>
 
-                <Grid.Column >
+                <Grid.Column width={8}>
                 <div>
 
-
-                <Segment secondary attached='top'>
-                <Link  to={{
-                pathname: "/student_performance",
-                state:
-                { course_id: testToRender.course.id,
-                  test_id: testToRender.id }
-                }} >
-                Questions
-                </Link>
-
-                </Segment>
-
-                <Query query={TEST_STATS_QUERY} variables={{ testId: test_id, courseId: testToRender.course.id }}>
+                <Query query={TEST_STATS_QUERY} variables={{ testId: test_id, courseId: testToRender.course.id}}>
                       {({ loading, error, data }) => {
-                        if (loading) return <PlaceholderQ />
+                        if (loading) return <Loader />
                         if (error) return <Error error={error} />
 
                         const stats = []
@@ -133,8 +173,21 @@ class TestDashboard extends Component {
                         });
 
                     return (
+<>
+                      <Segment secondary attached='top'>
+                      <Link  to={{
+                      pathname: "/student_performance",
+                      state:
+                      { course_id: testToRender.course.id,
+                        test_id: testToRender.id }
+                      }} >
+                      Questions
+                      </Link>
+
+                      </Segment>
 
                     <TestPerformance testId={testToRender.id} stats={stats}  />
+                    </>
                     )
                   }}
                 </Query>
@@ -145,7 +198,9 @@ class TestDashboard extends Component {
                 </Grid.Column>
               </Grid.Row>
               </Grid>
-
+            )
+          }}
+          </Query>
 
               <div style={{padding:"15px"}} >
 
@@ -184,9 +239,7 @@ class TestDashboard extends Component {
 
 
 
-          )
-        }}
-      </Query>
+
       )
     }
 

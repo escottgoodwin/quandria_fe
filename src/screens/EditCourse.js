@@ -9,53 +9,36 @@ import Loading from './Loading'
 import EditCourseInput from '../components/EditCourseInput'
 import EditCourseHeader from '../components/EditCourseHeader'
 
-import gql from "graphql-tag";
-
-
-const COURSE_QUERY = gql`
-  query CourseQuery($course_id: ID!){
-    course(id:$course_id){
-      name
-      time
-      courseNumber
-      department1
-      id
-  }
-}
-`
+import {COURSE_QUERY} from '../ApolloQueries'
 
 class EditCourse extends Component {
 
 render() {
-
+  const { course_id } = this.props.location.state
   return (
+    <div className="dashboard">
+      <div className="signin">
+      <EditCourseHeader course_id={course_id} />
 
+        <h2>Edit Course</h2>
 
-    <Query query={COURSE_QUERY} variables={{ course_id: this.props.location.state.course_id }}>
+    <Query query={COURSE_QUERY} variables={{ courseid: course_id }}>
           {({ loading, error, data }) => {
-            if (loading) return <Loading/>
+            if (loading) return <Loading />
             if (error) return <Error {...error}/>
 
             const courseToRender = data.course
 
         return (
 
-
-
-        <div className="dashboard">
-          <div className="signin">
-          <EditCourseHeader {...courseToRender} />
-
-            <h2>Edit Course</h2>
-
             <EditCourseInput {...courseToRender}/>
-            </div>
-          </div>
 
             )
           }}
         </Query>
 
+        </div>
+        </div>
   )
 }
 

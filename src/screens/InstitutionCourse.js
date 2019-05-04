@@ -8,8 +8,7 @@ import InstitutionCoursesTable from '../components/InstitutionCoursesTable'
 
 import { Query } from "react-apollo"
 import Error from './Error'
-
-import CoursePlaceholder from './CoursePlaceholder'
+import Loading from './Loading'
 
 import { COURSE_QUERY } from '../ApolloQueries'
 
@@ -28,7 +27,7 @@ class InstitutionCourse extends Component {
 
               <Query query={COURSE_QUERY} variables={{ courseid: courseId }} fetchPolicy="cache-and-network" >
                     {({ loading, error, data }) => {
-                      if (loading) return <CoursePlaceholder />
+                      if (loading) return <Loading />
                       if (error) return <Error {...error}/>
 
                       const {name, teachers, students, courseNumber, time, tests } = data.course

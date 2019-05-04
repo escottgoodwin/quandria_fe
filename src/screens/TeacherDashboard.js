@@ -5,7 +5,8 @@ import { Query } from "react-apollo"
 
 import TeacherHeader from '../components/TeacherHeader'
 import CourseList from '../components/CourseList'
-import MainPlaceholder from './MainPlaceholder'
+import Loading from './Loading'
+
 
 import {TEACHER_DASHBOARD_QUERY} from '../ApolloQueries'
 
@@ -21,7 +22,7 @@ class TeacherDashboard extends Component {
 
         <Query query={TEACHER_DASHBOARD_QUERY} variables={{ userid }} >
               {({ loading, error, data }) => {
-                if (loading) return <MainPlaceholder />
+                if (loading) return <Loading />
                 if (error) return <Error error={error} />
 
                 const userToRender = data.user

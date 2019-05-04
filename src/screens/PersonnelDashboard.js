@@ -4,10 +4,10 @@ import { Button, Grid, Segment, Card } from 'semantic-ui-react'
 import InstitutionHeader from '../components/InstitutionHeader'
 import InstitutionCoursesPersonnel from '../components/InstitutionCoursesPersonnel'
 
+import Error from './Error'
+import Loading from './Loading'
 
 import { Query } from "react-apollo"
-
-import CoursePlaceholder from './CoursePlaceholder'
 
 import { PERSONNEL_QUERY } from '../ApolloQueries'
 
@@ -32,8 +32,8 @@ class PersonnelDashboard extends Component {
 
         <Query query={PERSONNEL_QUERY} variables={{ userId: userId }} fetchPolicy="cache-and-network" >
               {({ loading, error, data }) => {
-                if (loading) return <CoursePlaceholder />
-                if (error) return JSON.stringify(error)
+                if (loading) return <Loading />
+                if (error) return <Error {...error} />
 
                 const { firstName, role, lastName, title, department, address1, address2, city, state, zip, phone, email, teacherCourses, studentCourses } = data.user
                 const teacherCoursesActive = teacherCourses.filter(course => !course.deleted)

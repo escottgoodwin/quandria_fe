@@ -6,8 +6,7 @@ import EditAdministratorInput from '../components/EditAdministratorInput'
 
 import { Query } from "react-apollo"
 import Error from './Error'
-
-import CoursePlaceholder from './CoursePlaceholder'
+import Loading from './Loading'
 
 import { PERSONNEL_QUERY } from '../ApolloQueries'
 
@@ -23,7 +22,7 @@ class EditAdministrator extends Component {
 
         <Query query={PERSONNEL_QUERY} variables={{ userId: userId }} fetchPolicy="cache-and-network" >
               {({ loading, error, data }) => {
-                if (loading) return <CoursePlaceholder />
+                if (loading) return <Loading />
                 if (error) return <Error {...error}/>
 
             return (

@@ -5,12 +5,12 @@ import { Grid } from 'semantic-ui-react'
 import { Query } from "react-apollo"
 import {TEST_QUERY} from '../ApolloQueries'
 
-import TestHeaderStudent from '../components/TestHeaderStudent'
+import TestHeader from '../components/TestHeader'
 import TestStats from '../components/TestStats'
 import UserTestStats from '../components/UserTestStats'
 import TestQuestionStats from '../components/TestQuestionStats'
-import StudentPerformanceLoading from './StudentPerformanceLoading'
 import Error from './Error'
+import Loading from './Loading'
 
 class StudentPerformance extends Component {
 
@@ -27,48 +27,40 @@ class StudentPerformance extends Component {
 
         <div className="container">
 
-      <Query query={TEST_QUERY} variables={{ test_id: test_id }}>
-            {({ loading, error, data }) => {
-              if (loading) return <StudentPerformanceLoading />
-              if (error) return <Error error={error} />
-
-              const testToRender = data.test
-
-          return (
-
-      <TestHeaderStudent  {...testToRender} />
-
-      )
-    }
-  }
-    </Query>
+      <TestHeader testId={test_id} />
 
       <div className="coursecontainer">
+
+      <Grid  stackable className="fill-content">
+
+      <Grid.Row stretched>
+      <Grid.Column width={16} >
 
       <TestStats test_id={test_id} />
 
-      <div className="coursecontainer">
-      <Grid columns={2} stackable className="fill-content">
+      </Grid.Column  >
+
+      </Grid.Row>
+
         <Grid.Row stretched>
-        <Grid.Column  >
+        <Grid.Column width={8} >
 
         <UserTestStats test_id={test_id} course_id={course_id} />
 
         </Grid.Column  >
 
-        <Grid.Column  >
+        <Grid.Column  width={8}>
 
-        <TestQuestionStats test_id={test_id} />
+         <TestQuestionStats test_id={test_id} />
 
       </Grid.Column  >
 
       </Grid.Row>
       </Grid>
-
+      </div>
       </div>
     </div>
-    </div>
-    </div>
+
 
 )
 }

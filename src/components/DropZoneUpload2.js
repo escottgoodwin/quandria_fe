@@ -17,7 +17,6 @@ class DropZoneUpload extends Component {
       loaded:0,
       percent:0,
       fileUrls:this.props.panels,
-      panelcount: this.props.panels.length,
       uploadError:false,
       deleteError:false
     }
@@ -44,7 +43,7 @@ class DropZoneUpload extends Component {
              },
              data: {
                query: TEST_PANEL_STATS_QUERY,
-                 variables: {testId:this.props.id}
+                 variables: {testId:this.props.testId}
                }
            })
          })
@@ -98,7 +97,7 @@ class DropZoneUpload extends Component {
          .then(response => {
           const data = response.data;
           const fileURL = data.secure_url // You should store this URL for future references in your app
-          const testId = this.props.id
+          const testId = this.props.testId
 
          return axios({
             url: process.env.REACT_APP_GRAPHQL_SERVER,
@@ -157,12 +156,13 @@ class DropZoneUpload extends Component {
 
           <Link  to={{
             pathname: "/test_panels",
-            state: { test_id: this.props.id }
+            state: { test_id: this.props.testId }
             }} >
           <h4>Panel Performance Statistics</h4>
           </Link>
           {uploadError && <div>There has been an error uploading. Please try again.</div> }
           {deleteError && <div>There has been an error deleting. Please try again.</div> }
+
         <Dropzone token={this.props.token} onDrop={this.onDrop}>
           {({getRootProps, getInputProps, isDragActive}) => {
             return (

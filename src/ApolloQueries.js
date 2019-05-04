@@ -123,6 +123,59 @@ query TestChallenges($test_id:ID!){
 }
 `
 
+export const CHALLENGE_DASHBOARD_STUDENT_QUERY = gql`
+query ChallengeTestQuery($testId:ID!, $userId:ID!){
+challenges(where:{AND:[{answer:{question:{test:{id:$testId}}}},{addedBy:{id:$userId}}]},orderBy:addedDate_DESC){
+  challenges{
+    id
+    challenge
+    addedDate
+    addedBy{
+      id
+      firstName
+      lastName
+    }
+    answer{
+      id
+      answer{
+        id
+        choice
+      }
+      question{
+        id
+        question
+        addedDate
+        addedBy{
+          id
+          firstName
+          lastName
+        }
+        test{
+          subject
+        }
+      }
+    }
+    answer{
+      id
+      question{
+        id
+        panel{
+          id
+          link
+        }
+        question
+        addedDate
+        addedBy{
+          id
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+}
+}
+`
 
 export const CHALLENGE_DASHBOARD2_QUERY = gql`
 query ChallengeTestQuery($testId:ID!){
@@ -267,10 +320,12 @@ mutation AddTest(
   $subject:String!
   $testDate: DateTime,
   $testNumber: String,
+  $testType: String!,
   $courseId:ID!){
     addTest(subject:$subject,
       testDate:$testDate,
       testNumber:$testNumber,
+      testType: $testType,
       courseId:$courseId){
         id
       }
@@ -562,6 +617,10 @@ query TestQuery($test_id:ID!){
       startTime
       endTime
       endDate
+      testType
+      questions{
+        id
+      }
     	course{
         id
         name
@@ -920,6 +979,14 @@ query ChallengeCountQuery($testId:ID!){
 }
 `
 
+export const CHALLENGE_STUDENT_COUNT_QUERY = gql`
+query ChallengeCountQuery($testId:ID!, $userId:ID!){
+  challenges(where:{AND:[{answer:{question:{test:{id:$testId}}}},{addedBy:{id:$userId}}]},orderBy:addedDate_DESC){
+    count
+  }
+}
+`
+
 export const ANSWER_STATS_SUBSCRIPTION = gql`
 subscription AnswerStats($testId:ID!){
   answerCount(testId:$testId){
@@ -1030,6 +1097,7 @@ query CourseDashboardQuery($courseId:ID!){
       accuracy
       answersCount
       challengeCount
+      testType
     }
   }
 }

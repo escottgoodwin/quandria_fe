@@ -3,8 +3,11 @@ import {withRouter} from "react-router-dom"
 import moment from 'moment'
 import '../css/App.css';
 
+import { Query } from "react-apollo"
+import Error from './Error'
+
 import { Link } from 'react-router-dom'
-import { Button } from 'semantic-ui-react'
+import { Button, Loader } from 'semantic-ui-react'
 import AddPanelButton from '../components/AddPanelButton'
 import PanelCountButton from '../components/PanelCountButton'
 
@@ -17,11 +20,21 @@ class TestHeader  extends Component {
   render() {
 
     const now = new Date()
-    const { subject, testNumber, course, testDate, release, releaseDate, published, id, publishDate, startTime, endTime, endDate, panels } = this.props
-    //console.log(this.props)
+
     return (
 
-  <div>
+      <Query query={TEST_QUERY} variables={{ test_id: this.props.testId }} fetchPolicy="cache-and-network">
+            {({ loading, error, data }) => {
+              if (loading) return <Loader />
+              if (error) return <Error {...error} />
+
+              const testToRender = data.test
+
+              const { id, testNumber, subject, testType, testDate, release, published, publishDate, endDate, startTime, endTime, course, panels, questions } = testToRender
+
+          return (
+
+  <div >
 
   <h2>
   <Link  to={{
@@ -35,8 +48,8 @@ class TestHeader  extends Component {
 
 <hr/>
   <div >
-  <h3>
-  <Link  to={{
+
+  <h3><Link  to={{
     pathname: "/test_dashboard",
     state:
       { test_id: id }
@@ -45,6 +58,7 @@ class TestHeader  extends Component {
   </div>
 
   <div style={{display:'inline-block',padding:15}}>
+
 <Link to={{
   pathname: "/edit_test",
   state:
@@ -57,9 +71,22 @@ class TestHeader  extends Component {
 </Link>
 
 
-<AddPanelButton {...this.props} />
+<AddPanelButton testId={id} />
 
 <PanelCountButton count={panels.length} testId={id}  />
+
+<Link to={{
+  pathname: "/student_performance",
+  state:
+    {
+      test_id: id,
+      course_id: course.id
+    }
+  }} >
+
+<Button color="blue" >{questions.length} Questions</Button>
+</Link>
+
 
 {published ?
   <Link  to={{
@@ -83,10 +110,8 @@ class TestHeader  extends Component {
 
 }
 
-{published ?
-
-release ?
-  <Button disabled color="blue" >Released: {moment(releaseDate).format("MMMM Do YYYY")}</Button>
+{release ?
+  <div></div>
 :
 <Mutation
     mutation={RELEASE_QUESTIONS_MUTATION}
@@ -99,23 +124,20 @@ release ?
       }]}}
   >
     {mutation => (
-      <Button color="blue" onClick={mutation} >Release All Questions</Button>
+      <Button color="blue" onClick={mutation} >Release Questions</Button>
     )}
   </Mutation>
-:
-  <Button  color="blue" >Release All Questions</Button>
+
 }
 
 
 </div>
 
-<div style={{padding:20}}>
-{published &&
-<h5><b>Test Published:</b> {moment(publishDate).format("MMMM Do YYYY")} <b>End Date:</b> {moment(endDate).format("MMMM Do YYYY")} <b>Between Hours:</b> {startTime} - {endTime}</h5>
-}
 </div>
 
-</div>
+)
+}}
+</Query>
 
 )
 }

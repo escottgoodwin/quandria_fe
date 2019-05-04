@@ -5,11 +5,11 @@ import { Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 import InstitutionList from '../components/InstitutionList'
-import MainPlaceholder from './MainPlaceholder'
 
 import {INSTITUTIONS_QUERY} from '../ApolloQueries'
 
 import Error from './Error'
+import Loading from './Loading'
 
 class QuandrioDashboard extends Component {
 
@@ -21,7 +21,7 @@ class QuandrioDashboard extends Component {
 
         <Query query={INSTITUTIONS_QUERY} fetchPolicy="cache-and-network" >
               {({ loading, error, data }) => {
-                if (loading) return <MainPlaceholder />
+                if (loading) return <Loading />
                 if (error) return <Error error={error} />
 
                 const {count, institutions} = data.institutions

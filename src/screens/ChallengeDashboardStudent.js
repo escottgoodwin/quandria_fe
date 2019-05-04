@@ -1,7 +1,8 @@
 import React,{Component} from 'react'
 import '../css/App.css'
-import { Grid, Segment } from 'semantic-ui-react'
-import TestHeader from '../components/TestHeader'
+import * as Cookies from "js-cookie"
+import { Grid, Segment, Loader } from 'semantic-ui-react'
+import TestHeaderStudent from '../components/TestHeaderStudent'
 
 import ChallengeSection from '../components/ChallengeSection3'
 import ChallengeDList from '../components/ChallengeDList'
@@ -11,9 +12,9 @@ import { Query } from "react-apollo"
 import Error from './Error'
 import Loading from './Loading'
 
-import {TEST_CHALLENGE_QUERY,CHALLENGE_DASHBOARD2_QUERY,NEW_CHALLENGE_SUBSCRIPTION} from '../ApolloQueries'
+import {TEST_CHALLENGE_QUERY,CHALLENGE_DASHBOARD_STUDENT_QUERY,NEW_CHALLENGE_SUBSCRIPTION} from '../ApolloQueries'
 
-class ChallengeDashboard extends Component {
+class ChallengeDashboardStudent extends Component {
 
   state = {
     challengeId: '',
@@ -26,7 +27,8 @@ class ChallengeDashboard extends Component {
 
   render() {
 
-    const {challengeId,test_id} = this.state
+    const {challengeId, test_id} = this.state
+    const userId = Cookies.get('userid')
 
       return (
 
@@ -35,14 +37,28 @@ class ChallengeDashboard extends Component {
 
                 <div className="container">
 
-                      <TestHeader testId={test_id} />
-
-                <Query query={CHALLENGE_DASHBOARD2_QUERY} variables={{ testId: test_id }}>
-                      {({ loading, error, data, subscribeToMore }) => {
+                <Query query={TEST_CHALLENGE_QUERY} variables={{ testId: test_id }}>
+                      {({ loading, error, data }) => {
                         if (loading) return <Loading />
+                        if (error) return <Error {...error}/>
+
+                        const testToRender = data.test
+
+                    return (
+
+                      <TestHeaderStudent {...testToRender} />
+                    )
+                  }
+                }
+                </Query>
+
+                <Query query={CHALLENGE_DASHBOARD_STUDENT_QUERY} variables={{ testId: test_id, userId: userId }}>
+                      {({ loading, error, data, subscribeToMore }) => {
+                        if (loading) return <Loader />
                         if (error) return <Error {...error} />
 
                         const challenges = data.challenges.challenges
+
                         const initialChallengeId = challenges[0].id
 
                     return (
@@ -101,4 +117,4 @@ class ChallengeDashboard extends Component {
   }
 }
 
-export default ChallengeDashboard
+export default ChallengeDashboardStudent

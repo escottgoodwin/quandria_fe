@@ -39,6 +39,7 @@ import EditAdministrator from './screens/EditAdministrator'
 import PersonnelDashboard from './screens/PersonnelDashboard'
 import InstitutionCourse from './screens/InstitutionCourse'
 import InstitutionStudents from './screens/InstitutionStudents'
+import ChallengeDashboardStudent from './screens/ChallengeDashboardStudent'
 
 
 //import CourseDashboard from './screens/CourseDashboard2'
@@ -92,7 +93,7 @@ class App extends Component {
           <Route path="/personnel_dashboard" component={PersonnelDashboard}/>
           <Route path="/institution_course" component={InstitutionCourse}/>
           <Route path="/institution_students" component={InstitutionStudents}/>
-
+          <Route path="/challenge_student_dashboard" component={ChallengeDashboardStudent}/>
 
         </Switch>
         <Footer />

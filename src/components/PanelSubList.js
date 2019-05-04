@@ -14,13 +14,12 @@ export default class PanelSubList extends Component{
     return(
       <>
       <h5>{this.props.panelStats.length} Panels</h5>
-      <div className="coursecontainer">
+
       <Card.Group centered>
       {this.props.panelStats.map(panel =>
         <PanelRow  key={panel.id} {...panel} />
       )}
       </Card.Group>
-      </div>
       </>
     )
   }

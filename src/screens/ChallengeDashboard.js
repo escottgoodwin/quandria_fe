@@ -7,6 +7,7 @@ import ChallengeSection from '../components/ChallengeSection1'
 import { Query } from "react-apollo";
 import Error from './Error'
 import ChallengeLoading from './ChallengeLoading'
+import Loading from './Loading'
 
 
 import {CHALLENGE_DASHBOARD_QUERY} from '../ApolloQueries'
@@ -14,14 +15,14 @@ import {CHALLENGE_DASHBOARD_QUERY} from '../ApolloQueries'
 class ChallengeDashboard extends Component {
 
   render() {
-    
+
     const { test_id } = this.props.location.state
 
       return (
 
       <Query query={CHALLENGE_DASHBOARD_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
-              if (loading) return <ChallengeLoading />
+              if (loading) return <Loading />
               if (error) return <Error />
 
               const testToRender = data.test

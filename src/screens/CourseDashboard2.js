@@ -4,8 +4,10 @@ import * as Cookies from "js-cookie"
 import CourseHeader from '../components/CourseHeader'
 import TestList from '../components/TestList2'
 import { Query, Mutation } from "react-apollo"
-import { Button, Message } from 'semantic-ui-react'
+import { Button, Message, Loader } from 'semantic-ui-react'
 import Error from './Error'
+import Loading from './Loading'
+
 
 import CoursePlaceholder from './CoursePlaceholder'
 
@@ -16,7 +18,7 @@ class CourseDashboard extends Component {
   state = {
     graphQLError: '',
     isVisibleGraph:false,
-    networkError:false,
+    networkError:'',
     isVisibleNet:false,
   }
 
@@ -29,7 +31,7 @@ class CourseDashboard extends Component {
     return (
     <Query query={NEW_COURSE_DASHBOARD_QUERY} variables={{ courseId: course_id }} fetchPolicy="network-only">
           {({ loading, error, data }) => {
-            if (loading) return <CoursePlaceholder />
+            if (loading) return <Loading />
             if (error) return <Error {...error}/>
 
 

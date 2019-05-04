@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import '../css/App.css'
 
-import ChallengeHeader from '../components/ChallengeHeader'
+import TestHeader from '../components/TestHeader'
 import DropZoneUpload from '../components/DropZoneUpload2'
 import AddPanelList from '../components/AddPanelList'
 import Loading from '../screens/Loading'
@@ -18,40 +18,21 @@ class AddPanels extends Component {
       const auth_token = sessionStorage.getItem('auth_token');
 
       return (
+        <div className="main">
+        <div className="coursecontainer">
 
-        <Query query={PANEL_QUERY} variables={{ test_id: test_id }}>
-              {({ loading, error, data }) => {
-                if (loading) return <Loading />
-                if (error) return <Error {...error}/>
+          <TestHeader testId={test_id} />
 
-                const testToRender = data.test
+          <hr/>
 
-            return (
-              <div className="main">
-              <div className="coursecontainer">
+          <DropZoneUpload token={auth_token} testId={test_id} />
 
-              <ChallengeHeader {...testToRender }/>
+          <AddPanelList testId={test_id} />
 
-              <div style={{padding:"15px"}}>
-              </div>
-
-
-              <DropZoneUpload token={auth_token} {...testToRender} />
-
-
-              <AddPanelList test_id={test_id}/>
-            </div>
-            </div>
-
-      )
+        </div>
+        </div>
+        )
       }
-
-
-      }
-    </Query>
-    )
-  }
-}
-
+    }
 
 export default AddPanels

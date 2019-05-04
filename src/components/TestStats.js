@@ -23,7 +23,7 @@ class TestStats extends Component {
           return (
             <Segment>
 
-            <Grid celled columns={3} >
+            <Grid columns={3} >
 
             <Grid.Row>
 

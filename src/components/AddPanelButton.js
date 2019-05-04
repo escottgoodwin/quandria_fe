@@ -9,7 +9,7 @@ const AddPanelButton = (props) =>
   pathname: "/add_panels",
   state:
     {
-      test_id: props.id }
+      test_id: props.testId }
   }} >
   <Button color="blue" >Add/Delete Panels</Button>
 </Link>

@@ -13,7 +13,7 @@ class SignInButton extends Component {
 
     const userid = Cookies.get('userid')
     const token = Cookies.get('auth_token')
-
+    //const token = null
     return (
 
     token ?

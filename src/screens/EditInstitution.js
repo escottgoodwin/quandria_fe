@@ -1,11 +1,10 @@
 import React,{Component} from 'react'
 import '../css/App.css'
-//import { Form, FormGroup, Label, Input, } from 'reactstrap'
 import EditInstitutionInput from '../components/EditInstitutionInput'
 import InstitutionHeader from '../components/InstitutionHeader'
 
-import CoursePlaceholder from './CoursePlaceholder'
 import Error from './Error'
+import Loading from './Loading'
 
 import { Query } from "react-apollo"
 
@@ -28,7 +27,7 @@ render() {
 
       <Query query={INSTITUTION_QUERY} variables={{ institutionId: institutionId }} fetchPolicy="cache-and-network" >
             {({ loading, error, data }) => {
-              if (loading) return <CoursePlaceholder />
+              if (loading) return <Loading />
               if (error) return <Error {...error}/>
 
           return (

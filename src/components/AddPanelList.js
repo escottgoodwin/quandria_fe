@@ -2,8 +2,7 @@ import React,{Component} from 'react';
 import '../css/App.css';
 import { Query } from "react-apollo";
 import Error from './Error'
-import PlaceholderQ from './Placeholder'
-
+import { Loader } from 'semantic-ui-react'
 import AddPanelSubList from './AddPanelSubList'
 
 import { TEST_PANEL_STATS_QUERY, NEW_PANEL_SUBSCRIPTION } from '../ApolloQueries'
@@ -11,23 +10,23 @@ import { TEST_PANEL_STATS_QUERY, NEW_PANEL_SUBSCRIPTION } from '../ApolloQueries
 class AddPanelList extends Component {
 
   render(){
-    const { test_id } = this.props
+    const { testId } = this.props
     return (
 
-      <Query query={TEST_PANEL_STATS_QUERY} variables={{ testId: test_id }} fetchPolicy="network-only">
+      <Query query={TEST_PANEL_STATS_QUERY} variables={{ testId: testId }} fetchPolicy="network-only">
             {({ loading, error, data, subscribeToMore }) => {
-              if (loading) return <PlaceholderQ />
+              if (loading) return <Loader />
               if (error) return <Error error={error} />
 
                 const testPanelStats = data.testPanelStats
 
           return (
 
-            <AddPanelSubList panelStats={testPanelStats} testId={test_id}
+            <AddPanelSubList panelStats={testPanelStats} testId={testId}
               subscribeToNewPanels={() =>
                 subscribeToMore({
                   document: NEW_PANEL_SUBSCRIPTION,
-                  variables: {testId: test_id },
+                  variables: {testId: testId },
                   updateQuery: (prev, { subscriptionData }) => {
                     if (!subscriptionData.data) return prev
                     let newPanel = subscriptionData.data.newPanel

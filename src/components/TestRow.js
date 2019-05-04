@@ -12,13 +12,14 @@ var dateFormat = require('dateformat')
 export default class TestRow extends Component {
 
   render() {
-    const { id, testNumber, subject, testDate, published, publishDate, release, releaseDate, questionsCount, panelsCount, answersCount, accuracy, challengeCount } = this.props.test
+    const { id, testNumber, subject, testType, testDate, published, publishDate, release, releaseDate, questionsCount, panelsCount, answersCount, accuracy, challengeCount } = this.props.test
     return (
 
       <Card fluid>
         <Card.Content>
         <div className="course_row">
         <div>
+
 
           <Link  to={{
             pathname: "/test_dashboard",
@@ -30,14 +31,26 @@ export default class TestRow extends Component {
 
         </Link>
         </div>
+
+
         <div>
-        {published &&
-          <Button basic disabled color="green" size="small">Published { dateFormat(publishDate, "mmmm dS, yyyy") }</Button>
+
+        {release &&
+        <Button basic disabled color="teal" size="small">Released</Button>
         }
 
-        {(release && published) &&
-          <Button basic disabled color="teal" size="small">Released { dateFormat(releaseDate, "mmmm dS, yyyy") }</Button>
+        {published &&
+        <Button basic disabled color="green" size="small">Published</Button>
         }
+
+        {testType==="CLASS" &&
+        <Button basic disabled color="purple" size="small">Lecture</Button>
+        }
+
+        {testType==="LAB" &&
+        <Button basic disabled color="orange" size="small">Lab</Button>
+        }
+
       </div>
 
         </div>

@@ -1,8 +1,7 @@
 import React,{Component} from 'react';
 import '../css/App.css';
-import { Image, Icon, Grid, Form, Input, Button, Segment } from 'semantic-ui-react'
+import { Image, Icon, Grid, Form, Input, Button, Segment, Loader } from 'semantic-ui-react'
 import ChallengeMessageList from './ChallengeMessageList'
-import ChatLoading from './ChatLoading'
 import Error from './Error'
 
 import { withRouter } from "react-router-dom";
@@ -27,7 +26,7 @@ class ChallengeSection extends Component {
 
       <Query query={CHALLENGE_SECTION_QUERY} variables={{ challengeId: challengeId }}>
             {({ loading, error, data }) => {
-              if (loading) return <ChatLoading />
+              if (loading) return <Loader />
               if (error) return <Error {...error}/>
 
               const challengeToRender= data.challenge
@@ -92,7 +91,7 @@ class ChallengeSection extends Component {
         <Query query={CHALLENGE_MESSAGE_QUERY}
               variables={{ challengeId: challengeId }} >
           {({ loading, error, data, subscribeToMore }) => {
-            if (loading) return <ChatLoading />
+            if (loading) return <Loader />
             if (error) return <div>Error... </div>
 
             const challengeMessages = data.challengeMessages
