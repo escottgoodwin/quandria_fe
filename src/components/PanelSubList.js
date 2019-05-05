@@ -12,15 +12,11 @@ export default class PanelSubList extends Component{
 
   render(){
     return(
-      <>
-      <h5>{this.props.panelStats.length} Panels</h5>
-
-      <Card.Group centered>
+    <Card.Group centered>
       {this.props.panelStats.map(panel =>
         <PanelRow  key={panel.id} {...panel} />
       )}
       </Card.Group>
-      </>
     )
   }
 }

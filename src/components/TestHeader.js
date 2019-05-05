@@ -30,7 +30,7 @@ class TestHeader  extends Component {
 
               const testToRender = data.test
 
-              const { id, testNumber, subject, testType, testDate, release, published, publishDate, endDate, startTime, endTime, course, panels, questions } = testToRender
+              const { id, testNumber, subject, testDate, release, published, course, panels, questions } = testToRender
 
           return (
 

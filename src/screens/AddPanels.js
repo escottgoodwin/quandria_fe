@@ -4,12 +4,6 @@ import '../css/App.css'
 import TestHeader from '../components/TestHeader'
 import DropZoneUpload from '../components/DropZoneUpload2'
 import AddPanelList from '../components/AddPanelList'
-import Loading from '../screens/Loading'
-import Error from './Error'
-
-import { Query } from "react-apollo"
-
-import {PANEL_QUERY} from '../ApolloQueries'
 
 class AddPanels extends Component {
 

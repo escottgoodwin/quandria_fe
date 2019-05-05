@@ -4,11 +4,9 @@ import { Form, Input, Button, Select, Message } from 'semantic-ui-react'
 import {  DateTimeInput } from 'semantic-ui-calendar-react';
 import moment from 'moment'
 
-import { Mutation, Query } from "react-apollo";
-import Error from './Error'
-import Loading from './Loading'
+import { Mutation } from "react-apollo";
 
-import {ADD_TEST_MUTATION, TEST_COURSE_QUERY, COURSE_QUERY} from '../ApolloQueries'
+import { ADD_TEST_MUTATION } from '../ApolloQueries'
 
 import EditCourseHeader from '../components/EditCourseHeader'
 

@@ -2,15 +2,10 @@ import React,{Component} from 'react';
 import '../css/App.css';
 import { Grid } from 'semantic-ui-react'
 
-import { Query } from "react-apollo"
-import {TEST_QUERY} from '../ApolloQueries'
-
 import TestHeader from '../components/TestHeader'
 import TestStats from '../components/TestStats'
 import UserTestStats from '../components/UserTestStats'
 import TestQuestionStats from '../components/TestQuestionStats'
-import Error from './Error'
-import Loading from './Loading'
 
 class StudentPerformance extends Component {
 

@@ -11,7 +11,7 @@ import { Query } from "react-apollo"
 import Error from './Error'
 import Loading from './Loading'
 
-import {TEST_CHALLENGE_QUERY,CHALLENGE_DASHBOARD2_QUERY,NEW_CHALLENGE_SUBSCRIPTION} from '../ApolloQueries'
+import {CHALLENGE_DASHBOARD2_QUERY,NEW_CHALLENGE_SUBSCRIPTION} from '../ApolloQueries'
 
 class ChallengeDashboard extends Component {
 

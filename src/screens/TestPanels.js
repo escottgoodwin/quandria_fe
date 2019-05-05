@@ -19,6 +19,7 @@ class TestPanels extends Component {
         <div className="main">
         <div className="container">
         <TestHeader testId={test_id} />
+        <hr />
         <Query query={PANEL_QUERY} variables={{ test_id: test_id }}>
             {({ loading, error, data }) => {
               if (loading) return <Loading />
@@ -27,11 +28,9 @@ class TestPanels extends Component {
               const testToRender = data.test
 
           return (
-            <div className="main">
+
 
                 <PanelList {...testToRender}/>
-
-          </div>
 
 
 )

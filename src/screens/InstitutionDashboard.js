@@ -43,13 +43,13 @@ class InstitutionDashboard extends Component {
             const coursesActive = courses.filter(course => !course.deleted)
 
         return (
-            <>
+              <>
               <div style={{margin:25}}>
 
-              <Grid columns={3} stackable className="fill-content">
-                <Grid.Row stretched>
+              <Grid  stackable className="fill-content">
+                <Grid.Row >
 
-                <Grid.Column>
+                <Grid.Column width={6}>
 
                 <Segment  fluid="true"  secondary attached='top'>
 
@@ -60,7 +60,7 @@ class InstitutionDashboard extends Component {
 
                 </Grid.Column>
 
-                <Grid.Column >
+                <Grid.Column width={6}>
                 <Segment  fluid="true"  secondary attached='top'>
 
                     <div><b>Teachers</b></div>
@@ -71,7 +71,7 @@ class InstitutionDashboard extends Component {
 
                 </Grid.Column>
 
-                <Grid.Column >
+                <Grid.Column width={4}>
                 <Segment  fluid="true"  secondary attached='top'>
 
                     <div><b>Courses</b></div>
@@ -84,14 +84,23 @@ class InstitutionDashboard extends Component {
 
                 </Grid.Row>
 
-                </Grid>
-                </div>
+                <Grid.Row>
+
+                <Grid.Column width={16}>
                 <Segment >
                 <p><b>Address:</b> { address1 } { address2 } { city }, { state } { zip }</p>
                 <p>
                 <b>Phone:</b> { phone } <b>Email:</b> <a href={"mailto:"+email}>{email}</a>
                 </p>
                 </Segment>
+
+                </Grid.Column>
+
+                </Grid.Row>
+
+                </Grid>
+                </div>
+
               <Mutation
                   mutation={DELETE_INSTITUTION_MUTATION}
                   variables={{ institutionId:id }}
@@ -105,6 +114,7 @@ class InstitutionDashboard extends Component {
                     <div><Button  color='red' onClick={mutation}>Delete Institution</Button></div>
                   )}
                 </Mutation>
+                
 
                 {isVisibleGraph &&
                   <Message negative>

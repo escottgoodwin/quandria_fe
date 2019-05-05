@@ -12,7 +12,7 @@ var dateFormat = require('dateformat')
 export default class TestRow extends Component {
 
   render() {
-    const { id, testNumber, subject, testType, testDate, published, publishDate, release, releaseDate, questionsCount, panelsCount, answersCount, accuracy, challengeCount } = this.props.test
+    const { id, testNumber, subject, testType, testDate, published, release, questionsCount, panelsCount, answersCount, accuracy, challengeCount } = this.props.test
     return (
 
       <Card fluid>
