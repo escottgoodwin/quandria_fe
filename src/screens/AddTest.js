@@ -41,8 +41,8 @@ class AddTest extends Component {
 
       return (
         <div className="main">
-        <div className="dashboard">
-          <div styles={{width:800}}>
+        <div style={{marginLeft:'20%', marginRight:'20%'}}>
+          <div >
 
                 <EditCourseHeader course_id={course_id} />
 
@@ -60,6 +60,7 @@ class AddTest extends Component {
       <Form.Group widths='equal'>
 
       <DateTimeInput
+      autoComplete="off"
       width={8}
       label='Test Date'
       dateFormat="MM-DD-YYYY"
@@ -79,7 +80,7 @@ class AddTest extends Component {
         label='Test Number'
         fluid
         selection
-        placeholder='Select Test Number'
+        placeholder='Select'
       />
 
       <Form.Field
@@ -91,7 +92,7 @@ class AddTest extends Component {
         label='Test Type'
         fluid
         selection
-        placeholder='Select Test Type'
+        placeholder='Select'
       />
       </Form.Group>
 
