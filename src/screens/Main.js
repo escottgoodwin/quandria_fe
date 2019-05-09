@@ -9,7 +9,7 @@ const Main = () =>
 <main role="main">
 
     <div className="container_upper">
-      <h1 className="display-3">Welcome to Quandria</h1>
+      <h1 className="display-3">Welcome to Quandrio</h1>
       <p>For study groups and quiz each other with your class materials</p>
     </div>
 

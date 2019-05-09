@@ -14,6 +14,7 @@ class EditTestInput extends Component {
             subject: this.props.subject,
             testDate:moment(this.props.testDate).format(),
             testNumber:this.props.testNumber,
+            testType:this.props.testType,
             graphQLError: '',
             isVisibleGraph:false,
             networkError:false,
@@ -28,8 +29,9 @@ class EditTestInput extends Component {
 
 render() {
 
-  const { subject, testDate, testNumber,graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
+  const { subject, testDate, testNumber, testType ,graphQLError, networkError, isVisibleNet, isVisibleGraph } = this.state
   const testnumbers = [{value:"Test 1",text:"Test 1"}, {value:"Test 2",text:"Test 2"}, {value:"Test 3",text:"Test 3"}, {value:"Test 4",text:"Test 4"}, {value:"Test 5",text:"Test 5"}, {value:"Test 6",text:"Test 6"}]
+  const testTypes = [{value:"CLASS",text:"CLASS"},{value:"LAB",text:"LAB"}]
 
   const testDate1 = moment(testDate).format()
   return (
@@ -68,6 +70,20 @@ render() {
       selection
       placeholder='Select Test Number'
     />
+
+    <Form.Field
+    width={4}
+      id='type'
+      control={Select}
+      options={testTypes}
+      value={this.state.testType}
+      onChange={(event, {value}) => { this.setState({ testType: value })}}
+      label='Test Type'
+      fluid
+      selection
+      placeholder='Select'
+    />
+
     </Form.Group>
 
           </Form>
@@ -78,6 +94,7 @@ render() {
                   subject: subject,
                   testNumber: testNumber,
                   testDate: testDate1,
+                  testType: testType,
                   id: this.props.id
                  }}
                 onCompleted={data => this._confirm(data)}
@@ -90,6 +107,7 @@ render() {
                     subject: subject,
                     testNumber: testNumber,
                     testDate: testDate1,
+                    testType: testType
                   }
                 }}
               >

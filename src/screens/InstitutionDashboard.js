@@ -49,7 +49,7 @@ class InstitutionDashboard extends Component {
               <Grid  stackable className="fill-content">
                 <Grid.Row >
 
-                <Grid.Column width={6}>
+                <Grid.Column width={5}>
 
                 <Segment  fluid="true"  secondary attached='top'>
 
@@ -60,7 +60,7 @@ class InstitutionDashboard extends Component {
 
                 </Grid.Column>
 
-                <Grid.Column width={6}>
+                <Grid.Column width={5}>
                 <Segment  fluid="true"  secondary attached='top'>
 
                     <div><b>Teachers</b></div>
@@ -71,7 +71,7 @@ class InstitutionDashboard extends Component {
 
                 </Grid.Column>
 
-                <Grid.Column width={4}>
+                <Grid.Column width={6}>
                 <Segment  fluid="true"  secondary attached='top'>
 
                     <div><b>Courses</b></div>
@@ -114,7 +114,7 @@ class InstitutionDashboard extends Component {
                     <div><Button  color='red' onClick={mutation}>Delete Institution</Button></div>
                   )}
                 </Mutation>
-                
+
 
                 {isVisibleGraph &&
                   <Message negative>
